@@ -278,7 +278,7 @@
                 user = userCredential.user;
 
                 // Load words (static file)
-                const wordRes = await fetch('words.txt');
+                const wordRes = await fetch('words_turkish.txt');
                 wordDatabase = await wordRes.json();
                 
                 // Set up Leaderboard Listener (RULE 1 & 2)
