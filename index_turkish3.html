@@ -238,14 +238,15 @@
         import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
 
         // Firebase configuration from environment
-        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {
-            apiKey: "", // Web ortamında çalışırken buraya kendi API Key'inizi girmelisiniz
-            authDomain: "gamescores-turkish.firebaseapp.com",
-            projectId: "gamescores-turkish",
-            storageBucket: "gamescores-turkish.appspot.com",
-            messagingSenderId: "",
-            appId: ""
-        };
+        const firebaseConfig = {
+              apiKey: "AIzaSyCzRcReqmqclsbMdXqjTqX8ym0y7THR8qs",
+              authDomain: "gamescores-turkish.firebaseapp.com",
+              projectId: "gamescores-turkish",
+              storageBucket: "gamescores-turkish.firebasestorage.app",
+              messagingSenderId: "730058854658",
+              appId: "1:730058854658:web:3cb3b2a30f200f2a37721b"
+            };
+
 
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
