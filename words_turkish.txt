@@ -3,37 +3,77 @@
 { "word": "KAPI", "def": "Bir yere girip çıkarken geçilen ve açılıp kapanma düzeneği olan yer." },
 { "word": "OKUL", "def": "Her türlü eğitim ve öğretimin toplu olarak yapıldığı yer, mektep." },
 { "word": "SORU", "def": "Bir şey öğrenmek için birine yöneltilen ve yanıt isteyen söz veya yazı." },
-{ "word": "KALE", "def": "Düşman saldırısına karşı korunmak için yapılan sağlam yapı." }
+{ "word": "KALE", "def": "Düşman saldırısına karşı korunmak için yapılan sağlam yapı." },
+{ "word": "MASA", "def": "Üzerinde yemek yenilen, çalışılan ayaklı mobilya." },
+{ "word": "KUZU", "def": "Koyun yavrusu." },
+{ "word": "ELMA", "def": "Gülgillerden, kırmızı veya yeşil kabuklu, sulu meyve." },
+{ "word": "UÇAK", "def": "Kanatları yardımıyla havada uçan motorlu taşıt." },
+{ "word": "KAYA", "def": "Yer kabuğunu oluşturan çok sert ve büyük taş kütlesi." },
+{ "word": "DERE", "def": "Genellikle yazın kuruyan, küçük akarsu." }
 ],
 "5": [
 { "word": "GÜNEŞ", "def": "Dünyamıza ve gezegenlere ısı ve ışık veren büyük gök cismi." },
 { "word": "BULUT", "def": "Havada asılı kalan su buharı yığını." },
 { "word": "RADYO", "def": "Elektrikle iletilen sesleri alan ve yansıtan aygıt." },
-{ "word": "DENİZ", "def": "Yer kabuğunun çukur bölümlerini kaplayan büyük tuzlu su kütlesi." }
+{ "word": "DENİZ", "def": "Yer kabuğunun çukur bölümlerini kaplayan büyük tuzlu su kütlesi." },
+{ "word": "KAŞIK", "def": "Sulu yiyecekleri ağza götürmeye yarayan saplı mutfak gereci." },
+{ "word": "ÇANTA", "def": "Eşya taşımaya yarayan, çeşitli malzemelerden yapılmış kap." },
+{ "word": "ŞEHİR", "def": "Nüfusu kalabalık olan büyük yerleşim yeri." },
+{ "word": "ORMAN", "def": "Ağaçlarla örtülü geniş alan." },
+{ "word": "SEVGİ", "def": "İnsanı bir şeye veya bir kimseye karşı yakın ilgi göstermeye yönelten duygu." },
+{ "word": "BEYAZ", "def": "Ak, kar rengi." }
 ],
 "6": [
-{ "word": "SÖZLÜK", "def": "Kelimelerin anlamlarını veya başka bir dildeki karşılıklarını gösteren kitap." },
+{ "word": "SÖZLÜK", "def": "Kelimelerin anlamlarını gösteren başvuru kaynağı." },
 { "word": "BAYRAM", "def": "Ulusça kutlanan, önemi olan gün veya günler." },
 { "word": "ADALET", "def": "Hak ve hukuka uygunluk, hakkı gözetme." },
-{ "word": "PEYNİR", "def": "Sütün mayalanmasıyla elde edilen katı besin maddesi." }
+{ "word": "PEYNİR", "def": "Sütün mayalanmasıyla elde edilen besin maddesi." },
+{ "word": "GÖZLÜK", "def": "Görme bozukluğunu gidermek için gözlerin önüne takılan araç." },
+{ "word": "TİMSAH", "def": "Sıcak bölgelerdeki akarsularda yaşayan, kalın pullu sürüngen." },
+{ "word": "REHBER", "def": "Yol gösteren, kılavuzluk eden kimse veya kitap." },
+{ "word": "KARPUZ", "def": "Kabuğu yeşil, içi kırmızı, sulu ve tatlı meyve." },
+{ "word": "SİNEMA", "def": "Film göstermeye yarayan özel salon veya sanat dalı." },
+{ "word": "HEDİYE", "def": "Birini sevindirmek için verilen şey, armağan." },
+{ "word": "MUTFAK", "def": "Yemek hazırlanan ve pişirilen oda." }
 ],
 "7": [
-{ "word": "TELEFON", "def": "Birbirinden uzak yerlerde bulunan kişilerin konuşmasını sağlayan aygıt." },
-{ "word": "PENCERE", "def": "Binalarda ışık ve hava girmesini sağlayan, camlı açılır kapanır bölüm." },
+{ "word": "TELEFON", "def": "Konuşmaları uzak mesafelere ileten cihaz." },
+{ "word": "PENCERE", "def": "Işık ve hava girmesi için duvarda bırakılan boşluk." },
 { "word": "ANAHTAR", "def": "Kilidi açıp kapamaya yarayan metal araç." },
-{ "word": "MUTFAK", "def": "Yemek pişirilen yer." }
+{ "word": "ÖĞRENCİ", "def": "Öğrenim görmek amacıyla bir eğitim kurumuna devam eden kimse." },
+{ "word": "ARKADAŞ", "def": "Birbirine karşı sevgi ve güven besleyenlerden her biri." },
+{ "word": "KELEBEK", "def": "Vücudu ve kanatları pullu, narin kanatlı böcek." },
+{ "word": "GÖKYÜZÜ", "def": "Atmosferin gözle görülen bölümü, sema." },
+{ "word": "TÜRKİYE", "def": "Üzerinde yaşadığımız vatan toprakları." },
+{ "word": "YUMURTA", "def": "Kuşların ve sürüngenlerin yavru çıkarmak için bıraktıkları hücre." },
+{ "word": "PIRASA", "def": "Soğanlı, uzun yapraklı bir sebze." }
 ],
 "8": [
-{ "word": "MERDİVEN", "def": "Yüksek bir yere çıkmaya veya inmeye yarayan basamaklar dizisi." },
-{ "word": "PORTAKAL", "def": "Turunçgillerden, içi dilim dilim, sulu ve kokulu bir meyve." },
-{ "word": "AYAKKABI", "def": "Ayağa giyilen dış deri veya plastik kılıf." }
+{ "word": "MERDİVEN", "def": "Basamaklarla yukarı çıkmaya yarayan düzenek." },
+{ "word": "PORTAKAL", "def": "Turunçgillerden sulu ve vitaminli bir kış meyvesi." },
+{ "word": "AYAKKABI", "def": "Ayağı dış etkilerden koruyan deri veya kumaş giyecek." },
+{ "word": "ÖĞRETMEN", "def": "Bir bilim dalını veya sanatı öğreten kimse." },
+{ "word": "SANDALYE", "def": "Arkası olan, bir kişilik oturma mobilyası." },
+{ "word": "ÇALIŞKAN", "def": "Gayretli olan, işini aksatmayan kişi." },
+{ "word": "KARDELEN", "def": "Kar kalkmadan çiçek açan soğanlı bir bitki." },
+{ "word": "DOMATES", "def": "Kırmızı renkli, sulu, sebze olarak kullanılan meyve." }
 ],
 "9": [
-{ "word": "BUZDOLABI", "def": "Yiyecek ve içecekleri soğuk tutarak bozulmasını önleyen dolap." },
-{ "word": "GÖKKUŞAĞI", "def": "Yağmurdan sonra gökyüzünde görülen yedi renkli kavisli görüntü." }
+{ "word": "BUZDOLABI", "def": "Yiyecekleri soğuk tutarak koruyan elektrikli cihaz." },
+{ "word": "GÖKKUŞAĞI", "def": "Yağmur sonrası oluşan yedi renkli kavisli görüntü." },
+{ "word": "KÜTÜPHANE", "def": "Kitapların korunduğu ve okunduğu yer." },
+{ "word": "SALATALIK", "def": "Hıyar da denilen, salatalarda kullanılan yeşil sebze." },
+{ "word": "MATEMATİK", "def": "Sayılar ve şekillerle uğraşan bilim dalı." },
+{ "word": "BATTANİYE", "def": "Üstü örtmek için kullanılan kalın örtü." },
+{ "word": "KARDEŞLİK", "def": "Kardeş olma durumu veya yakın dostluk bağı." }
 ],
 "10": [
-{ "word": "ÜNİVERSİTE", "def": "En yüksek düzeyde eğitim, öğretim ve araştırma yapılan kurum." },
-{ "word": "BİLGİSAYAR", "def": "Çok sayıdaki veriyi hızlı bir biçimde işleyebilen elektronik aygıt." }
+{ "word": "ÜNİVERSİTE", "def": "En yüksek düzeyde eğitim ve araştırma yapılan kurum." },
+{ "word": "BİLGİSAYAR", "def": "Verileri işleyebilen karmaşık elektronik cihaz." },
+{ "word": "TELEVİZYON", "def": "Görüntü ve sesi dalgalar yoluyla ileten cihaz." },
+{ "word": "CUMHURİYET", "def": "Milletin egemenliği kendi elinde tuttuğu yönetim biçimi." },
+{ "word": "MEMLEKETLİ", "def": "Aynı ülkeden veya şehirden olan kişi, hemşeri." },
+{ "word": "SİVRİSİNEK", "def": "İnsan ve hayvan kanıyla beslenen, ince uzun bacaklı böcek." },
+{ "word": "KAYDIRAKLI", "def": "Parklarda üzerinde kayılan oyun aracı olan." }
 ]
 }
