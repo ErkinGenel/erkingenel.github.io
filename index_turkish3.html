@@ -285,21 +285,35 @@
         async function initialize() {
             try {
                 // RULE 3: Auth BEFORE Queries
-                //const userCredential = await signInAnonymously(auth);
-                //user = userCredential.user;
-
+                const userCredential = await signInAnonymously(auth);
+                user = userCredential.user;
+            } catch (error) {
+                console.error("Initialization error:", error);
+                definitionText.innerHTML = `<span class="text-red-400"> Auth BEFORE Queries Hata: Sistem yüklenemedi.</span>`;
+            }
+            try {
                 // Load words (static file)
                 const wordRes = await fetch('words_turkish.txt');
                 wordDatabase = await wordRes.json();
-                
-                // Set up Leaderboard Listener (RULE 1 & 2)
-                setupLeaderboardListener();
-                
-                initGame();
             } catch (error) {
                 console.error("Initialization error:", error);
-                definitionText.innerHTML = `<span class="text-red-400">Hata: Sistem yüklenemedi.</span>`;
+                definitionText.innerHTML = `<span class="text-red-400">words_turkish Hata: Sistem yüklenemedi.</span>`;
             }
+
+            try {
+                // Set up Leaderboard Listener (RULE 1 & 2)
+                setupLeaderboardListener();
+            } catch (error) {
+                console.error("Initialization error:", error);
+                definitionText.innerHTML = `<span class="text-red-400">setupLeaderboardListener Hata: Sistem yüklenemedi.</span>`;
+            }
+             try {
+                initGame();
+             } catch (error) {
+                console.error("Initialization error:", error);
+                definitionText.innerHTML = `<span class="text-red-400">initGameHata: Sistem yüklenemedi.</span>`;
+            }
+            
         }
 
         function setupLeaderboardListener() {
