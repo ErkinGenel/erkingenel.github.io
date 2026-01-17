@@ -263,7 +263,7 @@
         async function initializeApp() {
             try {
                 // Kelimeleri yükle
-                const wordRes = await fetch('words.txt');
+                const wordRes = await fetch('words_turkish.txt');
                 wordDatabase = await wordRes.json();
                 
                 // Skorları yükle
@@ -548,3 +548,4 @@
     </script>
 </body>
 </html>
+
