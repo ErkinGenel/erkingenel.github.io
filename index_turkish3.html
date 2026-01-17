@@ -148,7 +148,7 @@
 
         <!-- Controls -->
         <div class="mt-8 flex flex-col items-center">
-            <button onclick="requestHint()" id="hint-btn" class="flex items-center justify-center gap-2 bg-slate-800 hover:bg-slate-700 text-white font-bold py-4 px-8 rounded-2xl transition-all border border-slate-600 active:scale-95 group w-full max-w-sm shadow-xl">
+            <button onclick="requestHint()" id="hint-btn" class="flex items-center justify-center gap-2 bg-slate-800 hover:bg-slate-700 text-white font-bold py-4 px-8 rounded-2xl transition-all border border-slate-600 active:scale-95 group w-full max-sm shadow-xl">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-400 group-hover:scale-110 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
                 </svg>
@@ -234,15 +234,25 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getFirestore, collection, addDoc, onSnapshot, query, limit } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
         import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
 
         // Firebase configuration from environment
-        const firebaseConfig = JSON.parse(__firebase_config);
+        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {
+            apiKey: "", // Web ortamında çalışırken buraya kendi API Key'inizi girmelisiniz
+            authDomain: "gamescores-turkish.firebaseapp.com",
+            projectId: "gamescores-turkish",
+            storageBucket: "gamescores-turkish.appspot.com",
+            messagingSenderId: "",
+            appId: ""
+        };
+
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
         const auth = getAuth(app);
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        
+        // Workspace adını appId olarak kullanıyoruz
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'gamescores_turkish';
 
         // Global variables
         let wordDatabase = null;
@@ -294,22 +304,24 @@
         function setupLeaderboardListener() {
             if (!user) return;
             
-            // RULE 1: Correct Path | RULE 2: No complex queries, fetch all and sort in memory
+            // RULE 1: Strict Paths
             const scoresRef = collection(db, 'artifacts', appId, 'public', 'data', 'leaderboard');
             
+            // RULE 2: No complex queries, fetch all and sort in memory
             onSnapshot(scoresRef, (snapshot) => {
                 const scores = [];
                 snapshot.forEach(doc => scores.push(doc.data()));
                 
-                // Sorting in memory (RULE 2)
+                // Sorting in memory
                 globalLeaderboard = scores.sort((a, b) => b.score - a.score);
                 
-                if (finalModal.classList.contains('hidden') === false) {
+                if (!finalModal.classList.contains('hidden')) {
                     updateLeaderboardUI();
                 }
             }, (err) => {
                 console.error("Leaderboard error:", err);
-                document.getElementById('leaderboard-status').innerText = "Skorlar yüklenemedi.";
+                const status = document.getElementById('leaderboard-status');
+                if (status) status.innerText = "Skorlar yüklenemedi. (İzin hatası olabilir)";
             });
         }
 
@@ -334,7 +346,8 @@
 
         function updateLeaderboardUI() {
             leaderboardList.innerHTML = '';
-            document.getElementById('leaderboard-status')?.remove();
+            const status = document.getElementById('leaderboard-status');
+            if (status) status.remove();
             
             const topTen = globalLeaderboard.slice(0, 10);
             
