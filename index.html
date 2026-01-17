@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DefiniWord - The Definition Game</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: radial-gradient(circle at top left, #1e293b, #0f172a);
+            min-height: 100vh;
+            color: white;
+            overflow-x: hidden;
+        }
+
+        .letter-input {
+            width: 2.5rem;
+            height: 2.5rem;
+            border: 2px solid #334155;
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            text-align: center;
+            transition: all 0.2s ease;
+            background: rgba(30, 41, 59, 0.5);
+            outline: none;
+            color: white;
+        }
+
+        .letter-input:focus {
+            border-color: #38bdf8;
+            background: rgba(56, 189, 248, 0.1);
+            box-shadow: 0 0 10px rgba(56, 189, 248, 0.3);
+        }
+
+        @media (min-width: 640px) {
+            .letter-input {
+                width: 3.5rem;
+                height: 3.5rem;
+                font-size: 1.5rem;
+            }
+        }
+
+        .letter-input.hint {
+            color: #94a3b8;
+            background: rgba(51, 65, 85, 0.3);
+            border-color: #334155;
+            cursor: default;
+        }
+
+        .letter-input.revealed-fail {
+            color: #ef4444;
+            border-color: #ef4444;
+            background: rgba(239, 68, 68, 0.1);
+        }
+
+        .shake {
+            animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+        }
+
+        @keyframes shake {
+            10%, 90% { transform: translate3d(-1px, 0, 0); }
+            20%, 80% { transform: translate3d(2px, 0, 0); }
+            30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+            40%, 60% { transform: translate3d(4px, 0, 0); }
+        }
+
+        .glow-green {
+            box-shadow: 0 0 20px rgba(34, 197, 94, 0.4);
+            border-color: #22c55e !important;
+            color: #22c55e !important;
+        }
+
+        .timer-bar {
+            transition: width 1s linear;
+        }
+
+        .modal-bg {
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(8px);
+        }
+
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center p-4">
+
+    <div id="game-container" class="max-w-2xl w-full">
+        <!-- Header -->
+        <div class="flex justify-between items-center mb-6">
+            <div>
+                <h1 class="text-3xl font-extrabold tracking-tight text-sky-400">DefiniWord</h1>
+                <div class="flex items-center gap-2 mt-1">
+                    <span id="level-indicator" class="bg-sky-500/20 text-sky-400 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-tighter border border-sky-500/30">
+                        Level: 4 Letters
+                    </span>
+                </div>
+            </div>
+            <div class="text-right">
+                <div class="text-xs text-slate-500 uppercase font-bold tracking-widest">Score</div>
+                <div id="score-display" class="text-3xl font-black text-white">0</div>
+            </div>
+        </div>
+
+        <!-- Timer -->
+        <div class="mb-6">
+            <div class="flex justify-between items-end mb-2">
+                <span class="text-xs font-semibold text-slate-400 uppercase tracking-widest">Time Remaining</span>
+                <span id="timer-text" class="text-xl font-bold text-sky-400">01:00</span>
+            </div>
+            <div class="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
+                <div id="timer-bar" class="timer-bar h-full bg-sky-500 w-full"></div>
+            </div>
+        </div>
+
+        <!-- Word Display -->
+        <div class="bg-slate-800/50 p-6 sm:p-8 rounded-3xl border border-slate-700/50 shadow-2xl backdrop-blur-sm relative overflow-hidden">
+            <!-- Background Decoration -->
+            <div class="absolute -top-10 -right-10 w-32 h-32 bg-sky-500/5 rounded-full blur-3xl"></div>
+            
+            <div id="word-info" class="text-center mb-4 text-slate-400 text-sm font-medium">
+                This word has <span id="letter-count" class="text-sky-400 font-bold">4</span> letters
+            </div>
+
+            <div id="word-slots" class="flex flex-wrap justify-center gap-2 sm:gap-3 mb-10">
+                <!-- Inputs generated by JS -->
+            </div>
+
+            <div class="space-y-4">
+                <div class="bg-slate-900/50 p-6 rounded-2xl border border-slate-700">
+                    <span class="text-xs font-bold text-sky-500 uppercase tracking-widest block mb-2">Definition</span>
+                    <p id="definition-text" class="text-lg text-slate-200 leading-relaxed font-medium italic">
+                        Loading challenge...
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Controls -->
+        <div class="mt-8 flex flex-col items-center">
+            <button onclick="requestHint()" id="hint-btn" class="flex items-center justify-center gap-2 bg-slate-800 hover:bg-slate-700 text-white font-bold py-4 px-8 rounded-2xl transition-all border border-slate-600 active:scale-95 group w-full max-w-sm shadow-xl">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-400 group-hover:scale-110 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                </svg>
+                Get Letter Hint (-100 pts)
+            </button>
+            <p class="mt-4 text-slate-500 text-xs text-center uppercase tracking-widest font-bold">
+                Level <span id="current-step">1</span> of 7
+            </p>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div id="modal" class="fixed inset-0 modal-bg z-50 flex items-center justify-center hidden p-4">
+        <div class="bg-slate-800 border border-slate-700 p-8 rounded-3xl max-w-sm w-full text-center shadow-2xl">
+            <div id="modal-icon" class="mb-4 text-5xl">🏆</div>
+            <h2 id="modal-title" class="text-2xl font-bold mb-2">Correct!</h2>
+            <div class="mb-4">
+                <span class="text-xs text-slate-500 uppercase tracking-widest block">The word was</span>
+                <span id="success-word" class="text-3xl font-black text-white tracking-widest uppercase"></span>
+            </div>
+            <p id="modal-body" class="text-slate-400 mb-8"></p>
+            <button id="next-btn" onclick="nextLevel()" class="w-full bg-sky-500 hover:bg-sky-400 text-white font-bold py-4 rounded-2xl transition-all shadow-lg shadow-sky-500/20">
+                Next Challenge
+            </button>
+        </div>
+    </div>
+
+    <!-- Fail/Timeout Modal -->
+    <div id="game-over-modal" class="fixed inset-0 modal-bg z-50 flex items-center justify-center hidden p-4">
+        <div class="bg-slate-800 border border-slate-700 p-8 rounded-3xl max-w-sm w-full text-center shadow-2xl">
+            <div class="mb-4 text-5xl">⏰</div>
+            <h2 class="text-2xl font-bold mb-2">Time's Up!</h2>
+            <div class="mb-6 bg-slate-900/50 p-4 rounded-2xl border border-slate-700">
+                <span class="text-xs text-slate-500 uppercase tracking-widest block mb-1">Correct Word</span>
+                <span id="fail-word" class="text-3xl font-black text-red-500 tracking-widest uppercase"></span>
+            </div>
+            <p class="text-slate-400 mb-8">Score: <span id="final-score-fail" class="text-sky-400 font-bold">0</span></p>
+            <div class="flex flex-col gap-2">
+                <button id="fail-next-btn" onclick="nextLevel()" class="w-full bg-sky-500 hover:bg-sky-400 text-white font-bold py-4 rounded-2xl transition-all shadow-lg">
+                    Continue to Next
+                </button>
+                <button onclick="resetGame()" class="w-full bg-slate-700 hover:bg-slate-600 text-slate-300 font-bold py-2 rounded-xl transition-all text-sm">
+                    Restart from Level 1
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Final Summary Modal -->
+    <div id="final-modal" class="fixed inset-0 modal-bg z-50 flex items-center justify-center hidden p-4">
+        <div class="bg-slate-800 border-2 border-sky-500/50 p-10 rounded-[2.5rem] max-w-md w-full text-center shadow-[0_0_50px_rgba(14,165,233,0.3)]">
+            <div class="mb-6 text-7xl">🎉</div>
+            <h2 class="text-4xl font-black mb-2 text-white uppercase italic">Game Over!</h2>
+            <p class="text-slate-400 mb-8">You've completed all levels from 4 to 10 letters!</p>
+            
+            <div class="bg-slate-900/80 rounded-3xl p-8 mb-10 border border-slate-700">
+                <div class="text-xs text-sky-500 uppercase font-black tracking-[0.2em] mb-1">Final Total Score</div>
+                <div id="total-final-score" class="text-6xl font-black text-white tabular-nums">0</div>
+            </div>
+
+            <button onclick="resetGame()" class="w-full bg-sky-500 hover:bg-sky-400 text-white font-bold py-5 rounded-2xl transition-all text-xl shadow-lg shadow-sky-500/40 active:scale-95">
+                Play Again
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const wordDatabase = {
+            4: [{ word: "BOOK", def: "A set of printed pages, fastened together inside a cover." }, { word: "FIRE", def: "A process in which substances combine chemically with oxygen from the air." }, { word: "WIND", def: "The perceptible natural movement of the air." }, { word: "BIRD", def: "A warm-blooded vertebrate with feathers and wings." }],
+            5: [{ word: "APPLE", def: "A round fruit with thin red or green skin and crisp flesh." }, { word: "OCEAN", def: "A very large expanse of sea." }, { word: "PIANO", def: "A large keyboard instrument with strings and hammers." }, { word: "DREAM", def: "Thoughts and images occurring during sleep." }],
+            6: [{ word: "GUITAR", def: "A stringed musical instrument with a fretted fingerboard." }, { word: "PLANET", def: "A celestial body moving in an orbit round a star." }, { word: "COFFEE", def: "A hot drink made from roasted and ground seeds." }, { word: "SQUARE", def: "A figure with four equal sides and four right angles." }],
+            7: [{ word: "JOURNEY", def: "An act of traveling from one place to another." }, { word: "WEATHER", def: "The state of the atmosphere at a place and time." }, { word: "KITCHEN", def: "A room or area where food is prepared and cooked." }],
+            8: [{ word: "MOUNTAIN", def: "A large natural elevation of the earth's surface." }, { word: "COMPUTER", def: "An electronic device for storing and processing data." }, { word: "CALENDAR", def: "A chart showing days, weeks, and months of a year." }],
+            9: [{ word: "CHOCOLATE", def: "A food made from roasted and ground cacao seeds." }, { word: "KNOWLEDGE", def: "Information and skills acquired through experience." }, { word: "TELEPHONE", def: "A system for transmitting voices over a distance." }],
+            10: [{ word: "EXPERIENCE", def: "Practical contact with and observation of facts or events." }, { word: "UNIVERSITY", def: "An educational institution for advanced learning." }, { word: "RESTAURANT", def: "A place where people pay to sit and eat cooked meals." }]
+        };
+
+        let currentLength = 4;
+        let score = 0;
+        let timeRemaining = 60;
+        let timerInterval;
+        let currentWordData = null;
+        let revealedIndices = new Set();
+        let gameActive = false;
+
+        const scoreDisplay = document.getElementById('score-display');
+        const timerText = document.getElementById('timer-text');
+        const timerBar = document.getElementById('timer-bar');
+        const wordSlotsContainer = document.getElementById('word-slots');
+        const definitionText = document.getElementById('definition-text');
+        const modal = document.getElementById('modal');
+        const gameOverModal = document.getElementById('game-over-modal');
+        const finalModal = document.getElementById('final-modal');
+        const levelIndicator = document.getElementById('level-indicator');
+        const letterCountText = document.getElementById('letter-count');
+        const currentStepText = document.getElementById('current-step');
+
+        function initGame() {
+            score = 0;
+            currentLength = 4;
+            updateScore(0);
+            startLevel();
+        }
+
+        function startLevel() {
+            gameActive = true;
+            const options = wordDatabase[currentLength];
+            currentWordData = options[Math.floor(Math.random() * options.length)];
+            
+            revealedIndices.clear();
+            definitionText.innerText = currentWordData.def;
+            
+            // Update UI info
+            levelIndicator.innerText = `Level: ${currentLength} Letters`;
+            letterCountText.innerText = currentLength;
+            currentStepText.innerText = (currentLength - 3);
+
+            renderSlots();
+            focusFirstEmpty();
+            startTimer();
+        }
+
+        function renderSlots(revealingAll = false) {
+            wordSlotsContainer.innerHTML = '';
+            for (let i = 0; i < currentWordData.word.length; i++) {
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.maxLength = 1;
+                input.className = 'letter-input';
+                input.dataset.index = i;
+                
+                if (revealingAll) {
+                    input.value = currentWordData.word[i];
+                    input.classList.add('revealed-fail', 'filled');
+                    input.disabled = true;
+                } else if (revealedIndices.has(i)) {
+                    input.value = currentWordData.word[i];
+                    input.classList.add('hint', 'filled');
+                    input.readOnly = true;
+                }
+
+                input.addEventListener('input', (e) => handleInput(e, i));
+                input.addEventListener('keydown', (e) => handleKeyDown(e, i));
+
+                wordSlotsContainer.appendChild(input);
+            }
+        }
+
+        function handleInput(e, index) {
+            const val = e.target.value.toUpperCase();
+            e.target.value = val;
+            if (val) moveToNext(index);
+            checkFullGuess();
+        }
+
+        function handleKeyDown(e, index) {
+            if (e.key === 'Backspace' && !e.target.value) {
+                moveToPrev(index);
+            } else if (e.key === 'Enter') {
+                checkFullGuess(true);
+            }
+        }
+
+        function moveToNext(index) {
+            const inputs = Array.from(wordSlotsContainer.querySelectorAll('.letter-input'));
+            for (let i = index + 1; i < inputs.length; i++) {
+                if (!inputs[i].readOnly && !inputs[i].disabled) {
+                    inputs[i].focus();
+                    return;
+                }
+            }
+        }
+
+        function moveToPrev(index) {
+            const inputs = Array.from(wordSlotsContainer.querySelectorAll('.letter-input'));
+            for (let i = index - 1; i >= 0; i--) {
+                if (!inputs[i].readOnly && !inputs[i].disabled) {
+                    inputs[i].focus();
+                    return;
+                }
+            }
+        }
+
+        function focusFirstEmpty() {
+            const inputs = Array.from(wordSlotsContainer.querySelectorAll('.letter-input'));
+            const first = inputs.find(i => !i.readOnly && !i.disabled && !i.value);
+            if (first) first.focus();
+            else {
+                const firstEditable = inputs.find(i => !i.readOnly && !i.disabled);
+                if (firstEditable) firstEditable.focus();
+            }
+        }
+
+        function checkFullGuess(isForced = false) {
+            if (!gameActive) return;
+            const inputs = Array.from(wordSlotsContainer.querySelectorAll('.letter-input'));
+            const values = inputs.map(i => i.value.trim());
+            const guess = values.join('').toUpperCase();
+            const isAllFilled = values.every(v => v.length === 1);
+            
+            if (isAllFilled || isForced) {
+                if (guess === currentWordData.word) {
+                    handleSuccess();
+                } else if (isAllFilled) {
+                    handleWrongGuess();
+                }
+            }
+        }
+
+        function handleSuccess() {
+            clearInterval(timerInterval);
+            gameActive = false;
+            const pointsGained = currentWordData.word.length * 100;
+            updateScore(pointsGained);
+            
+            const inputs = Array.from(wordSlotsContainer.querySelectorAll('.letter-input'));
+            inputs.forEach(input => {
+                input.classList.add('glow-green');
+                input.disabled = true;
+            });
+
+            // If it was the 10 letter word, change button text
+            const nextBtn = document.getElementById('next-btn');
+            if (currentLength === 10) {
+                nextBtn.innerText = "Finish Game";
+            } else {
+                nextBtn.innerText = "Next Challenge";
+            }
+
+            setTimeout(() => showSuccessModal(pointsGained), 600);
+        }
+
+        function handleWrongGuess() {
+            wordSlotsContainer.classList.add('shake');
+            setTimeout(() => {
+                wordSlotsContainer.classList.remove('shake');
+                const inputs = Array.from(wordSlotsContainer.querySelectorAll('.letter-input'));
+                inputs.forEach(input => {
+                    if (!input.readOnly) input.value = '';
+                });
+                focusFirstEmpty();
+            }, 500);
+        }
+
+        function startTimer() {
+            clearInterval(timerInterval);
+            timeRemaining = 60;
+            updateTimerUI();
+            timerInterval = setInterval(() => {
+                timeRemaining--;
+                updateTimerUI();
+                if (timeRemaining <= 0) endGame();
+            }, 1000);
+        }
+
+        function updateTimerUI() {
+            const minutes = Math.floor(timeRemaining / 60);
+            const seconds = timeRemaining % 60;
+            timerText.innerText = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+            const percent = (timeRemaining / 60) * 100;
+            timerBar.style.width = `${percent}%`;
+            if (timeRemaining < 15) {
+                timerBar.className = 'timer-bar h-full bg-red-500 w-full';
+                timerText.className = 'text-xl font-bold text-red-500';
+            } else {
+                timerBar.className = 'timer-bar h-full bg-sky-500 w-full';
+                timerText.className = 'text-xl font-bold text-sky-400';
+            }
+        }
+
+        function updateScore(amount) {
+            score += amount;
+            if (score < 0) score = 0;
+            scoreDisplay.innerText = score;
+        }
+
+        function requestHint() {
+            if (!gameActive) return;
+            const unrevealed = [];
+            for (let i = 0; i < currentWordData.word.length; i++) {
+                if (!revealedIndices.has(i)) unrevealed.push(i);
+            }
+            if (unrevealed.length > 1) {
+                const randomIdx = unrevealed[Math.floor(Math.random() * unrevealed.length)];
+                revealedIndices.add(randomIdx);
+                updateScore(-100);
+                renderSlots();
+                focusFirstEmpty();
+            }
+        }
+
+        function showSuccessModal(points) {
+            document.getElementById('success-word').innerText = currentWordData.word;
+            document.getElementById('modal-body').innerText = `You earned ${points} points!`;
+            modal.classList.remove('hidden');
+        }
+
+        function nextLevel() {
+            modal.classList.add('hidden');
+            gameOverModal.classList.add('hidden');
+            
+            if (currentLength === 10) {
+                showFinalSummary();
+            } else {
+                currentLength++;
+                startLevel();
+            }
+        }
+
+        function showFinalSummary() {
+            document.getElementById('total-final-score').innerText = score;
+            finalModal.classList.remove('hidden');
+        }
+
+        function endGame() {
+            clearInterval(timerInterval);
+            gameActive = false;
+            renderSlots(true);
+            document.getElementById('fail-word').innerText = currentWordData.word;
+            document.getElementById('final-score-fail').innerText = score;
+            
+            const failNextBtn = document.getElementById('fail-next-btn');
+            if (currentLength === 10) {
+                failNextBtn.innerText = "Finish Game";
+            } else {
+                failNextBtn.innerText = "Continue to Next";
+            }
+
+            gameOverModal.classList.remove('hidden');
+        }
+
+        function resetGame() {
+            finalModal.classList.add('hidden');
+            gameOverModal.classList.add('hidden');
+            initGame();
+        }
+
+        window.onload = initGame;
+    </script>
+</body>
+</html>
