@@ -1,0 +1,12 @@
+[
+{"name": "Zeynep", "score": 4500},
+{"name": "Emre", "score": 4200},
+{"name": "Can", "score": 3800},
+{"name": "Selin", "score": 3500},
+{"name": "Mert", "score": 3100},
+{"name": "Elif", "score": 2800},
+{"name": "Burak", "score": 2500},
+{"name": "Deniz", "score": 2100},
+{"name": "Aslı", "score": 1800},
+{"name": "Yiğit", "score": 1500}
+]
