@@ -1,0 +1,40 @@
+{
+"4": [
+{ "word": "BOOK", "def": "A set of printed pages, fastened together inside a cover." },
+{ "word": "FIRE", "def": "A process in which substances combine chemically with oxygen from the air." },
+{ "word": "WIND", "def": "The perceptible natural movement of the air." },
+{ "word": "BIRD", "def": "A warm-blooded vertebrate with feathers and wings." }
+],
+"5": [
+{ "word": "APPLE", "def": "A round fruit with thin red or green skin and crisp flesh." },
+{ "word": "OCEAN", "def": "A very large expanse of sea." },
+{ "word": "PIANO", "def": "A large keyboard instrument with strings and hammers." },
+{ "word": "DREAM", "def": "Thoughts and images occurring during sleep." }
+],
+"6": [
+{ "word": "GUITAR", "def": "A stringed musical instrument with a fretted fingerboard." },
+{ "word": "PLANET", "def": "A celestial body moving in an orbit round a star." },
+{ "word": "COFFEE", "def": "A hot drink made from roasted and ground seeds." },
+{ "word": "SQUARE", "def": "A figure with four equal sides and four right angles." }
+],
+"7": [
+{ "word": "JOURNEY", "def": "An act of traveling from one place to another." },
+{ "word": "WEATHER", "def": "The state of the atmosphere at a place and time." },
+{ "word": "KITCHEN", "def": "A room or area where food is prepared and cooked." }
+],
+"8": [
+{ "word": "MOUNTAIN", "def": "A large natural elevation of the earth's surface." },
+{ "word": "COMPUTER", "def": "An electronic device for storing and processing data." },
+{ "word": "CALENDAR", "def": "A chart showing days, weeks, and months of a year." }
+],
+"9": [
+{ "word": "CHOCOLATE", "def": "A food made from roasted and ground cacao seeds." },
+{ "word": "KNOWLEDGE", "def": "Information and skills acquired through experience." },
+{ "word": "TELEPHONE", "def": "A system for transmitting voices over a distance." }
+],
+"10": [
+{ "word": "EXPERIENCE", "def": "Practical contact with and observation of facts or events." },
+{ "word": "UNIVERSITY", "def": "An educational institution for advanced learning." },
+{ "word": "RESTAURANT", "def": "A place where people pay to sit and eat cooked meals." }
+]
+}
