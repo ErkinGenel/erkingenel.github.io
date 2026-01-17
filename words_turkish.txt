@@ -1,0 +1,39 @@
+{
+"4": [
+{ "word": "KAPI", "def": "Bir yere girip çıkarken geçilen ve açılıp kapanma düzeneği olan yer." },
+{ "word": "OKUL", "def": "Her türlü eğitim ve öğretimin toplu olarak yapıldığı yer, mektep." },
+{ "word": "SORU", "def": "Bir şey öğrenmek için birine yöneltilen ve yanıt isteyen söz veya yazı." },
+{ "word": "KALE", "def": "Düşman saldırısına karşı korunmak için yapılan sağlam yapı." }
+],
+"5": [
+{ "word": "GÜNEŞ", "def": "Dünyamıza ve gezegenlere ısı ve ışık veren büyük gök cismi." },
+{ "word": "BULUT", "def": "Havada asılı kalan su buharı yığını." },
+{ "word": "RADYO", "def": "Elektrikle iletilen sesleri alan ve yansıtan aygıt." },
+{ "word": "DENİZ", "def": "Yer kabuğunun çukur bölümlerini kaplayan büyük tuzlu su kütlesi." }
+],
+"6": [
+{ "word": "SÖZLÜK", "def": "Kelimelerin anlamlarını veya başka bir dildeki karşılıklarını gösteren kitap." },
+{ "word": "BAYRAM", "def": "Ulusça kutlanan, önemi olan gün veya günler." },
+{ "word": "ADALET", "def": "Hak ve hukuka uygunluk, hakkı gözetme." },
+{ "word": "PEYNİR", "def": "Sütün mayalanmasıyla elde edilen katı besin maddesi." }
+],
+"7": [
+{ "word": "TELEFON", "def": "Birbirinden uzak yerlerde bulunan kişilerin konuşmasını sağlayan aygıt." },
+{ "word": "PENCERE", "def": "Binalarda ışık ve hava girmesini sağlayan, camlı açılır kapanır bölüm." },
+{ "word": "ANAHTAR", "def": "Kilidi açıp kapamaya yarayan metal araç." },
+{ "word": "MUTFAK", "def": "Yemek pişirilen yer." }
+],
+"8": [
+{ "word": "MERDİVEN", "def": "Yüksek bir yere çıkmaya veya inmeye yarayan basamaklar dizisi." },
+{ "word": "PORTAKAL", "def": "Turunçgillerden, içi dilim dilim, sulu ve kokulu bir meyve." },
+{ "word": "AYAKKABI", "def": "Ayağa giyilen dış deri veya plastik kılıf." }
+],
+"9": [
+{ "word": "BUZDOLABI", "def": "Yiyecek ve içecekleri soğuk tutarak bozulmasını önleyen dolap." },
+{ "word": "GÖKKUŞAĞI", "def": "Yağmurdan sonra gökyüzünde görülen yedi renkli kavisli görüntü." }
+],
+"10": [
+{ "word": "ÜNİVERSİTE", "def": "En yüksek düzeyde eğitim, öğretim ve araştırma yapılan kurum." },
+{ "word": "BİLGİSAYAR", "def": "Çok sayıdaki veriyi hızlı bir biçimde işleyebilen elektronik aygıt." }
+]
+}
