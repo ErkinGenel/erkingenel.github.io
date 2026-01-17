@@ -285,8 +285,8 @@
         async function initialize() {
             try {
                 // RULE 3: Auth BEFORE Queries
-                const userCredential = await signInAnonymously(auth);
-                user = userCredential.user;
+                //const userCredential = await signInAnonymously(auth);
+                //user = userCredential.user;
 
                 // Load words (static file)
                 const wordRes = await fetch('words_turkish.txt');
