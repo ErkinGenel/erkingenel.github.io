@@ -140,7 +140,7 @@
                 <div class="bg-slate-900/50 p-6 rounded-2xl border border-slate-700">
                     <span class="text-xs font-bold text-sky-500 uppercase tracking-widest block mb-2">Tanım</span>
                     <p id="definition-text" class="text-lg text-slate-200 leading-relaxed font-medium italic">
-                        Kelime listesi yükleniyor...
+                        Yükleniyor...
                     </p>
                 </div>
             </div>
@@ -212,7 +212,7 @@
             <div class="mb-6">
                 <h3 class="text-xl font-bold text-white mb-4 uppercase tracking-widest">En Yüksek 10 Skor</h3>
                 <div id="leaderboard-list" class="bg-slate-900/50 rounded-2xl border border-slate-700 overflow-hidden text-sm">
-                    <!-- Leaderboard items go here -->
+                    <!-- Skorlar buraya gelecek -->
                 </div>
                 <div id="player-position" class="mt-3 text-sky-400 font-bold text-sm"></div>
             </div>
@@ -222,7 +222,7 @@
                 <p class="text-white text-sm font-bold mb-3">Skorunuzu listeye eklemek ister misiniz?</p>
                 <div class="flex gap-2">
                     <input type="text" id="player-name-input" placeholder="Adınız..." class="flex-1 bg-slate-900 border border-slate-700 rounded-xl px-4 py-2 text-white outline-none focus:border-sky-500">
-                    <button onclick="submitScore()" class="bg-sky-500 hover:bg-sky-400 text-white font-bold px-6 py-2 rounded-xl transition-all">Kaydet</button>
+                    <button id="submit-btn" class="bg-sky-500 hover:bg-sky-400 text-white font-bold px-6 py-2 rounded-xl transition-all">Kaydet</button>
                 </div>
             </div>
 
@@ -232,18 +232,8 @@
         </div>
     </div>
 
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getFirestore, collection, doc, setDoc, getDoc, onSnapshot, query, addDoc, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-        import { getAuth, signInAnonymously as authSignInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-
-        // Global Firebase configuration and variables provided by environment
-        const firebaseConfig = JSON.parse(__firebase_config);
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-        const auth = getAuth(app);
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
-
+    <script>
+        // Global variables
         let wordDatabase = null;
         let localLeaderboard = [];
         let currentLength = 4;
@@ -253,8 +243,8 @@
         let currentWordData = null;
         let revealedIndices = new Set();
         let gameActive = false;
-        let currentUser = null;
 
+        // UI Elements
         const scoreDisplay = document.getElementById('score-display');
         const timerText = document.getElementById('timer-text');
         const timerBar = document.getElementById('timer-bar');
@@ -269,81 +259,22 @@
         const letterCountText = document.getElementById('letter-count');
         const currentStepText = document.getElementById('current-step');
 
-        async function initAuth() {
+        // 1. Dosyaları yükle
+        async function initializeApp() {
             try {
-                await authSignInAnonymously(auth);
-                onAuthStateChanged(auth, (user) => {
-                    currentUser = user;
-                    loadWordDatabase();
-                    setupLeaderboardListener();
-                });
-            } catch (error) {
-                console.error("Auth error", error);
-            }
-        }
-
-        async function loadWordDatabase() {
-            try {
-                const response = await fetch('words.txt');
-                wordDatabase = await response.json();
+                // Kelimeleri yükle
+                const wordRes = await fetch('words.txt');
+                wordDatabase = await wordRes.json();
+                
+                // Skorları yükle
+                const scoreRes = await fetch('scores_turkish.txt');
+                localLeaderboard = await scoreRes.json();
+                
                 initGame();
             } catch (error) {
-                definitionText.innerHTML = `<span class="text-red-400">Hata: Kelime listesi yüklenemedi.</span>`;
+                console.error("Yükleme hatası:", error);
+                definitionText.innerHTML = `<span class="text-red-400">Hata: word.txt veya scores.txt yüklenemedi.</span>`;
             }
-        }
-
-        function setupLeaderboardListener() {
-            if (!currentUser) return;
-            const q = collection(db, 'artifacts', appId, 'public', 'data', 'scores');
-            onSnapshot(q, (snapshot) => {
-                const scores = [];
-                snapshot.forEach(doc => scores.push(doc.data()));
-                // Sort by score descending and take top 10
-                localLeaderboard = scores.sort((a, b) => b.score - a.score);
-            }, (error) => console.error("Leaderboard load failed", error));
-        }
-
-        async function submitScore() {
-            const name = document.getElementById('player-name-input').value.trim();
-            if (!name || !currentUser) return;
-
-            try {
-                const scoreRef = collection(db, 'artifacts', appId, 'public', 'data', 'scores');
-                await addDoc(scoreRef, {
-                    name: name,
-                    score: score,
-                    timestamp: Date.now()
-                });
-                document.getElementById('save-score-section').classList.add('hidden');
-                updateLeaderboardUI();
-            } catch (error) {
-                console.error("Score save error", error);
-            }
-        }
-
-        function updateLeaderboardUI() {
-            leaderboardList.innerHTML = '';
-            
-            // Limit to top 10
-            const topTen = localLeaderboard.slice(0, 10);
-            
-            topTen.forEach((entry, idx) => {
-                const row = document.createElement('div');
-                row.className = `flex justify-between p-3 border-b border-slate-700/50 ${idx % 2 === 0 ? 'bg-slate-800/30' : ''}`;
-                row.innerHTML = `
-                    <div class="flex gap-3 items-center">
-                        <span class="w-6 text-slate-500 font-bold">${idx + 1}.</span>
-                        <span class="text-white font-medium">${entry.name}</span>
-                    </div>
-                    <span class="text-sky-400 font-black">${entry.score}</span>
-                `;
-                leaderboardList.appendChild(row);
-            });
-
-            // Find current player position
-            const playerIdx = localLeaderboard.findIndex(e => e.score <= score);
-            const pos = playerIdx === -1 ? localLeaderboard.length + 1 : playerIdx + 1;
-            playerPositionText.innerText = `Sizin tahmini sıranız: #${pos}`;
         }
 
         function initGame() {
@@ -358,10 +289,12 @@
             const options = wordDatabase[currentLength];
             currentWordData = options[Math.floor(Math.random() * options.length)];
             revealedIndices.clear();
+            
             definitionText.innerText = currentWordData.def;
             levelIndicator.innerText = `Seviye: ${currentLength} Harfli`;
             letterCountText.innerText = currentLength;
             currentStepText.innerText = (currentLength - 3);
+            
             renderSlots();
             focusFirstEmpty();
             startTimer();
@@ -374,6 +307,7 @@
                 input.type = 'text';
                 input.maxLength = 1;
                 input.className = 'letter-input';
+                
                 if (revealingAll) {
                     input.value = currentWordData.word[i];
                     input.classList.add('revealed-fail', 'filled');
@@ -383,6 +317,7 @@
                     input.classList.add('hint', 'filled');
                     input.readOnly = true;
                 }
+
                 input.addEventListener('input', (e) => handleInput(e, i));
                 input.addEventListener('keydown', (e) => handleKeyDown(e, i));
                 wordSlotsContainer.appendChild(input);
@@ -437,6 +372,7 @@
             const values = inputs.map(i => i.value.trim());
             const guess = values.join('').toUpperCase('tr-TR');
             const isAllFilled = values.every(v => v.length === 1);
+            
             if (isAllFilled || isForced) {
                 if (guess === currentWordData.word.toUpperCase('tr-TR')) handleSuccess();
                 else if (isAllFilled) handleWrongGuess();
@@ -448,12 +384,15 @@
             gameActive = false;
             const pointsGained = currentWordData.word.length * 100;
             updateScore(pointsGained);
+            
             Array.from(wordSlotsContainer.querySelectorAll('.letter-input')).forEach(input => {
                 input.classList.add('glow-green');
                 input.disabled = true;
             });
+
             const nextBtn = document.getElementById('next-btn');
             nextBtn.innerText = currentLength === 10 ? "Skor Tablosunu Gör" : "Sonraki Seviye";
+
             setTimeout(() => {
                 document.getElementById('success-word').innerText = currentWordData.word;
                 document.getElementById('modal-body').innerText = `${pointsGained} puan kazandınız!`;
@@ -489,6 +428,7 @@
             timerText.innerText = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
             const percent = (timeRemaining / 60) * 100;
             timerBar.style.width = `${percent}%`;
+            
             if (timeRemaining < 15) {
                 timerBar.className = 'timer-bar h-full bg-red-500 w-full';
                 timerText.className = 'text-xl font-bold text-red-500 tabular-nums';
@@ -503,6 +443,54 @@
             if (score < 0) score = 0;
             scoreDisplay.innerText = score;
         }
+
+        // Skor Tablosu Fonksiyonları
+        function updateLeaderboardUI() {
+            leaderboardList.innerHTML = '';
+            
+            // Skorları büyükten küçüğe sırala ve ilk 10'u al
+            localLeaderboard.sort((a, b) => b.score - a.score);
+            const topTen = localLeaderboard.slice(0, 10);
+            
+            topTen.forEach((entry, idx) => {
+                const row = document.createElement('div');
+                row.className = `flex justify-between p-3 border-b border-slate-700/50 ${idx % 2 === 0 ? 'bg-slate-800/30' : ''}`;
+                row.innerHTML = `
+                    <div class="flex gap-3 items-center">
+                        <span class="w-6 text-slate-500 font-bold">${idx + 1}.</span>
+                        <span class="text-white font-medium">${entry.name}</span>
+                    </div>
+                    <span class="text-sky-400 font-black">${entry.score}</span>
+                `;
+                leaderboardList.appendChild(row);
+            });
+
+            // Oyuncunun tahmini pozisyonu
+            const playerIdx = localLeaderboard.findIndex(e => e.score <= score);
+            const pos = playerIdx === -1 ? localLeaderboard.length + 1 : playerIdx + 1;
+            playerPositionText.innerText = `Skorunuz şu anki listede #${pos}. sırada yer alıyor.`;
+        }
+
+        function submitScore() {
+            const nameInput = document.getElementById('player-name-input');
+            const name = nameInput.value.trim();
+            if (!name) return;
+
+            // Yerel listeye ekle (Simülasyon)
+            localLeaderboard.push({
+                name: name,
+                score: score
+            });
+
+            // UI güncelle
+            document.getElementById('save-score-section').classList.add('hidden');
+            updateLeaderboardUI();
+            
+            console.log("Not: Tarayıcı güvenliği nedeniyle scores.txt dosyasına doğrudan yazılamaz. Bu işlem sunucu tarafında yapılmalıdır.");
+        }
+
+        // Event Listeners
+        document.getElementById('submit-btn').addEventListener('click', submitScore);
 
         window.requestHint = function() {
             if (!gameActive) return;
@@ -533,6 +521,7 @@
         function showFinalSummary() {
             document.getElementById('total-final-score').innerText = score;
             document.getElementById('save-score-section').classList.remove('hidden');
+            document.getElementById('player-name-input').value = '';
             updateLeaderboardUI();
             finalModal.classList.remove('hidden');
         }
@@ -554,9 +543,8 @@
             initGame();
         };
 
-        window.submitScore = submitScore;
-
-        window.onload = initAuth;
+        // Uygulamayı başlat
+        window.onload = initializeApp;
     </script>
 </body>
 </html>
