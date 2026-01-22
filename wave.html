@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wave Physics Simulator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background-color: #0f172a;
+            color: #f8fafc;
+            font-family: system-ui, -apple-system, sans-serif;
+            overflow: hidden;
+            touch-action: none;
+        }
+        .control-panel {
+            background: rgba(30, 41, 59, 0.8);
+            backdrop-filter: blur(12px);
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        input[type=range] {
+            accent-color: #3b82f6;
+        }
+        canvas {
+            cursor: crosshair;
+        }
+        .tooltip {
+            visibility: hidden;
+            position: absolute;
+            z-index: 50;
+            background: #334155;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            bottom: 120%;
+            left: 50%;
+            transform: translateX(-50%);
+            white-space: nowrap;
+        }
+        .has-tooltip:hover .tooltip {
+            visibility: visible;
+        }
+    </style>
+</head>
+<body class="flex h-screen w-screen">
+
+    <!-- Sidebar Controls -->
+    <aside class="control-panel w-72 h-full flex flex-col p-6 space-y-6 overflow-y-auto z-10 shadow-xl">
+        <div>
+            <h1 class="text-xl font-bold bg-gradient-to-r from-blue-400 to-cyan-300 bg-clip-text text-transparent">WaveSim Pro</h1>
+            <p class="text-xs text-slate-400 mt-1">Interactive Ripple Tank</p>
+        </div>
+
+        <div class="space-y-4">
+            <label class="block">
+                <span class="text-sm font-medium text-slate-300">Wave Source</span>
+                <select id="sourceType" class="mt-1 block w-full bg-slate-800 border border-slate-700 rounded-md p-2 text-sm focus:ring-2 focus:ring-blue-500 outline-none">
+                    <option value="point">Single Point</option>
+                    <option value="double">Double Slit / Two Points</option>
+                    <option value="plane">Plane Wave (Top)</option>
+                    <option value="custom">Manual Taps</option>
+                </select>
+            </label>
+
+            <div class="space-y-2">
+                <div class="flex justify-between items-center">
+                    <span class="text-sm font-medium text-slate-300">Frequency</span>
+                    <span id="freqVal" class="text-xs text-blue-400 font-mono">0.50</span>
+                </div>
+                <input type="range" id="frequency" min="0.05" max="1.0" step="0.01" value="0.5" class="w-full">
+            </div>
+
+            <div class="space-y-2">
+                <div class="flex justify-between items-center">
+                    <span class="text-sm font-medium text-slate-300">Amplitude</span>
+                    <span id="ampVal" class="text-xs text-blue-400 font-mono">1.00</span>
+                </div>
+                <input type="range" id="amplitude" min="0.1" max="2.0" step="0.1" value="1.0" class="w-full">
+            </div>
+
+            <div class="space-y-2">
+                <div class="flex justify-between items-center">
+                    <span class="text-sm font-medium text-slate-300">Damping</span>
+                    <span id="dampVal" class="text-xs text-blue-400 font-mono">0.99</span>
+                </div>
+                <input type="range" id="damping" min="0.95" max="1.0" step="0.001" value="0.99" class="w-full">
+            </div>
+
+            <div class="space-y-2">
+                <div class="flex justify-between items-center">
+                    <span class="text-sm font-medium text-slate-300">Color Palette</span>
+                </div>
+                <select id="colorTheme" class="mt-1 block w-full bg-slate-800 border border-slate-700 rounded-md p-2 text-sm focus:ring-2 focus:ring-blue-500 outline-none">
+                    <option value="ocean">Deep Ocean</option>
+                    <option value="thermal">Thermal (Heat)</option>
+                    <option value="monochrome">Radar (Green)</option>
+                    <option value="neon">Neon Night</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="pt-4 border-t border-slate-700 space-y-4">
+            <button id="clearBtn" class="w-full py-2 bg-slate-700 hover:bg-slate-600 transition-colors rounded-md text-sm font-semibold">Clear Tank</button>
+            <button id="pauseBtn" class="w-full py-2 bg-blue-600 hover:bg-blue-500 transition-colors rounded-md text-sm font-semibold">Pause Simulation</button>
+        </div>
+
+        <div class="text-[10px] text-slate-500 mt-auto">
+            <p>Left Click: Create Ripple</p>
+            <p>Shift + Click: Place Wall (Obstacle)</p>
+            <p>Scroll: Zoom View</p>
+        </div>
+    </aside>
+
+    <!-- Canvas Area -->
+    <main class="flex-grow relative overflow-hidden bg-black">
+        <canvas id="waveCanvas"></canvas>
+        
+        <!-- Info Overlay -->
+        <div class="absolute top-4 right-4 flex space-x-2">
+            <div class="bg-slate-900/60 backdrop-blur px-3 py-1 rounded-full border border-white/10 text-xs text-slate-300">
+                Resolution: <span id="resInfo">--</span>
+            </div>
+            <div class="bg-slate-900/60 backdrop-blur px-3 py-1 rounded-full border border-white/10 text-xs text-slate-300">
+                FPS: <span id="fpsInfo">--</span>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        /**
+         * WAVE SIMULATOR LOGIC
+         * Uses a 2D Grid-based Wave Equation solver (Finite Difference Method)
+         */
+
+        const canvas = document.getElementById('waveCanvas');
+        const ctx = canvas.getContext('2d', { alpha: false });
+        
+        // Settings & State
+        let width, height;
+        let cols, rows;
+        const resolution = 4; // Grid cell size in pixels
+        let current = [];
+        let previous = [];
+        let obstacles = [];
+        let isPaused = false;
+        let lastTime = 0;
+        let frameCount = 0;
+        let fps = 0;
+
+        // Configuration
+        const config = {
+            frequency: 0.5,
+            amplitude: 1.0,
+            damping: 0.99,
+            sourceType: 'point',
+            theme: 'ocean'
+        };
+
+        // UI Elements
+        const freqSlider = document.getElementById('frequency');
+        const ampSlider = document.getElementById('amplitude');
+        const dampSlider = document.getElementById('damping');
+        const sourceSelect = document.getElementById('sourceType');
+        const themeSelect = document.getElementById('colorTheme');
+        const pauseBtn = document.getElementById('pauseBtn');
+        const clearBtn = document.getElementById('clearBtn');
+
+        function init() {
+            // Adjust canvas to window size
+            canvas.width = window.innerWidth - 288; // Sidebar width
+            canvas.height = window.innerHeight;
+            width = canvas.width;
+            height = canvas.height;
+
+            cols = Math.floor(width / resolution);
+            rows = Math.floor(height / resolution);
+
+            // Initialize 2D arrays for the wave state
+            current = new Array(cols).fill(0).map(() => new Array(rows).fill(0));
+            previous = new Array(cols).fill(0).map(() => new Array(rows).fill(0));
+            obstacles = new Array(cols).fill(0).map(() => new Array(rows).fill(false));
+
+            document.getElementById('resInfo').textContent = `${cols}x${rows}`;
+        }
+
+        function clearSimulation() {
+            for (let i = 0; i < cols; i++) {
+                for (let j = 0; j < rows; j++) {
+                    current[i][j] = 0;
+                    previous[i][j] = 0;
+                    obstacles[i][j] = false;
+                }
+            }
+        }
+
+        // Color Mapping
+        function getColor(val) {
+            val = Math.max(-1, Math.min(1, val * 0.1)); // Normalize input
+            
+            const themes = {
+                ocean: (v) => {
+                    const r = Math.floor(15 + v * 30);
+                    const g = Math.floor(40 + v * 120);
+                    const b = Math.floor(100 + v * 155);
+                    return `rgb(${r},${g},${b})`;
+                },
+                thermal: (v) => {
+                    const r = Math.floor(128 + v * 127);
+                    const g = Math.floor(128 - Math.abs(v) * 128);
+                    const b = Math.floor(128 - v * 127);
+                    return `rgb(${r},${g},${b})`;
+                },
+                monochrome: (v) => {
+                    const g = Math.floor(100 + v * 155);
+                    return `rgb(0,${g},0)`;
+                },
+                neon: (v) => {
+                    const r = Math.floor(150 + v * 105);
+                    const b = Math.floor(200 + v * 55);
+                    return `rgb(${r}, 0, ${b})`;
+                }
+            };
+
+            return themes[config.theme](val);
+        }
+
+        function update() {
+            if (isPaused) return;
+
+            // 1. Oscillate Sources
+            const time = Date.now() * 0.005;
+            const signal = Math.sin(time * config.frequency * 10) * config.amplitude * 50;
+
+            if (config.sourceType === 'point') {
+                current[Math.floor(cols / 2)][Math.floor(rows / 2)] = signal;
+            } else if (config.sourceType === 'double') {
+                current[Math.floor(cols / 2) - 15][Math.floor(rows / 2)] = signal;
+                current[Math.floor(cols / 2) + 15][Math.floor(rows / 2)] = signal;
+            } else if (config.sourceType === 'plane') {
+                for (let i = 0; i < cols; i++) {
+                    current[i][2] = signal;
+                }
+            }
+
+            // 2. Wave Propagation Physics
+            // Discrete Wave Equation: new = (avg(neighbors) * 2) - old
+            for (let i = 1; i < cols - 1; i++) {
+                for (let j = 1; j < rows - 1; j++) {
+                    if (obstacles[i][j]) continue;
+
+                    // Kernel for Laplacian calculation
+                    let val = (
+                        previous[i - 1][j] +
+                        previous[i + 1][j] +
+                        previous[i][j - 1] +
+                        previous[i][j + 1]
+                    ) / 2 - current[i][j];
+
+                    val *= config.damping;
+                    current[i][j] = val;
+                }
+            }
+
+            // Swap buffers
+            let temp = previous;
+            previous = current;
+            current = temp;
+        }
+
+        function draw() {
+            ctx.fillStyle = '#000';
+            ctx.fillRect(0, 0, width, height);
+
+            const imgData = ctx.createImageData(width, height);
+            const data = imgData.data;
+
+            // To optimize, we draw blocks for each grid cell
+            // For smoother visualization, we iterate through pixels and map to grid
+            for (let y = 0; y < height; y++) {
+                for (let x = 0; x < width; x++) {
+                    const gx = Math.floor(x / resolution);
+                    const gy = Math.floor(y / resolution);
+                    
+                    if (gx >= cols || gy >= rows) continue;
+
+                    const index = (y * width + x) * 4;
+                    
+                    if (obstacles[gx][gy]) {
+                        data[index] = 100;
+                        data[index + 1] = 100;
+                        data[index + 2] = 100;
+                        data[index + 3] = 255;
+                        continue;
+                    }
+
+                    const val = current[gx][gy];
+                    const vNorm = Math.max(-1, Math.min(1, val * 0.05));
+                    
+                    // Direct manipulation of ImageData for performance
+                    if (config.theme === 'ocean') {
+                        data[index] = 15 + vNorm * 30;
+                        data[index + 1] = 40 + vNorm * 120;
+                        data[index + 2] = 100 + vNorm * 155;
+                    } else if (config.theme === 'thermal') {
+                        data[index] = 128 + vNorm * 127;
+                        data[index + 1] = 128 - Math.abs(vNorm) * 128;
+                        data[index + 2] = 128 - vNorm * 127;
+                    } else if (config.theme === 'monochrome') {
+                        data[index] = 0;
+                        data[index + 1] = 100 + vNorm * 155;
+                        data[index + 2] = 0;
+                    } else {
+                        data[index] = 150 + vNorm * 105;
+                        data[index + 1] = 20;
+                        data[index + 2] = 200 + vNorm * 55;
+                    }
+                    data[index + 3] = 255;
+                }
+            }
+            ctx.putImageData(imgData, 0, 0);
+
+            // FPS Counter
+            frameCount++;
+            const now = performance.now();
+            if (now - lastTime >= 1000) {
+                fps = frameCount;
+                frameCount = 0;
+                lastTime = now;
+                document.getElementById('fpsInfo').textContent = fps;
+            }
+        }
+
+        function loop() {
+            update();
+            draw();
+            requestAnimationFrame(loop);
+        }
+
+        // --- Event Listeners ---
+
+        window.addEventListener('resize', () => {
+            init();
+        });
+
+        canvas.addEventListener('mousedown', (e) => {
+            const rect = canvas.getBoundingClientRect();
+            const x = Math.floor((e.clientX - rect.left) / resolution);
+            const y = Math.floor((e.clientY - rect.top) / resolution);
+
+            if (e.shiftKey) {
+                // Draw wall
+                paintWall(x, y);
+                canvas.addEventListener('mousemove', wallPainter);
+            } else {
+                // Splash
+                if (x >= 0 && x < cols && y >= 0 && y < rows) {
+                    previous[x][y] = config.amplitude * 500;
+                }
+            }
+        });
+
+        function paintWall(x, y) {
+            const radius = 3;
+            for (let i = -radius; i <= radius; i++) {
+                for (let j = -radius; j <= radius; j++) {
+                    const nx = x + i;
+                    const ny = y + j;
+                    if (nx >= 0 && nx < cols && ny >= 0 && ny < rows) {
+                        obstacles[nx][ny] = true;
+                        current[nx][ny] = 0;
+                        previous[nx][ny] = 0;
+                    }
+                }
+            }
+        }
+
+        const wallPainter = (e) => {
+            const rect = canvas.getBoundingClientRect();
+            const x = Math.floor((e.clientX - rect.left) / resolution);
+            const y = Math.floor((e.clientY - rect.top) / resolution);
+            paintWall(x, y);
+        };
+
+        window.addEventListener('mouseup', () => {
+            canvas.removeEventListener('mousemove', wallPainter);
+        });
+
+        // UI Controls Interaction
+        freqSlider.addEventListener('input', (e) => {
+            config.frequency = parseFloat(e.target.value);
+            document.getElementById('freqVal').textContent = config.frequency.toFixed(2);
+        });
+
+        ampSlider.addEventListener('input', (e) => {
+            config.amplitude = parseFloat(e.target.value);
+            document.getElementById('ampVal').textContent = config.amplitude.toFixed(2);
+        });
+
+        dampSlider.addEventListener('input', (e) => {
+            config.damping = parseFloat(e.target.value);
+            document.getElementById('dampVal').textContent = config.damping.toFixed(4);
+        });
+
+        sourceSelect.addEventListener('change', (e) => {
+            config.sourceType = e.target.value;
+        });
+
+        themeSelect.addEventListener('change', (e) => {
+            config.theme = e.target.value;
+        });
+
+        pauseBtn.addEventListener('click', () => {
+            isPaused = !isPaused;
+            pauseBtn.textContent = isPaused ? 'Resume Simulation' : 'Pause Simulation';
+            pauseBtn.classList.toggle('bg-blue-600');
+            pauseBtn.classList.toggle('bg-amber-600');
+        });
+
+        clearBtn.addEventListener('click', clearSimulation);
+
+        // Start
+        window.onload = () => {
+            init();
+            loop();
+        };
+    </script>
+</body>
+</html>
