@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Work Hours Tracker</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+        }
+        .card {
+            background: white;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            border-radius: 1rem;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4">
+
+    <div class="max-w-md w-full">
+        <div class="card p-8">
+            <header class="mb-8">
+                <h1 class="text-2xl font-bold text-slate-800">Work Hours Tracker</h1>
+                <p class="text-slate-500 text-sm">Calculate your daily shift and overtime.</p>
+            </header>
+
+            <div class="space-y-6">
+                <!-- Time Inputs -->
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="space-y-2">
+                        <label class="text-sm font-semibold text-slate-700 block">Start Work</label>
+                        <input type="time" id="startTime" value="07:30" 
+                            class="w-full p-3 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition-all">
+                    </div>
+                    <div class="space-y-2">
+                        <label class="text-sm font-semibold text-slate-700 block">End Work</label>
+                        <input type="time" id="endTime" value="15:15" 
+                            class="w-full p-3 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition-all">
+                    </div>
+                </div>
+
+                <!-- Settings Inputs -->
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="space-y-2">
+                        <label class="text-sm font-semibold text-slate-700 block">Break (Mins)</label>
+                        <input type="number" id="breakMinutes" value="45" min="0"
+                            class="w-full p-3 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition-all">
+                    </div>
+                    <div class="space-y-2">
+                        <label class="text-sm font-semibold text-slate-700 block">Standard Day (Hrs)</label>
+                        <input type="number" id="standardDay" value="7" min="6" max="10"
+                            class="w-full p-3 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition-all">
+                    </div>
+                </div>
+
+                <hr class="border-slate-100">
+
+                <!-- Results Section -->
+                <div id="results" class="space-y-4">
+                    <!-- Progress So Far -->
+                    <div class="flex justify-between items-center p-4 bg-slate-50 border border-slate-100 rounded-xl">
+                        <div class="flex flex-col">
+                            <span class="text-slate-600 font-medium text-sm">Progress So Far:</span>
+                            <span class="text-[10px] text-slate-400 uppercase tracking-wider">Based on current time</span>
+                        </div>
+                        <span id="workedSoFar" class="text-xl font-bold text-slate-700">0h 0m</span>
+                    </div>
+
+                    <div class="flex justify-between items-center p-4 bg-blue-50 rounded-xl">
+                        <span class="text-blue-700 font-medium">Total Scheduled:</span>
+                        <span id="totalWorked" class="text-xl font-bold text-blue-900">0h 0m</span>
+                    </div>
+
+                    <div id="overtimeCard" class="flex justify-between items-center p-4 bg-emerald-50 rounded-xl hidden">
+                        <span id="overtimeLabel" class="text-emerald-700 font-medium">Overtime (vs 7h):</span>
+                        <span id="overtime" class="text-xl font-bold text-emerald-900">0h 0m</span>
+                    </div>
+
+                    <!-- Warning Message -->
+                    <div id="warning" class="hidden flex items-start gap-3 p-4 bg-amber-50 border border-amber-200 rounded-xl text-amber-800">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                        </svg>
+                        <div>
+                            <p class="font-bold">Health Warning</p>
+                            <p class="text-sm">You have exceeded 10 hours of work today. Please ensure you take adequate rest.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="mt-6 text-center text-slate-400 text-xs">
+            Auto-updates every minute based on current system time.
+        </footer>
+    </div>
+
+    <script>
+        const startInput = document.getElementById('startTime');
+        const endInput = document.getElementById('endTime');
+        const breakInput = document.getElementById('breakMinutes');
+        const standardDayInput = document.getElementById('standardDay');
+        
+        const totalDisplay = document.getElementById('totalWorked');
+        const soFarDisplay = document.getElementById('workedSoFar');
+        const overtimeDisplay = document.getElementById('overtime');
+        const overtimeLabel = document.getElementById('overtimeLabel');
+        const overtimeCard = document.getElementById('overtimeCard');
+        const warning = document.getElementById('warning');
+
+        function timeToMinutes(timeStr) {
+            const [hours, minutes] = timeStr.split(':').map(Number);
+            return (hours * 60) + minutes;
+        }
+
+        function formatDuration(minutes) {
+            const h = Math.floor(minutes / 60);
+            const m = minutes % 60;
+            return `${h}h ${m}m`;
+        }
+
+        function calculate() {
+            const now = new Date();
+            const currentMins = (now.getHours() * 60) + now.getMinutes();
+            
+            const startMins = timeToMinutes(startInput.value);
+            let endMins = timeToMinutes(endInput.value);
+            const breakMins = parseInt(breakInput.value) || 0;
+            const standardHrs = parseFloat(standardDayInput.value) || 7;
+
+            // Handle overnight shifts for end time
+            let adjustedEndMins = endMins;
+            if (endMins < startMins) {
+                adjustedEndMins += 1440; 
+            }
+
+            // 1. Total Planned Work
+            let totalWorkedMins = adjustedEndMins - startMins - breakMins;
+            if (totalWorkedMins < 0) totalWorkedMins = 0;
+            totalDisplay.textContent = formatDuration(totalWorkedMins);
+
+            // 2. Progress So Far
+            let effectiveCurrentMins = currentMins;
+            if (currentMins < startMins && adjustedEndMins > 1440) {
+                effectiveCurrentMins += 1440;
+            }
+
+            let soFarMins = 0;
+            if (effectiveCurrentMins > startMins) {
+                const limit = Math.min(effectiveCurrentMins, adjustedEndMins);
+                // Subtract full break from current progress
+                soFarMins = (limit - startMins) - breakMins;
+                if (soFarMins < 0) soFarMins = 0;
+            }
+            soFarDisplay.textContent = formatDuration(soFarMins);
+
+            // 3. Overtime Calculation
+            const standardMins = standardHrs * 60;
+            overtimeLabel.textContent = `Overtime (vs ${standardHrs}h):`;
+            
+            if (totalWorkedMins > standardMins) {
+                const overMins = totalWorkedMins - standardMins;
+                overtimeDisplay.textContent = formatDuration(overMins);
+                overtimeCard.classList.remove('hidden');
+            } else {
+                overtimeCard.classList.add('hidden');
+            }
+
+            // 4. Warning (> 10 hours = 600 mins)
+            if (totalWorkedMins > 600) {
+                warning.classList.remove('hidden');
+            } else {
+                warning.classList.add('hidden');
+            }
+        }
+
+        [startInput, endInput, breakInput, standardDayInput].forEach(input => {
+            input.addEventListener('input', calculate);
+        });
+
+        // Ensure standard day stays within 6-10 range on blur
+        standardDayInput.addEventListener('blur', () => {
+            let val = parseFloat(standardDayInput.value);
+            if (val < 6) standardDayInput.value = 6;
+            if (val > 10) standardDayInput.value = 10;
+            calculate();
+        });
+
+        setInterval(calculate, 60000);
+        calculate();
+    </script>
+</body>
+</html>
