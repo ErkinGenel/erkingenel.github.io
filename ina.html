@@ -257,11 +257,11 @@
         <!-- Decor -->
         <div class="absolute top-0 right-0 w-64 h-64 bg-ina-cream rounded-full blur-3xl opacity-50 -mr-32 -mt-32"></div>
 
-        <div class="max-w-5xl mx-auto px-6 relative z-10">
+        <div class="max-w-7xl mx-auto px-6 relative z-10">
             <div class="text-center mb-20 reveal">
                 <span class="text-ina-gold font-bold uppercase tracking-widest text-xs mb-2 block">Menu</span>
                 <h2 class="text-5xl font-serif text-ina-dark">Preisliste</h2>
-                <p class="text-gray-500 mt-4 italic font-serif">Wählen Sie Ihre Wohlfühlbehandlung</p>
+                <p class="text-gray-500 mt-4 italic font-serif">Individuelle Behandlungen für Ihre Schönheit</p>
             </div>
 
             <div class="grid md:grid-cols-2 gap-x-16 gap-y-12">
@@ -269,131 +269,204 @@
                 <!-- Category 1: Gesichtsbehandlungen -->
                 <div class="reveal">
                     <h3 class="text-2xl font-serif text-ina-teal mb-6 border-b border-gray-200 pb-2 flex items-center">
-                        <i class="fa-regular fa-face-smile text-ina-gold mr-3 text-lg"></i> Gesichtspflege
+                        <i class="fa-regular fa-face-smile text-ina-gold mr-3 text-lg"></i> Gesicht & Pflege
                     </h3>
-                    <ul class="space-y-5">
-                        <li class="price-item flex justify-between items-end">
-                            <span class="font-semibold text-gray-800">Klassische Behandlung</span>
-                            <div class="price-dots"></div>
-                            <span class="font-bold text-ina-gold">48,00 €</span>
-                        </li>
-                        <p class="text-xs text-gray-500 -mt-3 mb-2">Reinigung, Peeling, Ausreinigen, Massage, Maske, Tagespflege</p>
-                        
-                        <li class="price-item flex justify-between items-end">
-                            <span class="font-semibold text-gray-800">Relax Behandlung</span>
-                            <div class="price-dots"></div>
-                            <span class="font-bold text-ina-gold">59,00 €</span>
-                        </li>
-                        <p class="text-xs text-gray-500 -mt-3 mb-2">Klassik + Ampulle & ausgiebige Massage</p>
+                    <ul class="space-y-8">
+                        <!-- Jugendliche -->
+                        <div>
+                            <li class="price-item flex justify-between items-end">
+                                <span class="font-semibold text-gray-800">Behandlung für Jugendliche</span>
+                                <div class="price-dots"></div>
+                                <span class="font-bold text-ina-gold whitespace-nowrap">39,00 €</span>
+                            </li>
+                            <p class="text-xs text-gray-500 mt-1 mb-1">
+                                Tiefenreinigungsprogramm für jugendliche Problemhaut. Intensivreinigung, Wasserdampf, Ausreinigung, Maske, Tagespflege.
+                            </p>
+                            <span class="text-xs text-ina-stone uppercase tracking-wide">Ca. 60 Min.</span>
+                        </div>
 
-                        <li class="price-item flex justify-between items-end">
-                            <span class="font-semibold text-gray-800">Reinigungsbehandlung</span>
-                            <div class="price-dots"></div>
-                            <span class="font-bold text-ina-gold">42,00 €</span>
-                        </li>
-                        <p class="text-xs text-gray-500 -mt-3 mb-2">Ideal für unreine Haut (ohne Massage)</p>
+                        <!-- Classic -->
+                        <div>
+                            <li class="price-item flex justify-between items-end">
+                                <span class="font-semibold text-gray-800">Classicbehandlung</span>
+                                <div class="price-dots"></div>
+                                <span class="font-bold text-ina-gold whitespace-nowrap">53,00 €</span>
+                            </li>
+                            <p class="text-xs text-gray-500 mt-1 mb-1">
+                                Klassisches Programm: Intensivreinigung, Hautdiagnose, Wasserdampf, Ausreinigung, Brauenkorrektur, Maske, Massage, Tagespflege.
+                            </p>
+                            <span class="text-xs text-ina-stone uppercase tracking-wide">Ca. 60-70 Min.</span>
+                        </div>
 
-                        <li class="price-item flex justify-between items-end">
-                            <span class="font-semibold text-gray-800">Hyaluron Power</span>
-                            <div class="price-dots"></div>
-                            <span class="font-bold text-ina-gold">65,00 €</span>
-                        </li>
-                        <p class="text-xs text-gray-500 -mt-3 mb-2">Intensive Feuchtigkeit & Frischekick</p>
+                        <!-- Comfort -->
+                        <div>
+                            <li class="price-item flex justify-between items-end">
+                                <span class="font-semibold text-gray-800">Comfortbehandlung</span>
+                                <div class="price-dots"></div>
+                                <span class="font-bold text-ina-gold whitespace-nowrap">63,50 €</span>
+                            </li>
+                            <p class="text-xs text-gray-500 mt-1 mb-1">
+                                Wie Classicbehandlung, jedoch inkl. Ampulle/Wirkstoffkonzentrat und spezieller Intensivpflegemaske.
+                            </p>
+                            <span class="text-xs text-ina-stone uppercase tracking-wide">Ca. 70-80 Min.</span>
+                        </div>
+
+                        <!-- Hydro -->
+                        <div>
+                            <li class="price-item flex justify-between items-end">
+                                <span class="font-semibold text-gray-800">Hydro Spezialbehandlung</span>
+                                <div class="price-dots"></div>
+                                <span class="font-bold text-ina-gold whitespace-nowrap">71,00 €</span>
+                            </li>
+                            <p class="text-xs text-gray-500 mt-1 mb-1">
+                                Für unendlich zarte Haut. Collagen Spezialmaske spendet pure Feuchtigkeit und glättet kleine Unebenheiten sofort.
+                            </p>
+                            <span class="text-xs text-ina-stone uppercase tracking-wide">Ca. 90 Min.</span>
+                        </div>
+
+                        <!-- Bienenwachs -->
+                        <div>
+                            <li class="price-item flex justify-between items-end">
+                                <span class="font-semibold text-gray-800">Wellness Bienenwachsmodelage</span>
+                                <div class="price-dots"></div>
+                                <span class="font-bold text-ina-gold whitespace-nowrap">67,00 €</span>
+                            </li>
+                            <p class="text-xs text-gray-500 mt-1 mb-1">
+                                Wohlfühlbehandlung mit warmem Bienenwachs. Wirkstoffe dringen durch die Wärme besonders tief in die Haut ein.
+                            </p>
+                            <span class="text-xs text-ina-stone uppercase tracking-wide">Ca. 90 Min.</span>
+                        </div>
+
+                        <!-- Schaumreise -->
+                        <div>
+                            <li class="price-item flex justify-between items-end">
+                                <span class="font-semibold text-gray-800">Schaumreise</span>
+                                <div class="price-dots"></div>
+                                <span class="font-bold text-ina-gold whitespace-nowrap">71,00 €</span>
+                            </li>
+                            <p class="text-xs text-gray-500 mt-1 mb-1">
+                                Prickelndes Erlebnis mit Katalysator-Cocon-Schaum. Mobilisiert Hautfunktionen, kurbelt Durchblutung an, für rosig zarte Haut.
+                            </p>
+                            <span class="text-xs text-ina-stone uppercase tracking-wide">Ca. 90 Min.</span>
+                        </div>
+
+                        <!-- Thermo Lifting -->
+                        <div>
+                            <li class="price-item flex justify-between items-end">
+                                <span class="font-semibold text-gray-800">Thermo Lifting</span>
+                                <div class="price-dots"></div>
+                                <span class="font-bold text-ina-gold whitespace-nowrap">74,00 €</span>
+                            </li>
+                            <p class="text-xs text-gray-500 mt-1 mb-1">
+                                Mineralien-Modelage mit Wärme-Effekt für Tiefenwirkung. Revitalisiert und sorgt für deutlich sichtbare Spannkraft.
+                            </p>
+                            <span class="text-xs text-ina-stone uppercase tracking-wide">Ca. 90 Min.</span>
+                        </div>
                     </ul>
                 </div>
 
-                <!-- Category 2: Augen & Extras -->
-                <div class="reveal delay-100">
-                    <h3 class="text-2xl font-serif text-ina-teal mb-6 border-b border-gray-200 pb-2 flex items-center">
-                        <i class="fa-regular fa-eye text-ina-gold mr-3 text-lg"></i> Augen & Extras
-                    </h3>
-                    <ul class="space-y-5">
-                        <li class="price-item flex justify-between items-end">
-                            <span class="text-gray-800">Augenbrauen zupfen</span>
-                            <div class="price-dots"></div>
-                            <span class="font-bold text-ina-gold">ab 8,00 €</span>
-                        </li>
-                        <li class="price-item flex justify-between items-end">
-                            <span class="text-gray-800">Augenbrauen färben</span>
-                            <div class="price-dots"></div>
-                            <span class="font-bold text-ina-gold">9,00 €</span>
-                        </li>
-                        <li class="price-item flex justify-between items-end">
-                            <span class="text-gray-800">Wimpern färben</span>
-                            <div class="price-dots"></div>
-                            <span class="font-bold text-ina-gold">12,00 €</span>
-                        </li>
-                        <li class="price-item flex justify-between items-end">
-                            <span class="text-gray-800">Kombi (Brauen & Wimpern)</span>
-                            <div class="price-dots"></div>
-                            <span class="font-bold text-ina-gold">19,00 €</span>
-                        </li>
-                        <li class="price-item flex justify-between items-end">
-                            <span class="text-gray-800">Wirkstoffampulle</span>
-                            <div class="price-dots"></div>
-                            <span class="font-bold text-ina-gold">12,00 €</span>
-                        </li>
-                    </ul>
-                </div>
+                <!-- Right Column: Extras, Waxing, Massage -->
+                <div class="space-y-12 reveal delay-100">
+                    
+                    <!-- Zusatzmasken & Augen -->
+                    <div>
+                        <h3 class="text-2xl font-serif text-ina-teal mb-6 border-b border-gray-200 pb-2 flex items-center">
+                            <i class="fa-regular fa-eye text-ina-gold mr-3 text-lg"></i> Augen & Zusatzmasken
+                        </h3>
+                        <ul class="space-y-4">
+                            <li class="price-item flex justify-between items-end">
+                                <span class="text-gray-800">Augen-Lifting Maske</span>
+                                <div class="price-dots"></div>
+                                <span class="font-bold text-ina-gold">15,00 €</span>
+                            </li>
+                            <li class="price-item flex justify-between items-end">
+                                <span class="text-gray-800">Hals-Lifting Maske</span>
+                                <div class="price-dots"></div>
+                                <span class="font-bold text-ina-gold">16,50 €</span>
+                            </li>
+                            <li class="price-item flex justify-between items-end">
+                                <span class="text-gray-800">Wimpern färben</span>
+                                <div class="price-dots"></div>
+                                <span class="font-bold text-ina-gold">12,00 €</span>
+                            </li>
+                            <li class="price-item flex justify-between items-end">
+                                <span class="text-gray-800">Augenbrauen färben</span>
+                                <div class="price-dots"></div>
+                                <span class="font-bold text-ina-gold">9,00 €</span>
+                            </li>
+                            <li class="price-item flex justify-between items-end">
+                                <span class="text-gray-800">Augenbrauen formen</span>
+                                <div class="price-dots"></div>
+                                <span class="font-bold text-ina-gold">9,00 €</span>
+                            </li>
+                        </ul>
+                    </div>
 
-                <!-- Category 3: Hand & Fuß -->
-                <div class="reveal delay-200">
-                    <h3 class="text-2xl font-serif text-ina-teal mb-6 border-b border-gray-200 pb-2 flex items-center">
-                        <i class="fa-solid fa-hand-sparkles text-ina-gold mr-3 text-lg"></i> Maniküre & Pediküre
-                    </h3>
-                    <ul class="space-y-5">
-                        <li class="price-item flex justify-between items-end">
-                            <span class="text-gray-800">Maniküre (ohne Lack)</span>
-                            <div class="price-dots"></div>
-                            <span class="font-bold text-ina-gold">28,00 €</span>
-                        </li>
-                        <li class="price-item flex justify-between items-end">
-                            <span class="text-gray-800">Maniküre (mit Lack)</span>
-                            <div class="price-dots"></div>
-                            <span class="font-bold text-ina-gold">34,00 €</span>
-                        </li>
-                        <li class="price-item flex justify-between items-end">
-                            <span class="text-gray-800">Kosmetische Fußpflege</span>
-                            <div class="price-dots"></div>
-                            <span class="font-bold text-ina-gold">32,00 €</span>
-                        </li>
-                        <li class="price-item flex justify-between items-end">
-                            <span class="text-gray-800">Lackieren</span>
-                            <div class="price-dots"></div>
-                            <span class="font-bold text-ina-gold">6,00 €</span>
-                        </li>
-                    </ul>
-                </div>
+                    <!-- Depilation -->
+                    <div>
+                        <h3 class="text-2xl font-serif text-ina-teal mb-6 border-b border-gray-200 pb-2 flex items-center">
+                            <i class="fa-solid fa-leaf text-ina-gold mr-3 text-lg"></i> Depilation (Heißwachs)
+                        </h3>
+                        <ul class="space-y-4">
+                            <li class="price-item flex justify-between items-end">
+                                <span class="text-gray-800">Beine bis zum Knie</span>
+                                <div class="price-dots"></div>
+                                <span class="font-bold text-ina-gold">29,00 €</span>
+                            </li>
+                            <li class="price-item flex justify-between items-end">
+                                <span class="text-gray-800">Oberschenkel</span>
+                                <div class="price-dots"></div>
+                                <span class="font-bold text-ina-gold">17,00 €</span>
+                            </li>
+                            <li class="price-item flex justify-between items-end">
+                                <span class="text-gray-800">Bikinizone</span>
+                                <div class="price-dots"></div>
+                                <span class="font-bold text-ina-gold">19,00 €</span>
+                            </li>
+                            <li class="price-item flex justify-between items-end">
+                                <span class="text-gray-800">Achseln</span>
+                                <div class="price-dots"></div>
+                                <span class="font-bold text-ina-gold">15,00 €</span>
+                            </li>
+                            <li class="price-item flex justify-between items-end">
+                                <span class="text-gray-800">Oberlippe oder Kinn</span>
+                                <div class="price-dots"></div>
+                                <span class="font-bold text-ina-gold">9,00 €</span>
+                            </li>
+                            <li class="price-item flex justify-between items-end">
+                                <span class="text-gray-800">Oberlippe, Kinn & Wangen</span>
+                                <div class="price-dots"></div>
+                                <span class="font-bold text-ina-gold">20,00 €</span>
+                            </li>
+                        </ul>
+                    </div>
 
-                <!-- Category 4: Enthaarung -->
-                <div class="reveal delay-300">
-                    <h3 class="text-2xl font-serif text-ina-teal mb-6 border-b border-gray-200 pb-2 flex items-center">
-                        <i class="fa-solid fa-leaf text-ina-gold mr-3 text-lg"></i> Depilation (Warmwachs)
-                    </h3>
-                    <ul class="space-y-5">
-                        <li class="price-item flex justify-between items-end">
-                            <span class="text-gray-800">Oberlippe / Kinn</span>
-                            <div class="price-dots"></div>
-                            <span class="font-bold text-ina-gold">ab 8,00 €</span>
-                        </li>
-                        <li class="price-item flex justify-between items-end">
-                            <span class="text-gray-800">Beine (bis Knie)</span>
-                            <div class="price-dots"></div>
-                            <span class="font-bold text-ina-gold">25,00 €</span>
-                        </li>
-                        <li class="price-item flex justify-between items-end">
-                            <span class="text-gray-800">Beine komplett</span>
-                            <div class="price-dots"></div>
-                            <span class="font-bold text-ina-gold">42,00 €</span>
-                        </li>
-                        <li class="price-item flex justify-between items-end">
-                            <span class="text-gray-800">Rücken (für Herren)</span>
-                            <div class="price-dots"></div>
-                            <span class="font-bold text-ina-gold">ab 30,00 €</span>
-                        </li>
-                    </ul>
-                </div>
+                    <!-- Massage -->
+                    <div>
+                        <h3 class="text-2xl font-serif text-ina-teal mb-6 border-b border-gray-200 pb-2 flex items-center">
+                            <i class="fa-solid fa-spa text-ina-gold mr-3 text-lg"></i> Massage
+                        </h3>
+                        <ul class="space-y-6">
+                            <div>
+                                <li class="price-item flex justify-between items-end">
+                                    <span class="font-semibold text-gray-800">Stone la ved Rückenmassage</span>
+                                    <div class="price-dots"></div>
+                                    <span class="font-bold text-ina-gold">38,00 €</span>
+                                </li>
+                                <span class="text-xs text-ina-stone uppercase tracking-wide">Ca. 30 Min.</span>
+                            </div>
+                            <div>
+                                <li class="price-item flex justify-between items-end">
+                                    <span class="font-semibold text-gray-800">Stone la ved inkl. Bein & Fuß</span>
+                                    <div class="price-dots"></div>
+                                    <span class="font-bold text-ina-gold">52,00 €</span>
+                                </li>
+                                <span class="text-xs text-ina-stone uppercase tracking-wide">Ca. 50 Min.</span>
+                            </div>
+                        </ul>
+                    </div>
 
+                </div>
             </div>
             
             <div class="mt-16 text-center text-sm text-gray-400 font-light">
@@ -472,10 +545,17 @@
         </div>
     </footer>
 
-    <!-- Fixed Mobile Call Button -->
-    <a href="tel:0123456789" class="fixed bottom-6 right-6 md:hidden z-50 bg-ina-gold text-white w-14 h-14 rounded-full shadow-2xl flex items-center justify-center animate-bounce">
-        <i class="fa-solid fa-phone text-2xl"></i>
-    </a>
+    <!-- Fixed Mobile Action Buttons -->
+    <div class="fixed bottom-6 right-6 md:hidden z-50 flex flex-col gap-3 items-center">
+        <!-- WhatsApp -->
+        <a href="https://wa.me/4917XXXXXXXX" target="_blank" class="bg-[#25D366] text-white w-14 h-14 rounded-full shadow-2xl flex items-center justify-center transform transition-transform hover:scale-110">
+            <i class="fa-brands fa-whatsapp text-3xl"></i>
+        </a>
+        <!-- Phone -->
+        <a href="tel:0123456789" class="bg-ina-gold text-white w-14 h-14 rounded-full shadow-2xl flex items-center justify-center animate-bounce">
+            <i class="fa-solid fa-phone text-2xl"></i>
+        </a>
+    </div>
 
     <script>
         // Navbar scroll effect
