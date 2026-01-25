@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="de" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ina Kosmetik | Exklusives Kosmetikstudio in Wannweil</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'ina-gold': '#C5A059',
+                        'ina-dark': '#1C1C1C',
+                        'ina-cream': '#F9F7F2',
+                        'ina-stone': '#8C989F',
+                        'ina-teal': '#2C4C5B'
+                    },
+                    fontFamily: {
+                        serif: ['"Cormorant Garamond"', 'serif'],
+                        sans: ['"Lato"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Parallax & Animations */
+        .parallax-bg {
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        
+        @media (hover: none) {
+            .parallax-bg {
+                background-attachment: scroll; /* Fix for some mobile browsers */
+            }
+        }
+
+        .text-shadow {
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .price-item {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .price-dots {
+            flex-grow: 1;
+            border-bottom: 1px dotted #cbd5e1;
+            margin: 0 1rem;
+            position: relative;
+            top: -5px;
+        }
+
+        /* Fade Up Animation Classes */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+        
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Navigation Transition */
+        #main-nav {
+            transition: background-color 0.3s ease, padding 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .scrolled-nav {
+            background-color: rgba(255, 255, 255, 0.95) !important;
+            backdrop-filter: blur(5px);
+            padding-top: 1rem !important;
+            padding-bottom: 1rem !important;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        
+        .scrolled-nav .nav-text {
+            color: #1C1C1C !important;
+        }
+        
+        .scrolled-nav .logo-img {
+            filter: none; /* Reset if we used filter */
+        }
+    </style>
+</head>
+<body class="font-sans text-gray-700 bg-ina-cream antialiased">
+
+    <!-- Navigation -->
+    <nav id="main-nav" class="fixed w-full z-50 top-0 transition-all duration-300 py-6 text-white">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex justify-between items-center">
+                <!-- Logo -->
+                <a href="#" class="flex items-center gap-3 group">
+                    <img src="Logo.JPG" alt="Ina Kosmetik" class="h-12 w-auto object-contain mix-blend-multiply rounded bg-white/10 px-2">
+                </a>
+
+                <!-- Desktop Menu -->
+                <div class="hidden lg:flex items-center gap-8 text-sm tracking-widest uppercase font-semibold">
+                    <a href="#home" class="nav-text hover:text-ina-gold transition-colors">Startseite</a>
+                    <a href="#philosophie" class="nav-text hover:text-ina-gold transition-colors">Philosophie</a>
+                    <a href="#produkte" class="nav-text hover:text-ina-gold transition-colors">Produkte</a>
+                    <a href="#preise" class="nav-text hover:text-ina-gold transition-colors">Preisliste</a>
+                    <a href="#kontakt" class="bg-ina-gold text-white px-6 py-2 rounded-sm hover:bg-opacity-90 transition-all transform hover:-translate-y-0.5 shadow-lg">
+                        Termin
+                    </a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button onclick="toggleMobileMenu()" class="lg:hidden text-2xl nav-text focus:outline-none">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu Overlay -->
+    <div id="mobile-menu" class="fixed inset-0 bg-white z-40 transform translate-x-full transition-transform duration-300 flex flex-col justify-center items-center gap-8">
+        <button onclick="toggleMobileMenu()" class="absolute top-6 right-6 text-3xl text-gray-800">
+            <i class="fa-solid fa-times"></i>
+        </button>
+        <a href="#home" onclick="toggleMobileMenu()" class="text-2xl font-serif text-gray-800">Startseite</a>
+        <a href="#philosophie" onclick="toggleMobileMenu()" class="text-2xl font-serif text-gray-800">Philosophie</a>
+        <a href="#produkte" onclick="toggleMobileMenu()" class="text-2xl font-serif text-gray-800">Produkte</a>
+        <a href="#preise" onclick="toggleMobileMenu()" class="text-2xl font-serif text-gray-800">Preisliste</a>
+        <a href="#kontakt" onclick="toggleMobileMenu()" class="text-2xl font-serif text-ina-gold">Kontakt</a>
+    </div>
+
+    <!-- Hero Section (Parallax) -->
+    <header id="home" class="relative h-screen flex items-center justify-center parallax-bg" style="background-image: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.3)), url('IMG-20240506-WA0000.jpg');">
+        <div class="absolute inset-0 bg-gradient-to-b from-transparent to-ina-cream/20 pointer-events-none"></div>
+        
+        <div class="text-center px-4 max-w-4xl mx-auto text-white relative z-10 reveal active">
+            <h2 class="text-sm md:text-lg uppercase tracking-[0.3em] mb-4 text-ina-gold font-bold drop-shadow-md">Kosmetikstudio Wannweil</h2>
+            <h1 class="text-5xl md:text-7xl lg:text-8xl font-serif font-light mb-8 leading-tight text-shadow">
+                Schönheit &<br> <span class="italic">Wohlbefinden</span>
+            </h1>
+            <p class="text-lg md:text-xl font-light mb-10 max-w-2xl mx-auto opacity-90">
+                Gönnen Sie sich eine Auszeit vom Alltag. Professionelle Kosmetikbehandlungen mit der Kraft der Natur.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="#preise" class="bg-white text-ina-dark px-10 py-4 font-semibold uppercase tracking-widest hover:bg-ina-gold hover:text-white transition-all duration-300">
+                    Behandlungen
+                </a>
+            </div>
+        </div>
+
+        <!-- Scroll Indicator -->
+        <a href="#philosophie" class="absolute bottom-10 left-1/2 transform -translate-x-1/2 text-white animate-bounce">
+            <i class="fa-solid fa-chevron-down text-2xl"></i>
+        </a>
+    </header>
+
+    <!-- Philosophie & Studio Section -->
+    <section id="philosophie" class="py-24 px-6 md:px-12 bg-white">
+        <div class="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
+            <!-- Text Content -->
+            <div class="reveal">
+                <div class="flex items-center gap-4 mb-6">
+                    <div class="h-px w-12 bg-ina-gold"></div>
+                    <span class="uppercase tracking-widest text-ina-stone text-sm">Über Ina Kosmetik</span>
+                </div>
+                <h2 class="text-4xl md:text-5xl font-serif text-ina-dark mb-8 leading-tight">
+                    Ihre Haut in <br><span class="text-ina-gold italic">besten Händen</span>
+                </h2>
+                <p class="text-gray-600 mb-6 leading-relaxed text-lg">
+                    Willkommen in meiner Welt der Entspannung. In meinem Studio in Wannweil verbinde ich langjährige Erfahrung mit modernsten dermatologischen Erkenntnissen.
+                </p>
+                <p class="text-gray-600 mb-8 leading-relaxed text-lg">
+                    Jede Behandlung beginnt mit einer individuellen Hautanalyse. Ich glaube daran, dass wahre Schönheit entsteht, wenn sich Körper und Seele im Einklang befinden. Genießen Sie die Ruhe und lassen Sie sich verwöhnen.
+                </p>
+                
+                <div class="grid grid-cols-2 gap-8 mt-10 border-t border-gray-100 pt-8">
+                    <div>
+                        <i class="fa-solid fa-certificate text-3xl text-ina-gold mb-3"></i>
+                        <h4 class="font-bold text-ina-dark uppercase text-sm tracking-wide">Zertifiziert</h4>
+                        <p class="text-sm text-gray-500 mt-1">Staatl. anerkannte Kosmetikerin</p>
+                    </div>
+                    <div>
+                        <i class="fa-solid fa-leaf text-3xl text-ina-gold mb-3"></i>
+                        <h4 class="font-bold text-ina-dark uppercase text-sm tracking-wide">Natürlich</h4>
+                        <p class="text-sm text-gray-500 mt-1">Hildegard Braukmann Produkte</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Image Grid -->
+            <div class="relative reveal delay-200">
+                <div class="absolute -top-4 -left-4 w-24 h-24 bg-ina-cream z-0 rounded-tl-3xl"></div>
+                <div class="absolute -bottom-4 -right-4 w-full h-24 bg-ina-cream z-0 rounded-br-3xl"></div>
+                
+                <div class="grid grid-cols-2 gap-4 relative z-10">
+                    <img src="20260125_181827.jpg" alt="Behandlungsraum" class="w-full h-80 object-cover rounded-sm shadow-xl transform translate-y-8">
+                    <img src="cropped-vector_kosmetik-scaled-1-300x200.jpg" alt="Detail Kosmetik" class="w-full h-80 object-cover rounded-sm shadow-xl">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Parallax Break (Mid Section) -->
+    <section class="py-32 parallax-bg flex items-center justify-center relative" style="background-image: linear-gradient(rgba(44,76,91,0.85), rgba(44,76,91,0.85)), url('IMG-20240510-WA0009.jpg');">
+        <div class="text-center text-white px-6 max-w-3xl reveal">
+            <i class="fa-solid fa-quote-left text-4xl text-ina-gold mb-6 opacity-60"></i>
+            <p class="text-3xl md:text-5xl font-serif italic leading-relaxed mb-8">
+                "Die Natur gibt uns alles, was wir für gesunde und strahlende Haut brauchen."
+            </p>
+            <div class="w-24 h-1 bg-ina-gold mx-auto"></div>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section id="produkte" class="py-24 bg-ina-cream">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16 reveal">
+                <h2 class="text-4xl font-serif text-ina-dark mb-4">Unsere Partner</h2>
+                <div class="w-16 h-px bg-ina-dark mx-auto mb-4"></div>
+                <p class="text-gray-500 max-w-2xl mx-auto">
+                    Qualität ohne Kompromisse. Wir vertrauen auf die bewährte Kräuterkosmetik von Hildegard Braukmann.
+                </p>
+            </div>
+
+            <!-- Horizontal Banner Image -->
+            <div class="w-full mb-16 reveal">
+                 <img src="IMG-20170914-WA0000-300x50.jpg" alt="Banner Decoration" class="w-full h-auto object-cover opacity-80 grayscale hover:grayscale-0 transition-all duration-700 rounded-sm">
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-12 items-center bg-white p-8 md:p-12 rounded-lg shadow-sm reveal">
+                <div class="flex flex-col items-center justify-center text-center">
+                    <img src="csm_HB_Logo_Wort_Bildmarke_sRGB_7258b93702-300x272.png" alt="Hildegard Braukmann Logo" class="h-32 object-contain mb-8">
+                    <h3 class="text-2xl font-serif text-ina-dark mb-4">Hildegard Braukmann</h3>
+                    <p class="text-gray-600 mb-6">
+                        Die moderne Kräuterkosmetik. Sanft, effektiv und verträglich. Erleben Sie Pflegeprodukte, die das Gleichgewicht Ihrer Haut respektieren und wiederherstellen.
+                    </p>
+                    <a href="#kontakt" class="text-ina-gold uppercase tracking-wider text-sm font-bold border-b border-ina-gold pb-1 hover:text-ina-dark hover:border-ina-dark transition-colors">
+                        Beratungstermin vereinbaren
+                    </a>
+                </div>
+                <div class="relative h-full min-h-[400px]">
+                    <img src="Social_Media_Professional_Seasation_EdT(1).jpg" alt="Braukmann Produkte" class="absolute inset-0 w-full h-full object-cover rounded-lg shadow-md transform hover:scale-105 transition-transform duration-500">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Price List Section (The Core Content) -->
+    <section id="preise" class="py-24 bg-white relative overflow-hidden">
+        <!-- Decor -->
+        <div class="absolute top-0 right-0 w-64 h-64 bg-ina-cream rounded-full blur-3xl opacity-50 -mr-32 -mt-32"></div>
+
+        <div class="max-w-5xl mx-auto px-6 relative z-10">
+            <div class="text-center mb-20 reveal">
+                <span class="text-ina-gold font-bold uppercase tracking-widest text-xs mb-2 block">Menu</span>
+                <h2 class="text-5xl font-serif text-ina-dark">Preisliste</h2>
+                <p class="text-gray-500 mt-4 italic font-serif">Wählen Sie Ihre Wohlfühlbehandlung</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-x-16 gap-y-12">
+                
+                <!-- Category 1: Gesichtsbehandlungen -->
+                <div class="reveal">
+                    <h3 class="text-2xl font-serif text-ina-teal mb-6 border-b border-gray-200 pb-2 flex items-center">
+                        <i class="fa-regular fa-face-smile text-ina-gold mr-3 text-lg"></i> Gesichtspflege
+                    </h3>
+                    <ul class="space-y-5">
+                        <li class="price-item flex justify-between items-end">
+                            <span class="font-semibold text-gray-800">Klassische Behandlung</span>
+                            <div class="price-dots"></div>
+                            <span class="font-bold text-ina-gold">48,00 €</span>
+                        </li>
+                        <p class="text-xs text-gray-500 -mt-3 mb-2">Reinigung, Peeling, Ausreinigen, Massage, Maske, Tagespflege</p>
+                        
+                        <li class="price-item flex justify-between items-end">
+                            <span class="font-semibold text-gray-800">Relax Behandlung</span>
+                            <div class="price-dots"></div>
+                            <span class="font-bold text-ina-gold">59,00 €</span>
+                        </li>
+                        <p class="text-xs text-gray-500 -mt-3 mb-2">Klassik + Ampulle & ausgiebige Massage</p>
+
+                        <li class="price-item flex justify-between items-end">
+                            <span class="font-semibold text-gray-800">Reinigungsbehandlung</span>
+                            <div class="price-dots"></div>
+                            <span class="font-bold text-ina-gold">42,00 €</span>
+                        </li>
+                        <p class="text-xs text-gray-500 -mt-3 mb-2">Ideal für unreine Haut (ohne Massage)</p>
+
+                        <li class="price-item flex justify-between items-end">
+                            <span class="font-semibold text-gray-800">Hyaluron Power</span>
+                            <div class="price-dots"></div>
+                            <span class="font-bold text-ina-gold">65,00 €</span>
+                        </li>
+                        <p class="text-xs text-gray-500 -mt-3 mb-2">Intensive Feuchtigkeit & Frischekick</p>
+                    </ul>
+                </div>
+
+                <!-- Category 2: Augen & Extras -->
+                <div class="reveal delay-100">
+                    <h3 class="text-2xl font-serif text-ina-teal mb-6 border-b border-gray-200 pb-2 flex items-center">
+                        <i class="fa-regular fa-eye text-ina-gold mr-3 text-lg"></i> Augen & Extras
+                    </h3>
+                    <ul class="space-y-5">
+                        <li class="price-item flex justify-between items-end">
+                            <span class="text-gray-800">Augenbrauen zupfen</span>
+                            <div class="price-dots"></div>
+                            <span class="font-bold text-ina-gold">ab 8,00 €</span>
+                        </li>
+                        <li class="price-item flex justify-between items-end">
+                            <span class="text-gray-800">Augenbrauen färben</span>
+                            <div class="price-dots"></div>
+                            <span class="font-bold text-ina-gold">9,00 €</span>
+                        </li>
+                        <li class="price-item flex justify-between items-end">
+                            <span class="text-gray-800">Wimpern färben</span>
+                            <div class="price-dots"></div>
+                            <span class="font-bold text-ina-gold">12,00 €</span>
+                        </li>
+                        <li class="price-item flex justify-between items-end">
+                            <span class="text-gray-800">Kombi (Brauen & Wimpern)</span>
+                            <div class="price-dots"></div>
+                            <span class="font-bold text-ina-gold">19,00 €</span>
+                        </li>
+                        <li class="price-item flex justify-between items-end">
+                            <span class="text-gray-800">Wirkstoffampulle</span>
+                            <div class="price-dots"></div>
+                            <span class="font-bold text-ina-gold">12,00 €</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Category 3: Hand & Fuß -->
+                <div class="reveal delay-200">
+                    <h3 class="text-2xl font-serif text-ina-teal mb-6 border-b border-gray-200 pb-2 flex items-center">
+                        <i class="fa-solid fa-hand-sparkles text-ina-gold mr-3 text-lg"></i> Maniküre & Pediküre
+                    </h3>
+                    <ul class="space-y-5">
+                        <li class="price-item flex justify-between items-end">
+                            <span class="text-gray-800">Maniküre (ohne Lack)</span>
+                            <div class="price-dots"></div>
+                            <span class="font-bold text-ina-gold">28,00 €</span>
+                        </li>
+                        <li class="price-item flex justify-between items-end">
+                            <span class="text-gray-800">Maniküre (mit Lack)</span>
+                            <div class="price-dots"></div>
+                            <span class="font-bold text-ina-gold">34,00 €</span>
+                        </li>
+                        <li class="price-item flex justify-between items-end">
+                            <span class="text-gray-800">Kosmetische Fußpflege</span>
+                            <div class="price-dots"></div>
+                            <span class="font-bold text-ina-gold">32,00 €</span>
+                        </li>
+                        <li class="price-item flex justify-between items-end">
+                            <span class="text-gray-800">Lackieren</span>
+                            <div class="price-dots"></div>
+                            <span class="font-bold text-ina-gold">6,00 €</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Category 4: Enthaarung -->
+                <div class="reveal delay-300">
+                    <h3 class="text-2xl font-serif text-ina-teal mb-6 border-b border-gray-200 pb-2 flex items-center">
+                        <i class="fa-solid fa-leaf text-ina-gold mr-3 text-lg"></i> Depilation (Warmwachs)
+                    </h3>
+                    <ul class="space-y-5">
+                        <li class="price-item flex justify-between items-end">
+                            <span class="text-gray-800">Oberlippe / Kinn</span>
+                            <div class="price-dots"></div>
+                            <span class="font-bold text-ina-gold">ab 8,00 €</span>
+                        </li>
+                        <li class="price-item flex justify-between items-end">
+                            <span class="text-gray-800">Beine (bis Knie)</span>
+                            <div class="price-dots"></div>
+                            <span class="font-bold text-ina-gold">25,00 €</span>
+                        </li>
+                        <li class="price-item flex justify-between items-end">
+                            <span class="text-gray-800">Beine komplett</span>
+                            <div class="price-dots"></div>
+                            <span class="font-bold text-ina-gold">42,00 €</span>
+                        </li>
+                        <li class="price-item flex justify-between items-end">
+                            <span class="text-gray-800">Rücken (für Herren)</span>
+                            <div class="price-dots"></div>
+                            <span class="font-bold text-ina-gold">ab 30,00 €</span>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+            
+            <div class="mt-16 text-center text-sm text-gray-400 font-light">
+                <p>Alle Preise verstehen sich inklusive der gesetzlichen Mehrwertsteuer. <br> Stand 2024. Änderungen vorbehalten.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact & Footer -->
+    <footer id="kontakt" class="bg-ina-dark text-white relative">
+        <div class="max-w-7xl mx-auto px-6 py-20">
+            <div class="grid md:grid-cols-3 gap-12">
+                
+                <!-- Contact Info -->
+                <div class="reveal">
+                    <img src="Logo.JPG" alt="Ina Kosmetik Logo" class="h-16 mb-6 opacity-80 mix-blend-screen bg-white/10 p-2 rounded">
+                    <h3 class="text-2xl font-serif mb-6 text-ina-gold">Ina Kosmetik</h3>
+                    <p class="text-gray-400 mb-6 leading-relaxed">
+                        Ihr Partner für Schönheit und Wohlbefinden in Wannweil. Vereinbaren Sie noch heute Ihren persönlichen Verwöhntermin.
+                    </p>
+                    <div class="space-y-4">
+                        <a href="tel:0123456789" class="flex items-center gap-4 hover:text-ina-gold transition-colors">
+                            <div class="w-10 h-10 border border-white/20 rounded-full flex items-center justify-center">
+                                <i class="fa-solid fa-phone"></i>
+                            </div>
+                            <span class="text-lg">07121 / XX XX XX</span>
+                        </a>
+                        <div class="flex items-center gap-4">
+                            <div class="w-10 h-10 border border-white/20 rounded-full flex items-center justify-center">
+                                <i class="fa-solid fa-location-dot"></i>
+                            </div>
+                            <span>Hauptstraße XX, 72827 Wannweil</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hours -->
+                <div class="reveal delay-100">
+                    <h3 class="text-xl font-bold uppercase tracking-widest mb-8 border-l-4 border-ina-gold pl-4">Öffnungszeiten</h3>
+                    <ul class="space-y-4 text-gray-300">
+                        <li class="flex justify-between border-b border-white/10 pb-2">
+                            <span>Montag - Freitag</span>
+                            <span>09:00 - 18:00</span>
+                        </li>
+                        <li class="flex justify-between border-b border-white/10 pb-2">
+                            <span>Samstag</span>
+                            <span>Nach Vereinbarung</span>
+                        </li>
+                        <li class="flex justify-between border-b border-white/10 pb-2">
+                            <span>Sonntag</span>
+                            <span class="text-ina-gold">Geschlossen</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Quick Form -->
+                <div class="reveal delay-200">
+                    <h3 class="text-xl font-bold uppercase tracking-widest mb-8 border-l-4 border-ina-gold pl-4">Rückruf anfordern</h3>
+                    <form class="space-y-4">
+                        <input type="text" placeholder="Ihr Name" class="w-full bg-white/5 border border-white/10 p-3 text-white focus:border-ina-gold focus:outline-none transition-colors">
+                        <input type="tel" placeholder="Ihre Telefonnummer" class="w-full bg-white/5 border border-white/10 p-3 text-white focus:border-ina-gold focus:outline-none transition-colors">
+                        <button class="w-full bg-ina-gold text-white font-bold uppercase tracking-widest py-3 hover:bg-white hover:text-ina-gold transition-all duration-300">
+                            Senden
+                        </button>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="border-t border-white/10 mt-16 pt-8 text-center text-gray-500 text-sm flex flex-col md:flex-row justify-between items-center">
+                <p>&copy; 2026 Ina Kosmetik. Alle Rechte vorbehalten.</p>
+                <div class="space-x-4 mt-4 md:mt-0">
+                    <a href="#" class="hover:text-white transition-colors">Impressum</a>
+                    <a href="#" class="hover:text-white transition-colors">Datenschutz</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Fixed Mobile Call Button -->
+    <a href="tel:0123456789" class="fixed bottom-6 right-6 md:hidden z-50 bg-ina-gold text-white w-14 h-14 rounded-full shadow-2xl flex items-center justify-center animate-bounce">
+        <i class="fa-solid fa-phone text-2xl"></i>
+    </a>
+
+    <script>
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('main-nav');
+            const navLinks = document.querySelectorAll('.nav-text');
+            const logo = document.querySelector('.logo-img');
+
+            if (window.scrollY > 50) {
+                nav.classList.add('scrolled-nav');
+                nav.classList.remove('py-6', 'text-white');
+                nav.classList.add('py-2', 'text-gray-900');
+                navLinks.forEach(link => link.classList.remove('text-white'));
+            } else {
+                nav.classList.remove('scrolled-nav');
+                nav.classList.add('py-6', 'text-white');
+                nav.classList.remove('py-2', 'text-gray-900');
+                navLinks.forEach(link => link.classList.add('text-white'));
+            }
+        });
+
+        // Mobile Menu Toggle
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('translate-x-full');
+        }
+
+        // Scroll Animation (Intersection Observer)
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+    </script>
+</body>
+</html>
