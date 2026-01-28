@@ -32,16 +32,18 @@
         /* Custom Parallax & Animations */
         .parallax-bg {
             background-attachment: fixed;
-            background-position: center;
+            background-position: center center;
             background-repeat: no-repeat;
             background-size: cover;
         }
         
         @media (hover: none) {
             .parallax-bg {
-                background-attachment: scroll; /* Fix for some mobile browsers */
+                background-attachment: scroll; /* Fix for some mobile browsers to prevent zoom issues */
+                background-position: center top; /* On mobile, often aligning to top-center looks better for banners */
             }
         }
+
 
         .text-shadow {
             text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
