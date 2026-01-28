@@ -36,11 +36,12 @@
             background-repeat: no-repeat;
             background-size: cover;
         }
-        
-        @media (hover: none) {
-            .parallax-bg {
-                background-attachment: scroll; /* Fix for some mobile browsers to prevent zoom issues */
-                background-position: center top; /* On mobile, often aligning to top-center looks better for banners */
+        /* Mobile adjustment for Home Banner to fit width */
+        @media (max-width: 768px) {
+            #home.parallax-bg {
+                background-size: 100% auto !important; /* Forces image to fit screen width */
+                background-position: center top !important;
+                background-attachment: scroll !important;
             }
         }
 
