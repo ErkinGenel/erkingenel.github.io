@@ -107,22 +107,25 @@
                 
             </div>
         </div>
-    <!-- Mobile Menu Overlay (Moved outside header for cleaner stacking) -->
-    <div id="mobile-menu" class="fixed inset-0 bg-white z-[90] transform translate-x-full transition-transform duration-500 ease-in-out md:hidden flex flex-col items-center justify-center space-y-10 pt-20">
-        <div class="absolute inset-0 opacity-10 leaf-pattern pointer-events-none"></div>
+    </header>
+    <!-- Mobile Menu Overlay -->
+    <div id="mobile-menu" class="fixed inset-0 bg-brand-50 z-[90] transform translate-x-full transition-transform duration-500 ease-in-out md:hidden flex flex-col items-center justify-center space-y-10 pt-20">
+        <!-- Subtle background pattern to keep it premium but solid -->
+        <div class="absolute inset-0 opacity-20 leaf-pattern pointer-events-none"></div>
         
-        <a href="#home" class="mobile-link text-3xl font-serif text-gray-900 hover:text-brand-500 transition-colors">Startseite</a>
-        <a href="#philosophie" class="mobile-link text-3xl font-serif text-gray-900 hover:text-brand-500 transition-colors">Philosophie</a>
-        <a href="#produkte" class="mobile-link text-3xl font-serif text-gray-900 hover:text-brand-500 transition-colors">Produkte</a>
-        <a href="#preise" class="mobile-link text-3xl font-serif text-gray-900 hover:text-brand-500 transition-colors">Preisliste</a>
-        <a href="#kontakt" class="mobile-link text-3xl font-serif text-brand-600 font-bold">Kontakt & Termin</a>
+        <nav class="relative z-10 flex flex-col items-center space-y-6">
+            <a href="#home" class="mobile-link text-xl uppercase tracking-widest font-bold text-gray-900 hover:text-brand-500 transition-colors">Startseite</a>
+            <a href="#philosophie" class="mobile-link text-xl uppercase tracking-widest font-bold text-gray-900 hover:text-brand-500 transition-colors">Philosophie</a>
+            <a href="#produkte" class="mobile-link text-xl uppercase tracking-widest font-bold text-gray-900 hover:text-brand-500 transition-colors">Produkte</a>
+            <a href="#preise" class="mobile-link text-xl uppercase tracking-widest font-bold text-gray-900 hover:text-brand-500 transition-colors">Preisliste</a>
+            <a href="#kontakt" class="mobile-link text-xl uppercase tracking-widest font-bold text-brand-600 border-b-2 border-brand-200 pb-1 mt-4">Kontakt & Termin</a>
+        </nav>
         
-        <div class="flex gap-6 mt-10">
-            <a href="tel:07121579449" class="w-14 h-14 bg-brand-100 rounded-full flex items-center justify-center text-brand-600 text-2xl shadow-sm"><i class="ph ph-phone"></i></a>
-            <a href="https://wa.me/491738731009" class="w-14 h-14 bg-[#25D366]/10 rounded-full flex items-center justify-center text-[#25D366] text-2xl shadow-sm"><i class="ph ph-whatsapp-logo"></i></a>
+        <div class="relative z-10 flex gap-8 mt-12">
+            <a href="tel:07121579449" class="w-16 h-16 bg-white rounded-full flex items-center justify-center text-brand-600 text-3xl shadow-lg border border-brand-100 transition-transform active:scale-90"><i class="ph ph-phone"></i></a>
+            <a href="https://wa.me/491738731009" class="w-16 h-16 bg-white rounded-full flex items-center justify-center text-[#25D366] text-3xl shadow-lg border border-brand-100 transition-transform active:scale-90"><i class="ph ph-whatsapp-logo"></i></a>
         </div>
     </div>
-    </header>
 
     <!-- Hero Section -->
     <section id="home" class="relative h-screen min-h-[600px] flex items-center justify-center hero-bg text-white">
