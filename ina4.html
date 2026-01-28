@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="de" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kosmetikstudio Ina | Exklusives Kosmetikstudio in Wannweil</title>
+    <meta name="description" content="Professionelle Kosmetikbehandlungen mit der Kraft der Natur in Wannweil. Ihr Partner für Schönheit und Wohlbefinden.">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f4f7f6',
+                            100: '#e3ebe8',
+                            200: '#c5d9d4',
+                            300: '#9dbfb7',
+                            400: '#76a096',
+                            500: '#58847a', // Primary Sage
+                            600: '#436961',
+                            700: '#38554f',
+                            800: '#304642',
+                            900: '#293a37',
+                        },
+                        sand: {
+                            50: '#fbf9f5',
+                            100: '#f5f0e6',
+                            200: '#ebe0cd',
+                            300: '#dec7a8',
+                            400: '#d0ac84',
+                            500: '#c59265', // Gold/Sand accent
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Lato', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Styles for Parallax and specific layout tweaks */
+        .hero-bg {
+            /* Using your uploaded hero image */
+            background-image: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.3)), url('IMG-20240506-WA0000.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+        
+        .leaf-pattern {
+            background-color: #f4f7f6;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%2358847a' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+
+        /* Smooth reveal animation classes */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body class="font-sans text-gray-700 antialiased selection:bg-brand-200 selection:text-brand-900">
+
+    <!-- Navigation -->
+    <header class="fixed w-full z-50 transition-all duration-300 bg-white/95 backdrop-blur-md shadow-sm" id="navbar">
+        <div class="container mx-auto px-6 py-2">
+            <div class="flex justify-between items-center">
+                <!-- Logo Image -->
+                <a href="#home" class="flex items-center gap-2 group">
+                    <img src="Logo_transparent.png" alt="Ina Kosmetik" class="h-16 w-auto object-contain transition-transform duration-300 group-hover:scale-105">
+                </a>
+
+                <!-- Desktop Menu -->
+                <nav class="hidden md:flex items-center space-x-8">
+                    <a href="#home" class="text-sm uppercase tracking-wider font-medium hover:text-brand-500 transition-colors">Startseite</a>
+                    <a href="#philosophie" class="text-sm uppercase tracking-wider font-medium hover:text-brand-500 transition-colors">Philosophie</a>
+                    <a href="#produkte" class="text-sm uppercase tracking-wider font-medium hover:text-brand-500 transition-colors">Produkte</a>
+                    <a href="#preise" class="text-sm uppercase tracking-wider font-medium hover:text-brand-500 transition-colors">Preisliste</a>
+                    <a href="#kontakt" class="px-6 py-2 bg-brand-500 text-white text-sm uppercase tracking-wider font-bold rounded-full hover:bg-brand-600 transition-all shadow-lg hover:shadow-brand-200 transform hover:-translate-y-0.5">Termin</a>
+                </nav>
+
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-btn" class="md:hidden text-gray-800 focus:outline-none">
+                    <i class="ph ph-list text-3xl"></i>
+                </button>
+                
+            </div>
+        </div>
+    <!-- Mobile Menu Overlay (Moved outside header for cleaner stacking) -->
+    <div id="mobile-menu" class="fixed inset-0 bg-white z-[90] transform translate-x-full transition-transform duration-500 ease-in-out md:hidden flex flex-col items-center justify-center space-y-10 pt-20">
+        <div class="absolute inset-0 opacity-10 leaf-pattern pointer-events-none"></div>
+        
+        <a href="#home" class="mobile-link text-3xl font-serif text-gray-900 hover:text-brand-500 transition-colors">Startseite</a>
+        <a href="#philosophie" class="mobile-link text-3xl font-serif text-gray-900 hover:text-brand-500 transition-colors">Philosophie</a>
+        <a href="#produkte" class="mobile-link text-3xl font-serif text-gray-900 hover:text-brand-500 transition-colors">Produkte</a>
+        <a href="#preise" class="mobile-link text-3xl font-serif text-gray-900 hover:text-brand-500 transition-colors">Preisliste</a>
+        <a href="#kontakt" class="mobile-link text-3xl font-serif text-brand-600 font-bold">Kontakt & Termin</a>
+        
+        <div class="flex gap-6 mt-10">
+            <a href="tel:07121579449" class="w-14 h-14 bg-brand-100 rounded-full flex items-center justify-center text-brand-600 text-2xl shadow-sm"><i class="ph ph-phone"></i></a>
+            <a href="https://wa.me/491738731009" class="w-14 h-14 bg-[#25D366]/10 rounded-full flex items-center justify-center text-[#25D366] text-2xl shadow-sm"><i class="ph ph-whatsapp-logo"></i></a>
+        </div>
+    </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="relative h-screen min-h-[600px] flex items-center justify-center hero-bg text-white">
+        <div class="container mx-auto px-6 text-center z-10 pt-20">
+            <p class="text-lg md:text-xl uppercase tracking-[0.2em] mb-4 text-brand-100 animate-fade-in-up shadow-sm">Kosmetikstudio Ina</p>
+            <h1 class="font-serif text-5xl md:text-7xl lg:text-8xl mb-6 font-medium animate-fade-in-up delay-100 drop-shadow-md">Schönheit &<br><span class="italic text-brand-200">Wohlbefinden</span></h1>
+            <p class="max-w-xl mx-auto text-lg md:text-xl text-gray-100 mb-10 font-light leading-relaxed animate-fade-in-up delay-200 drop-shadow-md">
+                Gönnen Sie sich eine Auszeit vom Alltag. Professionelle Kosmetikbehandlungen mit der Kraft der Natur.
+            </p>
+            <a href="#preise" class="inline-block px-8 py-4 bg-white text-brand-700 font-bold uppercase tracking-widest text-sm rounded-none border border-white hover:bg-transparent hover:text-white transition-all duration-300 animate-fade-in-up delay-300 shadow-xl">
+                Zu den Behandlungen
+            </a>
+        </div>
+        
+        <!-- Scroll Indicator -->
+        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce text-white/70">
+            <i class="ph ph-arrow-down text-3xl"></i>
+        </div>
+    </section>
+
+    <!-- Philosophie / About Section -->
+    <section id="philosophie" class="py-24 bg-white overflow-hidden">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col lg:flex-row items-center gap-16">
+                <!-- Text Content -->
+                <div class="lg:w-1/2 reveal">
+                    <span class="text-brand-500 font-bold uppercase tracking-widest text-xs mb-2 block">Über Kosmetikstudio Ina</span>
+                    <h2 class="font-serif text-4xl md:text-5xl text-gray-900 mb-8 leading-tight">Ihre Haut in <span class="italic text-brand-500">besten Händen</span></h2>
+                    <p class="text-gray-600 mb-6 leading-relaxed text-lg">
+                        Willkommen in meiner Welt der Entspannung. In meinem Studio in Wannweil verbinde ich langjährige Erfahrung mit modernsten dermatologischen Erkenntnissen.
+                    </p>
+                    <p class="text-gray-600 mb-8 leading-relaxed text-lg">
+                        Jede Behandlung beginnt mit einer individuellen Hautanalyse. Ich glaube daran, dass wahre Schönheit entsteht, wenn sich Körper und Seele im Einklang befinden. Genießen Sie die Ruhe und lassen Sie sich verwöhnen.
+                    </p>
+                    
+                    <div class="border-l-4 border-brand-300 pl-6 py-2 italic text-gray-700 font-serif text-xl">
+                        "Die Natur gibt uns alles, was wir für gesunde und strahlende Haut brauchen."
+                    </div>
+
+                    <div class="mt-10 flex items-center gap-4">
+                        <div class="flex -space-x-4">
+                            <!-- Placeholder avatars simulating client trust or team -->
+                           <div class="w-12 h-12 rounded-full border-2 border-white bg-brand-100 flex items-center justify-center text-brand-500"><i class="ph ph-star-fill"></i></div>
+                        </div>
+                        <div class="text-sm">
+                            <p class="font-bold text-gray-900">Natürlich & Effektiv</p>
+                            <p class="text-gray-500">Hildegard Braukmann Produkte</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Image Grid -->
+                <div class="lg:w-1/2 relative reveal delay-200">
+                    <div class="grid grid-cols-2 gap-4">
+                        <!-- Your Treatment Room Image -->
+                        <img src="20260125_181827.jpg" alt="Behandlungsraum" class="rounded-t-[4rem] rounded-b-lg w-full h-80 object-cover shadow-xl mt-12">
+                        <!-- Your Cosmetic Detail Image -->
+                        <img src="cropped-vector_kosmetik-scaled-1-300x200.jpg" alt="Detail Kosmetik" class="rounded-t-lg rounded-b-[4rem] w-full h-80 object-cover shadow-xl">
+                    </div>
+                    <!-- Decorative Element -->
+                    <div class="absolute -z-10 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-brand-50/50 rounded-full blur-3xl"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Produkte / Partner Section -->
+    <section id="produkte" class="py-24 leaf-pattern relative">
+        <div class="container mx-auto px-6">
+            <div class="text-center max-w-3xl mx-auto mb-16 reveal">
+                <h2 class="font-serif text-4xl text-gray-900 mb-4">Unsere Partner</h2>
+                <div class="w-24 h-1 bg-brand-500 mx-auto mb-6"></div>
+                <p class="text-gray-600 text-lg">
+                    Qualität ohne Kompromisse. Wir vertrauen auf die bewährte Kräuterkosmetik von Hildegard Braukmann.
+                </p>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-xl overflow-hidden reveal">
+                <div class="flex flex-col md:flex-row">
+                    <!-- Your Product Image -->
+                    <div class="md:w-1/2 relative min-h-[400px]">
+                        <img src="Social_Media_Professional_Seasation_EdT(1).jpg" alt="Hildegard Braukmann Produkte" class="absolute inset-0 w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-brand-900/10"></div>
+                    </div>
+                    <div class="md:w-1/2 p-10 md:p-16 flex flex-col justify-center">
+                        <div class="flex items-center gap-6 mb-8">
+                            <!-- Your HB Logo Image -->
+                            <img src="csm_HB_Logo_Wort_Bildmarke_sRGB_7258b93702-300x272.png" alt="Hildegard Braukmann Logo" class="h-20 w-auto object-contain">
+                        </div>
+                        
+                        <p class="text-gray-600 mb-8 leading-relaxed">
+                            Die moderne Kräuterkosmetik. Sanft, effektiv und verträglich. Erleben Sie Pflegeprodukte, die das Gleichgewicht Ihrer Haut respektieren und wiederherstellen.
+                        </p>
+                        
+                        <ul class="space-y-3 mb-10">
+                            <li class="flex items-center gap-3 text-gray-700">
+                                <i class="ph ph-plant text-brand-500 text-xl"></i> Natürliche Inhaltsstoffe
+                            </li>
+                            <li class="flex items-center gap-3 text-gray-700">
+                                <i class="ph ph-check-circle text-brand-500 text-xl"></i> Dermatologisch getestet
+                            </li>
+                            <li class="flex items-center gap-3 text-gray-700">
+                                <i class="ph ph-hand-heart text-brand-500 text-xl"></i> Made in Germany
+                            </li>
+                        </ul>
+
+                        <a href="#kontakt" class="inline-flex items-center gap-2 text-brand-600 font-bold uppercase tracking-wider hover:text-brand-800 transition-colors">
+                            Beratungstermin vereinbaren <i class="ph ph-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Preisliste Section -->
+    <section id="preise" class="py-24 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16 reveal">
+                <span class="text-brand-500 font-bold uppercase tracking-widest text-xs mb-2 block">Menu</span>
+                <h2 class="font-serif text-4xl md:text-5xl text-gray-900 mb-6">Preisliste</h2>
+                <p class="text-gray-500">Individuelle Behandlungen für Ihre Schönheit</p>
+            </div>
+
+            <div class="grid lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
+                
+                <!-- Category: Gesicht & Pflege -->
+                <div class="reveal">
+                    <div class="flex items-center gap-4 mb-8">
+                        <div class="p-3 bg-brand-100 rounded-full text-brand-600">
+                            <i class="ph ph-face-mask text-2xl"></i>
+                        </div>
+                        <h3 class="font-serif text-2xl text-gray-800">Gesicht & Pflege</h3>
+                    </div>
+
+                    <div class="space-y-8">
+                        <!-- Item -->
+                        <div class="group">
+                            <div class="flex justify-between items-baseline mb-2 border-b border-dashed border-gray-300 pb-2">
+                                <h4 class="font-bold text-gray-800 group-hover:text-brand-600 transition-colors">Behandlung für Jugendliche</h4>
+                                <span class="font-serif text-xl text-brand-600">39,00 €</span>
+                            </div>
+                            <p class="text-sm text-gray-500 leading-relaxed mb-1">Tiefenreinigungsprogramm für jugendliche Problemhaut. Intensivreinigung, Wasserdampf, Ausreinigung, Maske, Tagespflege.</p>
+                            <span class="text-xs font-semibold text-brand-400 bg-brand-50 px-2 py-0.5 rounded">Ca. 60 Min.</span>
+                        </div>
+
+                        <!-- Item -->
+                        <div class="group">
+                            <div class="flex justify-between items-baseline mb-2 border-b border-dashed border-gray-300 pb-2">
+                                <h4 class="font-bold text-gray-800 group-hover:text-brand-600 transition-colors">Classicbehandlung</h4>
+                                <span class="font-serif text-xl text-brand-600">53,00 €</span>
+                            </div>
+                            <p class="text-sm text-gray-500 leading-relaxed mb-1">Klassisches Programm: Intensivreinigung, Hautdiagnose, Wasserdampf, Ausreinigung, Brauenkorrektur, Maske, Massage, Tagespflege.</p>
+                            <span class="text-xs font-semibold text-brand-400 bg-brand-50 px-2 py-0.5 rounded">Ca. 60-70 Min.</span>
+                        </div>
+
+                        <!-- Item -->
+                        <div class="group">
+                            <div class="flex justify-between items-baseline mb-2 border-b border-dashed border-gray-300 pb-2">
+                                <h4 class="font-bold text-gray-800 group-hover:text-brand-600 transition-colors">Comfortbehandlung</h4>
+                                <span class="font-serif text-xl text-brand-600">63,50 €</span>
+                            </div>
+                            <p class="text-sm text-gray-500 leading-relaxed mb-1">Wie Classicbehandlung, jedoch inkl. Ampulle/Wirkstoffkonzentrat und spezieller Intensivpflegemaske.</p>
+                            <span class="text-xs font-semibold text-brand-400 bg-brand-50 px-2 py-0.5 rounded">Ca. 70-80 Min.</span>
+                        </div>
+
+                         <!-- Item -->
+                         <div class="group">
+                            <div class="flex justify-between items-baseline mb-2 border-b border-dashed border-gray-300 pb-2">
+                                <h4 class="font-bold text-gray-800 group-hover:text-brand-600 transition-colors">Hydro Spezialbehandlung</h4>
+                                <span class="font-serif text-xl text-brand-600">71,00 €</span>
+                            </div>
+                            <p class="text-sm text-gray-500 leading-relaxed mb-1">Für unendlich zarte Haut. Collagen Spezialmaske spendet pure Feuchtigkeit und glättet kleine Unebenheiten sofort.</p>
+                            <span class="text-xs font-semibold text-brand-400 bg-brand-50 px-2 py-0.5 rounded">Ca. 90 Min.</span>
+                        </div>
+
+                        <!-- Item -->
+                        <div class="group">
+                            <div class="flex justify-between items-baseline mb-2 border-b border-dashed border-gray-300 pb-2">
+                                <h4 class="font-bold text-gray-800 group-hover:text-brand-600 transition-colors">Wellness Bienenwachsmodelage</h4>
+                                <span class="font-serif text-xl text-brand-600">67,00 €</span>
+                            </div>
+                            <p class="text-sm text-gray-500 leading-relaxed mb-1">Wohlfühlbehandlung mit warmem Bienenwachs. Wirkstoffe dringen durch die Wärme besonders tief in die Haut ein.</p>
+                            <span class="text-xs font-semibold text-brand-400 bg-brand-50 px-2 py-0.5 rounded">Ca. 90 Min.</span>
+                        </div>
+
+                         <!-- Item -->
+                         <div class="group">
+                            <div class="flex justify-between items-baseline mb-2 border-b border-dashed border-gray-300 pb-2">
+                                <h4 class="font-bold text-gray-800 group-hover:text-brand-600 transition-colors">Schaumreise</h4>
+                                <span class="font-serif text-xl text-brand-600">71,00 €</span>
+                            </div>
+                            <p class="text-sm text-gray-500 leading-relaxed mb-1">Prickelndes Erlebnis mit Katalysator-Cocon-Schaum. Mobilisiert Hautfunktionen, kurbelt Durchblutung an, für rosig zarte Haut.</p>
+                            <span class="text-xs font-semibold text-brand-400 bg-brand-50 px-2 py-0.5 rounded">Ca. 90 Min.</span>
+                        </div>
+
+                        <!-- Item -->
+                        <div class="group">
+                            <div class="flex justify-between items-baseline mb-2 border-b border-dashed border-gray-300 pb-2">
+                                <h4 class="font-bold text-gray-800 group-hover:text-brand-600 transition-colors">Thermo Lifting</h4>
+                                <span class="font-serif text-xl text-brand-600">74,00 €</span>
+                            </div>
+                            <p class="text-sm text-gray-500 leading-relaxed mb-1">Mineralien-Modelage mit Wärme-Effekt für Tiefenwirkung. Revitalisiert und sorgt für deutlich sichtbare Spannkraft.</p>
+                            <span class="text-xs font-semibold text-brand-400 bg-brand-50 px-2 py-0.5 rounded">Ca. 90 Min.</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column Categories -->
+                <div class="space-y-12 reveal delay-100">
+                    
+                    <!-- Category: Augen & Zusatz -->
+                    <div>
+                        <div class="flex items-center gap-4 mb-6">
+                            <div class="p-3 bg-brand-100 rounded-full text-brand-600">
+                                <i class="ph ph-eye text-2xl"></i>
+                            </div>
+                            <h3 class="font-serif text-2xl text-gray-800">Augen & Zusatzmasken</h3>
+                        </div>
+                        <div class="space-y-4 bg-gray-50 p-6 rounded-xl">
+                            <div class="flex justify-between"><span class="text-gray-700">Augen-Lifting Maske</span> <span class="font-bold text-brand-600">15,00 €</span></div>
+                            <div class="flex justify-between"><span class="text-gray-700">Hals-Lifting Maske</span> <span class="font-bold text-brand-600">16,50 €</span></div>
+                            <div class="flex justify-between"><span class="text-gray-700">Wimpern färben</span> <span class="font-bold text-brand-600">12,00 €</span></div>
+                            <div class="flex justify-between"><span class="text-gray-700">Augenbrauen färben</span> <span class="font-bold text-brand-600">9,00 €</span></div>
+                            <div class="flex justify-between"><span class="text-gray-700">Augenbrauen formen</span> <span class="font-bold text-brand-600">9,00 €</span></div>
+                        </div>
+                    </div>
+
+                    <!-- Category: Depilation -->
+                    <div>
+                        <div class="flex items-center gap-4 mb-6">
+                            <div class="p-3 bg-brand-100 rounded-full text-brand-600">
+                                <i class="ph ph-sparkle text-2xl"></i>
+                            </div>
+                            <h3 class="font-serif text-2xl text-gray-800">Depilation (Heißwachs)</h3>
+                        </div>
+                        <div class="space-y-4 bg-gray-50 p-6 rounded-xl">
+                            <div class="flex justify-between"><span class="text-gray-700">Beine bis zum Knie</span> <span class="font-bold text-brand-600">29,00 €</span></div>
+                            <div class="flex justify-between"><span class="text-gray-700">Oberschenkel</span> <span class="font-bold text-brand-600">17,00 €</span></div>
+                            <div class="flex justify-between"><span class="text-gray-700">Bikinizone</span> <span class="font-bold text-brand-600">19,00 €</span></div>
+                            <div class="flex justify-between"><span class="text-gray-700">Achseln</span> <span class="font-bold text-brand-600">15,00 €</span></div>
+                            <div class="flex justify-between"><span class="text-gray-700">Oberlippe oder Kinn</span> <span class="font-bold text-brand-600">9,00 €</span></div>
+                            <div class="flex justify-between"><span class="text-gray-700">Oberlippe, Kinn & Wangen</span> <span class="font-bold text-brand-600">20,00 €</span></div>
+                        </div>
+                    </div>
+
+                    <!-- Category: Massage -->
+                    <div>
+                        <div class="flex items-center gap-4 mb-6">
+                            <div class="p-3 bg-brand-100 rounded-full text-brand-600">
+                                <i class="ph ph-hand-soap text-2xl"></i>
+                            </div>
+                            <h3 class="font-serif text-2xl text-gray-800">Massage</h3>
+                        </div>
+                        <div class="space-y-6">
+                            <div class="group">
+                                <div class="flex justify-between items-center mb-1">
+                                    <span class="font-bold text-gray-700">Stone la ved Rückenmassage</span>
+                                    <span class="font-bold text-brand-600">38,00 €</span>
+                                </div>
+                                <span class="text-xs text-gray-500">Ca. 30 Min.</span>
+                            </div>
+                            <div class="group">
+                                <div class="flex justify-between items-center mb-1">
+                                    <span class="font-bold text-gray-700">Stone la ved inkl. Bein & Fuß</span>
+                                    <span class="font-bold text-brand-600">52,00 €</span>
+                                </div>
+                                <span class="text-xs text-gray-500">Ca. 50 Min.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <p class="text-center text-xs text-gray-400 mt-16 italic">
+                Alle Preise verstehen sich inklusive der gesetzlichen Mehrwertsteuer. <br> Stand 2026. Änderungen vorbehalten.
+            </p>
+        </div>
+    </section>
+
+    <!-- Footer Decorative Image -->
+     <div class="w-full h-12 md:h-16 overflow-hidden">
+        <img src="IMG-20170914-WA0000-300x50.jpg" alt="Panoramic View" class="w-full h-full object-cover opacity-80">
+    </div>
+
+    <!-- Footer / Contact -->
+    <footer id="kontakt" class="bg-gray-900 text-white pt-24 pb-12">
+        <div class="container mx-auto px-6">
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-16 mb-20">
+                
+                <!-- Brand Info -->
+                <div>
+                    <!-- Your Logo in Footer (White background wrapper for visibility if needed, or just standard) -->
+                     <div class="bg-white/90 p-3 rounded mb-6 inline-block">
+                        <img src="Logo_transparent.png" alt="Ina Kosmetik" class="h-12 w-auto">
+                     </div>
+                    <p class="text-gray-400 mb-8 leading-relaxed">
+                        Ihr Partner für Schönheit und Wohlbefinden in Wannweil. Vereinbaren Sie noch heute Ihren persönlichen Verwöhntermin.
+                    </p>
+                    <div class="space-y-4">
+                        <a href="tel:07121579449" class="flex items-center gap-3 text-xl font-serif hover:text-brand-400 transition-colors">
+                            <i class="ph ph-phone text-brand-500"></i> 07121 / 57 94 49
+                        </a>
+                        <div class="flex items-center gap-3 text-gray-400">
+                            <i class="ph ph-map-pin text-brand-500 text-xl"></i>
+                            <span>Schulstraße 10, 72827 Wannweil</span>
+                        </div>
+                        <div class="flex items-center gap-3 text-gray-400">
+                            <i class="ph ph-clock text-brand-500 text-xl"></i>
+                            <span>Termine nach Vereinbarung</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact Form -->
+                <div class="lg:col-span-2 bg-gray-800 p-8 rounded-2xl">
+                    <h3 class="font-serif text-2xl mb-6">Rückruf anfordern</h3>
+                    <form class="space-y-4" onsubmit="event.preventDefault(); alert('Vielen Dank! Wir melden uns in Kürze bei Ihnen.');">
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <input type="text" placeholder="Name" class="w-full bg-gray-700 border-none rounded-lg py-3 px-4 text-white focus:ring-2 focus:ring-brand-500 outline-none placeholder-gray-500 transition-all">
+                            <input type="tel" placeholder="Telefonnummer" class="w-full bg-gray-700 border-none rounded-lg py-3 px-4 text-white focus:ring-2 focus:ring-brand-500 outline-none placeholder-gray-500 transition-all">
+                        </div>
+                        <textarea rows="3" placeholder="Ihre Nachricht oder Wunschtermin" class="w-full bg-gray-700 border-none rounded-lg py-3 px-4 text-white focus:ring-2 focus:ring-brand-500 outline-none placeholder-gray-500 transition-all"></textarea>
+                        <button type="submit" class="bg-brand-500 hover:bg-brand-600 text-white font-bold py-3 px-8 rounded-lg transition-colors w-full md:w-auto">
+                            Senden
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-gray-500">
+                <p>&copy; 2026 Ina Müller. Alle Rechte vorbehalten.</p>
+                <div class="flex space-x-6 mt-4 md:mt-0">
+                    <a href="ina_impressum.html" class="hover:text-white transition-colors">Impressum</a>
+                    <a href="ina_impressum.html" class="hover:text-white transition-colors">Datenschutz</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    
+    <!-- Floating Contact Buttons -->
+    <div class="fixed bottom-6 right-6 z-50 flex flex-col gap-4">
+        <!-- WhatsApp -->
+        <a href="https://wa.me/491738731009" target="_blank" class="bg-[#25D366] text-white p-4 rounded-full shadow-lg hover:shadow-xl hover:scale-110 transition-all duration-300 flex items-center justify-center group relative">
+            <i class="ph ph-whatsapp-logo text-3xl"></i>
+            <span class="absolute right-full mr-3 bg-white text-gray-800 px-3 py-1 rounded-lg text-sm font-bold shadow-md opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
+                WhatsApp
+            </span>
+        </a>
+        
+        <!-- Phone -->
+        <a href="tel:07121579449" class="bg-brand-500 text-white p-4 rounded-full shadow-lg hover:shadow-xl hover:scale-110 transition-all duration-300 flex items-center justify-center group relative">
+            <i class="ph ph-phone text-3xl"></i>
+             <span class="absolute right-full mr-3 bg-white text-gray-800 px-3 py-1 rounded-lg text-sm font-bold shadow-md opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
+                Anrufen
+            </span>
+        </a>
+    </div>
+
+    <!-- JavaScript for Interactivity -->
+    <script>
+        // Navbar scroll effect
+        const navbar = document.getElementById('navbar');
+        
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('shadow-md', 'py-2');
+                navbar.classList.remove('py-2');
+            } else {
+                navbar.classList.remove('shadow-md', 'py-2');
+                navbar.classList.add('py-2');
+            }
+        });
+
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const closeMenuBtn = document.getElementById('close-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+
+        function toggleMenu() {
+            const isHidden = mobileMenu.classList.contains('translate-x-full');
+            if (isHidden) {
+                mobileMenu.classList.remove('translate-x-full');
+                document.body.style.overflow = 'hidden';
+            } else {
+                mobileMenu.classList.add('translate-x-full');
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        mobileMenuBtn.addEventListener('click', toggleMenu);
+        closeMenuBtn.addEventListener('click', toggleMenu);
+
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', toggleMenu);
+        });
+
+        // Reveal on Scroll Animation
+        const revealElements = document.querySelectorAll('.reveal');
+
+        function reveal() {
+            revealElements.forEach(element => {
+                const windowHeight = window.innerHeight;
+                const elementTop = element.getBoundingClientRect().top;
+                const elementVisible = 150;
+
+                if (elementTop < windowHeight - elementVisible) {
+                    element.classList.add('active');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', reveal);
+        // Trigger once on load
+        reveal();
+    </script>
+</body>
+</html>
