@@ -36,15 +36,22 @@
             background-repeat: no-repeat;
             background-size: cover;
         }
-        /* Mobile adjustment for Home Banner to fit width */
-        @media (max-width: 768px) {
-            #home.parallax-bg {
-                background-size: 100% auto !important; /* Forces image to fit screen width */
-                background-position: center top !important;
-                background-attachment: scroll !important;
+        
+        @media (hover: none) {
+            .parallax-bg {
+                background-attachment: scroll; /* Fix for some mobile browsers to prevent zoom issues */
+                background-position: center center; 
             }
         }
 
+        /* Mobile adjustment for Home Banner to fit width */
+        @media (max-width: 768px) {
+            #home.parallax-bg {
+                background-size: cover !important; /* Changed to cover for full screen effect */
+                background-position: center center !important;
+                background-attachment: scroll !important;
+            }
+        }
 
         .text-shadow {
             text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
@@ -107,6 +114,15 @@
         .pattern-overlay {
             background: linear-gradient(90deg, rgba(249, 247, 242, 1) 0%, rgba(197, 160, 89, 0.2) 50%, rgba(249, 247, 242, 1) 100%);
         }
+
+        /* Glassmorphism Card */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        }
     </style>
 </head>
 <body class="font-sans text-gray-700 bg-ina-cream antialiased">
@@ -117,7 +133,7 @@
             <div class="flex justify-between items-center">
                 <!-- Logo -->
                 <a href="#" class="flex items-center gap-3 group">
-                    <img src="Logo_transparent.png" alt="Ina Kosmetik" class="h-12 w-auto object-contain mix-blend-multiply rounded px-2">
+                    <img src="Logo_transparent.png" alt="Ina Kosmetik" class="h-16 w-auto object-contain rounded-md shadow-sm bg-white/90 px-1 py-1">
                 </a>
 
                 <!-- Desktop Menu -->
@@ -151,29 +167,34 @@
         <a href="#kontakt" onclick="toggleMobileMenu()" class="text-2xl font-serif text-ina-gold">Kontakt</a>
     </div>
 
-    <!-- Hero Section (Parallax) - UPDATED with safe URL -->
-   <header id="home" class="relative h-screen flex items-center justify-center parallax-bg" style="background-image: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.3)), url('banner_ina2.png');">
-        <div class="absolute inset-0 bg-gradient-to-b from-transparent to-ina-cream/20 pointer-events-none"></div>
-        
-        <div class="text-center px-4 max-w-4xl mx-auto text-white relative z-10 reveal active">
-            <h2 class="text-sm md:text-lg uppercase tracking-[0.3em] mb-4 text-ina-gold font-bold drop-shadow-md">Kosmetikstudio Ina</h2>
-            
-            <h1 class="text-5xl md:text-7xl lg:text-8xl font-serif font-light leading-tight text-shadow text-left">
-                Schönheit &<br> <span class="italic">Wohlbefinden</span>
-            </h1>
+    <!-- Hero Section (Parallax) - REDESIGNED -->
+    <header id="home" class="relative h-screen flex items-center justify-center parallax-bg" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.4)), url('banner_ina.png');">
+        <!-- Main Content Container with Glassmorphism -->
+        <div class="px-6 max-w-5xl mx-auto relative z-10 w-full">
+            <div class="glass-card rounded-xl p-8 md:p-12 text-center text-white reveal active">
+                
+                <h2 class="text-xs md:text-sm uppercase tracking-[0.4em] mb-6 text-ina-gold font-bold drop-shadow-md border-b border-ina-gold/30 pb-4 inline-block">
+                    Kosmetikstudio Wannweil
+                </h2>
+                
+                <h1 class="text-4xl md:text-6xl lg:text-8xl font-serif font-light mb-6 leading-tight drop-shadow-lg">
+                    Schönheit &<br> <span class="italic text-ina-gold">Wohlbefinden</span>
+                </h1>
 
-            <p class="text-lg md:text-xl font-light mb-10 max-w-2xl mx-auto opacity-90">
-                Gönnen Sie sich eine Auszeit vom Alltag. Professionelle Kosmetikbehandlungen mit der Kraft der Natur.
-            </p>
-            <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                <a href="#preise" class="bg-white text-ina-dark px-10 py-4 font-semibold uppercase tracking-widest hover:bg-ina-gold hover:text-white transition-all duration-300">
-                    Behandlungen
-                </a>
+                <p class="text-base md:text-xl font-light mb-8 max-w-2xl mx-auto opacity-95 leading-relaxed">
+                    Gönnen Sie sich eine Auszeit vom Alltag. <br class="hidden md:block"> Professionelle Kosmetikbehandlungen mit der Kraft der Natur.
+                </p>
+
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <a href="#preise" class="bg-white text-ina-dark px-8 py-3 md:px-10 md:py-4 font-semibold uppercase tracking-widest hover:bg-ina-gold hover:text-white transition-all duration-300 rounded-sm shadow-lg text-sm md:text-base">
+                        Behandlungen
+                    </a>
+                </div>
             </div>
         </div>
 
         <!-- Scroll Indicator -->
-        <a href="#philosophie" class="absolute bottom-10 left-1/2 transform -translate-x-1/2 text-white animate-bounce">
+        <a href="#philosophie" class="absolute bottom-10 left-1/2 transform -translate-x-1/2 text-white animate-bounce opacity-80 hover:opacity-100 transition-opacity">
             <i class="fa-solid fa-chevron-down text-2xl"></i>
         </a>
     </header>
