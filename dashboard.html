@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TaskFlow - Desktop App</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Custom Styles for Animations -->
+    <style>
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-page {
+            animation: slideIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        /* Custom scrollbar styling to match the clean look */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background-color: #e2e8f0;
+            border-radius: 20px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background-color: #cbd5e1;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-slate-800 font-sans overflow-hidden">
+
+    <div id="app" class="flex h-screen w-full">
+        <!-- Sidebar Container -->
+        <aside id="sidebar-container" class="w-64 bg-white h-screen border-r border-gray-200 flex flex-col flex-shrink-0 transition-all duration-300">
+            <!-- Sidebar content rendered by JS -->
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="flex-1 overflow-y-auto">
+            <div id="content-area" class="p-8 md:p-12 min-h-full">
+                <!-- Dynamic Page Content rendered by JS -->
+            </div>
+        </main>
+    </div>
+
+    <!-- Application Logic -->
+    <script>
+        // --- State Management ---
+        const state = {
+            activeTab: 'home', // 'home', 'tasks', 'settings'
+            todos: [
+                { title: "Review project proposal", isDone: true },
+                { title: "Email design team", isDone: false },
+                { title: "Push updates to repo", isDone: false },
+                { title: "Buy groceries", isDone: false },
+                { title: "Schedule weekly sync", isDone: false },
+            ],
+            newTodoInputValue: ''
+        };
+
+        // --- Render Functions ---
+
+        function renderApp() {
+            renderSidebar();
+            renderContent();
+            lucide.createIcons(); // Re-initialize icons after DOM updates
+        }
+
+        function renderSidebar() {
+            const sidebar = document.getElementById('sidebar-container');
+            
+            const menuItems = [
+                { id: 'home', icon: 'home', label: 'Dashboard' },
+                { id: 'tasks', icon: 'list', label: 'My Tasks' },
+                { id: 'settings', icon: 'settings', label: 'Settings' },
+            ];
+
+            const navLinksHtml = menuItems.map(item => {
+                const isActive = state.activeTab === item.id;
+                const activeClass = isActive 
+                    ? 'bg-indigo-50 text-indigo-600 shadow-sm' 
+                    : 'text-gray-500 hover:bg-gray-50 hover:text-gray-900';
+                const strokeWidth = isActive ? 2.5 : 2;
+
+                return `
+                    <button onclick="setActiveTab('${item.id}')" 
+                        class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200 ${activeClass}">
+                        <i data-lucide="${item.icon}" stroke-width="${strokeWidth}" width="20" height="20"></i>
+                        ${item.label}
+                    </button>
+                `;
+            }).join('');
+
+            sidebar.innerHTML = `
+                <!-- App Header -->
+                <div class="h-20 flex items-center px-8 border-b border-gray-100">
+                    <div class="flex items-center gap-2 text-indigo-600">
+                        <i data-lucide="layout" width="28" height="28" stroke-width="2.5"></i>
+                        <span class="text-xl font-bold tracking-tight text-gray-900">TaskFlow</span>
+                    </div>
+                </div>
+
+                <!-- Navigation Links -->
+                <nav class="flex-1 p-4 space-y-2 overflow-y-auto">
+                    ${navLinksHtml}
+                </nav>
+
+                <!-- User Profile Snippet -->
+                <div class="p-4 border-t border-gray-100">
+                    <button class="flex items-center gap-3 w-full p-3 rounded-xl hover:bg-gray-50 transition-colors text-left group">
+                        <div class="h-10 w-10 bg-indigo-100 rounded-full flex items-center justify-center text-indigo-600">
+                            <i data-lucide="user" width="20" height="20"></i>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <p class="text-sm font-semibold text-gray-900 truncate">Jane Doe</p>
+                            <p class="text-xs text-gray-500 truncate">jane@example.com</p>
+                        </div>
+                        <i data-lucide="log-out" width="16" height="16" class="text-gray-400 group-hover:text-gray-600"></i>
+                    </button>
+                </div>
+            `;
+        }
+
+        function renderContent() {
+            const container = document.getElementById('content-area');
+            
+            if (state.activeTab === 'home') {
+                container.innerHTML = getDashboardHtml();
+            } else if (state.activeTab === 'tasks') {
+                container.innerHTML = getTasksHtml();
+                // Focus input after render if on tasks page
+                setTimeout(() => {
+                    const input = document.getElementById('todo-input');
+                    if(input) {
+                        input.focus();
+                        input.value = state.newTodoInputValue; // Restore value
+                    }
+                }, 0);
+            } else if (state.activeTab === 'settings') {
+                container.innerHTML = getSettingsHtml();
+            }
+        }
+
+        // --- HTML Generators for Views ---
+
+        function getDashboardHtml() {
+            const completed = state.todos.filter(t => t.isDone).length;
+            const pending = state.todos.length - completed;
+            const progress = state.todos.length > 0 ? Math.round((completed / state.todos.length) * 100) : 0;
+            const dateStr = new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+
+            // Recent Tasks HTML
+            const recentTasks = state.todos.slice(0, 4);
+            let recentTasksHtml = '';
+            if (recentTasks.length === 0) {
+                recentTasksHtml = '<div class="py-8 text-center text-gray-400">No recent activity found.</div>';
+            } else {
+                recentTasksHtml = recentTasks.map((todo, i) => `
+                    <div class="flex items-center gap-4 p-3 rounded-xl hover:bg-gray-50 transition-colors border border-transparent hover:border-gray-100">
+                        <div class="w-3 h-3 rounded-full flex-shrink-0 ${todo.isDone ? 'bg-emerald-500' : 'bg-orange-500 shadow-orange-200 shadow-sm'}"></div>
+                        <span class="flex-1 text-gray-700 font-medium ${todo.isDone ? 'line-through text-gray-400' : ''}">
+                            ${todo.title}
+                        </span>
+                        <span class="text-xs px-2 py-1 rounded-md font-medium ${todo.isDone ? 'bg-emerald-100 text-emerald-700' : 'bg-orange-100 text-orange-700'}">
+                            ${todo.isDone ? 'Done' : 'Pending'}
+                        </span>
+                    </div>
+                `).join('');
+            }
+
+            return `
+                <div class="space-y-8 animate-page max-w-5xl mx-auto">
+                    <!-- Header -->
+                    <div class="flex justify-between items-end">
+                        <div>
+                            <h1 class="text-3xl font-bold text-gray-900">Dashboard</h1>
+                            <p class="text-gray-500 mt-1">Welcome back! Here's your overview.</p>
+                        </div>
+                        <span class="text-sm font-medium text-gray-400">${dateStr}</span>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        <!-- Main Progress Card -->
+                        <div class="lg:col-span-2 bg-gradient-to-br from-indigo-600 to-violet-700 rounded-3xl p-8 text-white shadow-xl shadow-indigo-200 relative overflow-hidden flex flex-col justify-center">
+                            <div class="relative z-10">
+                                <div class="flex justify-between items-start mb-6">
+                                    <div>
+                                        <p class="text-indigo-100 font-medium mb-1">Weekly Progress</p>
+                                        <h3 class="text-4xl font-bold">${progress}% Completed</h3>
+                                    </div>
+                                    <div class="bg-white/20 p-2 rounded-lg backdrop-blur-sm">
+                                        <i data-lucide="pie-chart" class="text-white" width="24" height="24"></i>
+                                    </div>
+                                </div>
+                                
+                                <div class="w-full bg-black/20 rounded-full h-3 mb-4 backdrop-blur-sm">
+                                    <div class="bg-white h-3 rounded-full transition-all duration-1000 ease-out shadow-lg" style="width: ${progress}%"></div>
+                                </div>
+                                
+                                <p class="text-sm text-indigo-100">
+                                    You have completed <strong>${completed}</strong> out of <strong>${state.todos.length}</strong> tasks this week. Keep it up!
+                                </p>
+                            </div>
+                            <!-- Deco -->
+                            <div class="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+                            <div class="absolute bottom-0 left-0 w-48 h-48 bg-indigo-900/20 rounded-full blur-2xl translate-y-1/2 -translate-x-1/4"></div>
+                        </div>
+
+                        <!-- Vertical Stack -->
+                        <div class="space-y-6">
+                            <div class="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 flex items-center gap-4 hover:shadow-md transition-shadow">
+                                <div class="h-14 w-14 bg-orange-50 text-orange-600 rounded-2xl flex items-center justify-center">
+                                    <i data-lucide="list" width="28" height="28"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-3xl font-bold text-gray-900">${pending}</h4>
+                                    <p class="text-gray-500 font-medium">Tasks Pending</p>
+                                </div>
+                            </div>
+
+                            <div class="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 flex items-center gap-4 hover:shadow-md transition-shadow">
+                                <div class="h-14 w-14 bg-emerald-50 text-emerald-600 rounded-2xl flex items-center justify-center">
+                                    <i data-lucide="check-square" width="28" height="28"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-3xl font-bold text-gray-900">${completed}</h4>
+                                    <p class="text-gray-500 font-medium">Tasks Finished</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recent Activity -->
+                    <div class="bg-white rounded-3xl shadow-sm border border-gray-100 p-8">
+                        <div class="flex justify-between items-center mb-6">
+                            <h3 class="text-xl font-bold text-gray-900">Recent Tasks</h3>
+                            <button onclick="setActiveTab('tasks')" 
+                                class="text-indigo-600 text-sm font-semibold hover:text-indigo-800 hover:bg-indigo-50 px-3 py-1 rounded-lg transition-colors">
+                                View All
+                            </button>
+                        </div>
+                        <div class="space-y-4">
+                            ${recentTasksHtml}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function getTasksHtml() {
+            const remaining = state.todos.filter(t => !t.isDone).length;
+            
+            let listHtml = '';
+            if (state.todos.length === 0) {
+                listHtml = `
+                    <div class="flex flex-col items-center justify-center py-20 text-gray-400 bg-white rounded-3xl border border-dashed border-gray-200">
+                        <div class="bg-gray-50 p-6 rounded-full mb-4">
+                            <i data-lucide="list" width="40" height="40" class="text-gray-300"></i>
+                        </div>
+                        <p class="text-lg font-medium">No tasks yet</p>
+                        <p class="text-sm">Add a task above to get started!</p>
+                    </div>
+                `;
+            } else {
+                listHtml = state.todos.map((todo, index) => `
+                    <div class="group bg-white p-4 pl-6 rounded-2xl border border-gray-100 shadow-sm flex items-center justify-between transition-all hover:shadow-md hover:border-indigo-100 ${todo.isDone ? 'opacity-60 hover:opacity-100 bg-gray-50' : ''}">
+                        <div class="flex items-center gap-4 cursor-pointer flex-1" onclick="toggleTodo(${index})">
+                            <button class="transition-all duration-300 transform ${todo.isDone ? 'text-emerald-500 scale-110' : 'text-gray-300 hover:text-indigo-500 hover:scale-110'}">
+                                ${todo.isDone 
+                                    ? `<i data-lucide="check-square" class="fill-emerald-50" width="24" height="24"></i>` 
+                                    : `<i data-lucide="square" width="24" height="24"></i>`
+                                }
+                            </button>
+                            <span class="text-lg font-medium transition-all duration-300 ${todo.isDone ? 'line-through text-gray-400' : 'text-gray-700'}">
+                                ${todo.title}
+                            </span>
+                        </div>
+                        
+                        <button onclick="deleteTodo(${index})"
+                            class="text-gray-300 hover:text-red-500 hover:bg-red-50 p-2.5 rounded-xl transition-all opacity-0 group-hover:opacity-100 transform translate-x-2 group-hover:translate-x-0"
+                            title="Delete task">
+                            <i data-lucide="trash-2" width="20" height="20"></i>
+                        </button>
+                    </div>
+                `).join('');
+            }
+
+            return `
+                <div class="h-full flex flex-col animate-page max-w-5xl mx-auto w-full">
+                    <div class="flex justify-between items-center mb-8">
+                        <div>
+                            <h1 class="text-3xl font-bold text-gray-900">My Tasks</h1>
+                            <p class="text-gray-500 mt-1">Manage and track your daily workload.</p>
+                        </div>
+                        <div class="bg-indigo-50 text-indigo-700 px-4 py-2 rounded-lg text-sm font-semibold">
+                            ${remaining} Remaining
+                        </div>
+                    </div>
+                    
+                    <!-- Input Area -->
+                    <div class="bg-white p-2 rounded-2xl shadow-lg shadow-indigo-100/50 border border-gray-200 flex gap-3 mb-8 sticky top-0 z-10">
+                        <input
+                            id="todo-input"
+                            type="text"
+                            class="flex-1 p-4 bg-transparent outline-none text-gray-700 placeholder-gray-400 text-lg"
+                            placeholder="What needs to be done today?"
+                            value="${state.newTodoInputValue}"
+                            oninput="updateInput(this.value)"
+                            onkeydown="handleInputKey(event)"
+                        />
+                        <button onclick="addTodo()"
+                            class="bg-indigo-600 hover:bg-indigo-700 text-white px-8 rounded-xl transition-all active:scale-95 shadow-md shadow-indigo-200 font-medium flex items-center gap-2">
+                            <i data-lucide="plus" width="20" height="20"></i>
+                            <span>Add Task</span>
+                        </button>
+                    </div>
+
+                    <!-- List -->
+                    <div class="space-y-3 pb-10">
+                        ${listHtml}
+                    </div>
+                </div>
+            `;
+        }
+
+        function getSettingsHtml() {
+            const items = [
+                { icon: 'bell', label: "Push Notifications", desc: "Receive updates about your tasks", toggle: true },
+                { icon: 'moon', label: "Dark Appearance", desc: "Switch between light and dark themes", toggle: true },
+                { icon: 'user', label: "Account Details", desc: "Manage your profile information", toggle: false },
+            ];
+
+            const listItems = items.map(item => `
+                <div class="p-5 border-b border-gray-50 last:border-0 flex items-center justify-between hover:bg-gray-50 cursor-pointer transition-colors group">
+                    <div class="flex items-center gap-5">
+                        <div class="p-3 bg-indigo-50 text-indigo-600 rounded-2xl group-hover:bg-indigo-100 transition-colors">
+                            <i data-lucide="${item.icon}" width="22" height="22"></i>
+                        </div>
+                        <div>
+                            <span class="text-gray-900 font-semibold block">${item.label}</span>
+                            <span class="text-gray-500 text-sm">${item.desc}</span>
+                        </div>
+                    </div>
+                    ${item.toggle ? `
+                        <div class="w-12 h-7 bg-gray-200 rounded-full relative transition-colors hover:bg-gray-300 cursor-pointer">
+                            <div class="absolute left-1 top-1 w-5 h-5 bg-white rounded-full shadow-sm transition-transform"></div>
+                        </div>
+                    ` : `
+                        <i data-lucide="chevron-right" width="20" height="20" class="text-gray-400 group-hover:text-gray-600"></i>
+                    `}
+                </div>
+            `).join('');
+
+            return `
+                <div class="animate-page max-w-3xl mx-auto">
+                    <h1 class="text-3xl font-bold text-gray-900 mb-8">Settings</h1>
+                    
+                    <div class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden mb-8">
+                        <div class="p-6 border-b border-gray-100">
+                            <h2 class="text-lg font-semibold text-gray-900">Preferences</h2>
+                            <p class="text-sm text-gray-500">Manage how the app looks and feels.</p>
+                        </div>
+                        ${listItems}
+                    </div>
+                    
+                    <div class="bg-indigo-50 border border-indigo-100 p-6 rounded-3xl flex items-center justify-between">
+                        <div>
+                            <p class="text-indigo-900 font-bold text-base">Desktop Preview Build v1.2.0</p>
+                            <p class="text-indigo-600 text-sm mt-1">Checking for updates...</p>
+                        </div>
+                        <button class="bg-indigo-200 text-indigo-800 px-4 py-2 rounded-xl text-sm font-semibold hover:bg-indigo-300 transition-colors">
+                            Check Now
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        // --- Actions ---
+
+        function setActiveTab(tabId) {
+            state.activeTab = tabId;
+            renderApp();
+        }
+
+        function updateInput(value) {
+            state.newTodoInputValue = value;
+        }
+
+        function handleInputKey(event) {
+            if (event.key === 'Enter') {
+                addTodo();
+            }
+        }
+
+        function addTodo() {
+            if (state.newTodoInputValue.trim() === '') return;
+            state.todos.unshift({ title: state.newTodoInputValue, isDone: false });
+            state.newTodoInputValue = '';
+            renderApp();
+        }
+
+        function toggleTodo(index) {
+            state.todos[index].isDone = !state.todos[index].isDone;
+            renderApp();
+        }
+
+        function deleteTodo(index) {
+            state.todos.splice(index, 1);
+            renderApp();
+        }
+
+        // --- Initialization ---
+        document.addEventListener('DOMContentLoaded', () => {
+            renderApp();
+        });
+
+    </script>
+</body>
+</html>
