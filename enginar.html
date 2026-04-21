@@ -64,13 +64,6 @@
         .menu-item-hover:hover .menu-dots {
             border-bottom: 2px dotted #66833b;
         }
-        
-        /* Parallax fix for mobile (iOS sometimes struggles with bg-fixed) */
-        @media (max-width: 768px) {
-            .parallax-bg {
-                background-attachment: scroll !important;
-            }
-        }
     </style>
 </head>
 <body class="font-sans bg-sand text-gray-800 antialiased selection:bg-enginar-200 selection:text-enginar-900">
@@ -345,7 +338,7 @@
 
     <!-- Parallax Image Gallery -->
     <section id="gallery" class="w-full bg-gray-900">
-        <div class="grid grid-cols-1 md:grid-cols-2">
+        <div class="grid grid-cols-1">
             <!-- Image 1 -->
             <div class="h-64 sm:h-80 md:h-96 w-full bg-fixed bg-center bg-cover parallax-bg" 
                  style="background-image: url('20260414_114710.jpg');" 
