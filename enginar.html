@@ -64,6 +64,11 @@
         .menu-item-hover:hover .menu-dots {
             border-bottom: 2px dotted #66833b;
         }
+        /* Hardware acceleration class for smooth parallax */
+        .hw-accel {
+            will-change: transform;
+            transform: translateZ(0);
+        }
     </style>
 </head>
 <body class="font-sans bg-sand text-gray-800 antialiased selection:bg-enginar-200 selection:text-enginar-900">
@@ -112,8 +117,11 @@
     </nav>
 
     <!-- Hero Section -->
-    <section id="home" class="relative h-screen flex items-center justify-center bg-hero-pattern bg-cover bg-center bg-no-repeat bg-fixed">
-        <div class="text-center px-4 max-w-4xl mx-auto z-10">
+    <section id="home" class="relative h-screen flex items-center justify-center overflow-hidden bg-gray-900">
+        <!-- Parallax Background -->
+        <div class="absolute -top-[20%] left-0 w-full h-[140%] bg-hero-pattern bg-cover bg-center bg-no-repeat js-parallax hw-accel"></div>
+        
+        <div class="text-center px-4 max-w-4xl mx-auto z-10 relative">
             <span class="block text-gold-400 tracking-[0.3em] text-sm md:text-base font-semibold mb-4 uppercase">İzmir'in Yeni Lezzet Durağı</span>
             <h1 class="font-serif text-5xl md:text-7xl lg:text-8xl text-white font-bold mb-6 leading-tight">Enginar <br/>Restaurant</h1>
             <p class="text-gray-200 text-lg md:text-xl font-light mb-10 max-w-2xl mx-auto">Ege'nin taze rüzgarlarını ve topraklarının bereketini lezzetli ev yemekleriyle masanıza taşıyoruz. Halkapınar'da unutulmaz bir gastronomi deneyimi.</p>
@@ -123,7 +131,7 @@
             </div>
         </div>
         <!-- Scroll indicator -->
-        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
+        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce z-10">
             <a href="#about" class="text-white opacity-70 hover:opacity-100">
                 <i data-lucide="chevron-down" class="w-8 h-8"></i>
             </a>
@@ -340,34 +348,40 @@
     <section id="gallery" class="w-full bg-gray-900">
         <div class="grid grid-cols-1">
             <!-- Image 1 -->
-            <div class="h-64 sm:h-80 md:h-96 w-full bg-fixed bg-center bg-cover parallax-bg" 
-                 style="background-image: url('20260414_114710.jpg');" 
-                 title="Zeytinyağlı Bezelye">
+            <div class="relative h-64 sm:h-80 md:h-96 w-full overflow-hidden">
+                <div class="absolute -top-[20%] left-0 w-full h-[140%] bg-center bg-cover js-parallax hw-accel" 
+                     style="background-image: url('20260414_114710.jpg');" title="Zeytinyağlı Bezelye">
+                </div>
             </div>
             <!-- Image 2 -->
-            <div class="h-64 sm:h-80 md:h-96 w-full bg-fixed bg-center bg-cover parallax-bg" 
-                 style="background-image: url('20260414_114719.jpg');" 
-                 title="Ege Otları">
+            <div class="relative h-64 sm:h-80 md:h-96 w-full overflow-hidden">
+                <div class="absolute -top-[20%] left-0 w-full h-[140%] bg-center bg-cover js-parallax hw-accel" 
+                     style="background-image: url('20260414_114719.jpg');" title="Ege Otları">
+                </div>
             </div>
             <!-- Image 3 -->
-            <div class="h-64 sm:h-80 md:h-96 w-full bg-fixed bg-center bg-cover parallax-bg" 
-                 style="background-image: url('20260414_114726.jpg');" 
-                 title="Sulu Yemekler">
+            <div class="relative h-64 sm:h-80 md:h-96 w-full overflow-hidden">
+                <div class="absolute -top-[20%] left-0 w-full h-[140%] bg-center bg-cover js-parallax hw-accel" 
+                     style="background-image: url('20260414_114726.jpg');" title="Sulu Yemekler">
+                </div>
             </div>
             <!-- Image 4 -->
-            <div class="h-64 sm:h-80 md:h-96 w-full bg-fixed bg-center bg-cover parallax-bg" 
-                 style="background-image: url('20260414_114647(1).jpg');" 
-                 title="Nohut ve Sulu Yemekler">
+            <div class="relative h-64 sm:h-80 md:h-96 w-full overflow-hidden">
+                <div class="absolute -top-[20%] left-0 w-full h-[140%] bg-center bg-cover js-parallax hw-accel" 
+                     style="background-image: url('20260414_114647(1).jpg');" title="Nohut ve Sulu Yemekler">
+                </div>
             </div>
             <!-- Image 5 -->
-            <div class="h-64 sm:h-80 md:h-96 w-full bg-fixed bg-center bg-cover parallax-bg" 
-                 style="background-image: url('20260414_125459(1).jpg');" 
-                 title="Mutfak Hazırlık">
+            <div class="relative h-64 sm:h-80 md:h-96 w-full overflow-hidden">
+                <div class="absolute -top-[20%] left-0 w-full h-[140%] bg-center bg-cover js-parallax hw-accel" 
+                     style="background-image: url('20260414_125459(1).jpg');" title="Mutfak Hazırlık">
+                </div>
             </div>
             <!-- Image 6 -->
-            <div class="h-64 sm:h-80 md:h-96 w-full bg-fixed bg-center bg-cover parallax-bg" 
-                 style="background-image: url('20260414_134610(1).jpg');" 
-                 title="Enginar Restaurant Ekibi">
+            <div class="relative h-64 sm:h-80 md:h-96 w-full overflow-hidden">
+                <div class="absolute -top-[20%] left-0 w-full h-[140%] bg-center bg-cover js-parallax hw-accel" 
+                     style="background-image: url('20260414_134610(1).jpg');" title="Enginar Restaurant Ekibi">
+                </div>
             </div>
         </div>
     </section>
@@ -542,6 +556,36 @@
                 navbar.classList.remove('py-2');
             }
         });
+
+        // Smooth JS Parallax Effect (Fixes bg-fixed flicker on mobile)
+        const parallaxElements = document.querySelectorAll('.js-parallax');
+        
+        function updateParallax() {
+            requestAnimationFrame(() => {
+                const windowHeight = window.innerHeight;
+                
+                parallaxElements.forEach(el => {
+                    // Get the bounding box of the parent container
+                    const parent = el.parentElement;
+                    const rect = parent.getBoundingClientRect();
+                    
+                    // Check if the container is currently visible in the viewport
+                    if (rect.top < windowHeight && rect.bottom > 0) {
+                        // Calculate how far the element is through the viewport
+                        const scrollProgress = (rect.top / windowHeight) - 0.5;
+                        
+                        // Apply a smooth Y translation to the background image
+                        el.style.transform = `translate3d(0, ${scrollProgress * 25}%, 0)`;
+                    }
+                });
+            });
+        }
+
+        window.addEventListener('scroll', updateParallax, { passive: true });
+        window.addEventListener('resize', updateParallax, { passive: true });
+        
+        // Initial call
+        updateParallax();
 
         // Menu Tab Switcher
         function switchTab(tabId) {
