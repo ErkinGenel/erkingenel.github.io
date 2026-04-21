@@ -350,31 +350,31 @@
     <section id="gallery" class="w-full bg-gray-900">
         <div class="grid grid-cols-1">
             <!-- Image 1 -->
-            <div class="relative h-64 sm:h-80 md:h-96 w-full overflow-hidden">
+            <div class="relative h-64 sm:h-80 md:h-[450px] lg:h-[550px] w-full overflow-hidden">
                 <div class="absolute -top-[20%] left-0 w-full h-[140%] bg-center bg-cover js-parallax hw-accel" 
                      style="background-image: url('20260414_114710.jpg');" title="Zeytinyağlı Bezelye">
                 </div>
             </div>
             <!-- Image 2 -->
-            <div class="relative h-64 sm:h-80 md:h-96 w-full overflow-hidden">
+            <div class="relative h-64 sm:h-80 md:h-[450px] lg:h-[550px] w-full overflow-hidden">
                 <div class="absolute -top-[20%] left-0 w-full h-[140%] bg-center bg-cover js-parallax hw-accel" 
                      style="background-image: url('20260414_114719.jpg');" title="Ege Otları">
                 </div>
             </div>
             <!-- Image 3 -->
-            <div class="relative h-64 sm:h-80 md:h-96 w-full overflow-hidden">
+            <div class="relative h-64 sm:h-80 md:h-[450px] lg:h-[550px] w-full overflow-hidden">
                 <div class="absolute -top-[20%] left-0 w-full h-[140%] bg-center bg-cover js-parallax hw-accel" 
                      style="background-image: url('20260414_114726.jpg');" title="Sulu Yemekler">
                 </div>
             </div>
             <!-- Image 4 -->
-            <div class="relative h-64 sm:h-80 md:h-96 w-full overflow-hidden">
+            <div class="relative h-64 sm:h-80 md:h-[450px] lg:h-[550px] w-full overflow-hidden">
                 <div class="absolute -top-[20%] left-0 w-full h-[140%] bg-center bg-cover js-parallax hw-accel" 
                      style="background-image: url('20260414_114647(1).jpg');" title="Nohut ve Sulu Yemekler">
                 </div>
             </div>
             <!-- Image 5 -->
-            <div class="relative h-64 sm:h-80 md:h-96 w-full overflow-hidden">
+            <div class="relative h-64 sm:h-80 md:h-[450px] lg:h-[550px] w-full overflow-hidden">
                 <div class="absolute -top-[20%] left-0 w-full h-[140%] bg-center bg-cover js-parallax hw-accel" 
                      style="background-image: url('20260414_125459(1).jpg');" title="Mutfak Hazırlık">
                 </div>
@@ -578,34 +578,46 @@
             }
         });
 
-        // Smooth JS Parallax Effect (Fixes bg-fixed flicker on mobile)
+        // Advanced JS Parallax Engine (Optimized for Mobile browsers)
         const parallaxElements = document.querySelectorAll('.js-parallax');
-        
+        let windowHeight = window.innerHeight;
+        let ticking = false;
+
+        // Cache window height to prevent layout thrashing on mobile when address bar hides
+        window.addEventListener('resize', () => {
+            windowHeight = window.innerHeight;
+            updateParallax();
+        }, { passive: true });
+
         function updateParallax() {
-            requestAnimationFrame(() => {
-                const windowHeight = window.innerHeight;
+            parallaxElements.forEach(el => {
+                const parent = el.parentElement;
+                const rect = parent.getBoundingClientRect();
                 
-                parallaxElements.forEach(el => {
-                    // Get the bounding box of the parent container
-                    const parent = el.parentElement;
-                    const rect = parent.getBoundingClientRect();
+                // Only animate if element is in the viewport
+                if (rect.top <= windowHeight && rect.bottom >= 0) {
+                    // Calculate scroll progress from -0.5 (bottom of screen) to +0.5 (top of screen)
+                    const scrollProgress = (rect.top / windowHeight) - 0.5;
                     
-                    // Check if the container is currently visible in the viewport
-                    if (rect.top < windowHeight && rect.bottom > 0) {
-                        // Calculate how far the element is through the viewport
-                        const scrollProgress = (rect.top / windowHeight) - 0.5;
-                        
-                        // Apply a smooth Y translation to the background image
-                        el.style.transform = `translate3d(0, ${scrollProgress * 25}%, 0)`;
-                    }
-                });
+                    // Translate safely up to 15% to remain within the safe bounds 
+                    // (element has -20% top and 140% height)
+                    el.style.transform = `translate3d(0, ${scrollProgress * 15}%, 0)`;
+                }
             });
         }
 
-        window.addEventListener('scroll', updateParallax, { passive: true });
-        window.addEventListener('resize', updateParallax, { passive: true });
+        // Throttle scroll events using RequestAnimationFrame
+        window.addEventListener('scroll', () => {
+            if (!ticking) {
+                window.requestAnimationFrame(() => {
+                    updateParallax();
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        }, { passive: true });
         
-        // Initial call
+        // Initial setup
         updateParallax();
 
         // Menu Tab Switcher
