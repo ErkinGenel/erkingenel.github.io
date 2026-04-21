@@ -75,30 +75,29 @@
 <body class="font-sans bg-sand text-gray-800 antialiased selection:bg-enginar-200 selection:text-enginar-900">
 
     <!-- Navigation -->
-    <nav id="navbar" class="fixed w-full z-50 transition-all duration-300 nav-transparent py-4">
+    <nav id="navbar" class="fixed w-full z-50 transition-all duration-300 bg-white shadow-md py-4">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center">
-                
                 <!-- Logo -->
                 <div class="flex-shrink-0 flex items-center">
                     <a href="#" id="nav-logo" class="block">
-                        <img src="20260414_120821.png" alt="Enginar Restaurant Logo" class="h-10 md:h-12 w-auto object-contain rounded">
+                        <img src="20260414_120821.png" alt="Enginar Restaurant Logo" class="h-10 md:h-12 w-auto object-contain">
                     </a>
                 </div>
                 
                 <!-- Desktop Menu -->
                 <div class="hidden md:flex space-x-8 items-center">
-                    <a href="#home" class="text-white hover:text-gold-400 transition-colors font-medium text-sm tracking-wide" class="nav-link">Ana Sayfa</a>
-                    <a href="#about" class="text-white hover:text-gold-400 transition-colors font-medium text-sm tracking-wide" class="nav-link">Hakkımızda</a>
-                    <a href="#menu" class="text-white hover:text-gold-400 transition-colors font-medium text-sm tracking-wide" class="nav-link">Menü</a>
-                    <a href="#gallery" class="text-white hover:text-gold-400 transition-colors font-medium text-sm tracking-wide" class="nav-link">Galeri</a>
-                    <a href="#contact" class="text-white hover:text-gold-400 transition-colors font-medium text-sm tracking-wide" class="nav-link">İletişim</a>
-                    <a href="#reservation" class="bg-gold-400 hover:bg-gold-500 text-white px-6 py-2 rounded-full transition-colors font-medium text-sm">Rezervasyon</a>
+                    <a href="#home" class="text-gray-800 hover:text-enginar-600 transition-colors font-medium text-sm tracking-wide nav-link">Ana Sayfa</a>
+                    <a href="#about" class="text-gray-800 hover:text-enginar-600 transition-colors font-medium text-sm tracking-wide nav-link">Hakkımızda</a>
+                    <a href="#menu" class="text-gray-800 hover:text-enginar-600 transition-colors font-medium text-sm tracking-wide nav-link">Menü</a>
+                    <a href="#gallery" class="text-gray-800 hover:text-enginar-600 transition-colors font-medium text-sm tracking-wide nav-link">Galeri</a>
+                    <a href="#contact" class="text-gray-800 hover:text-enginar-600 transition-colors font-medium text-sm tracking-wide nav-link">İletişim</a>
+                    <a href="#reservation" class="bg-enginar-600 hover:bg-enginar-700 text-white px-6 py-2 rounded-full transition-colors font-medium text-sm">Rezervasyon</a>
                 </div>
 
                 <!-- Mobile menu button -->
                 <div class="md:hidden flex items-center">
-                    <button id="mobile-menu-btn" class="text-white hover:text-gold-400 focus:outline-none">
+                    <button id="mobile-menu-btn" class="text-gray-800 hover:text-enginar-600 focus:outline-none">
                         <i data-lucide="menu" class="w-6 h-6"></i>
                     </button>
                 </div>
@@ -141,8 +140,8 @@
     <section id="about" class="py-24 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 lg:grid-cols-5 gap-16 items-center">
-                <div class="relative lg:col-span-3 mx-1 sm:mx-0">
-                    <img src="20260414_114549(1)(1)(1)(1)(1)(1).jpg" alt="Restaurant Usta ve Yemekler" class="rounded-none sm:rounded-2xl shadow-2xl object-cover h-[300px] sm:h-[500px] w-full">
+                <div class="relative lg:col-span-3 -mx-4 sm:mx-0">
+                    <img src="20260414_114549(1)(1)(1)(1)(1)(1).jpg" alt="Restaurant Usta ve Yemekler" class="rounded-none sm:rounded-2xl shadow-2xl object-cover h-[400px] sm:h-[500px] w-full">
                     <div class="absolute -bottom-8 -right-8 bg-enginar-600 text-white p-8 rounded-2xl shadow-xl hidden md:block">
                         <p class="font-serif text-4xl font-bold mb-1">10+</p>
                         <p class="text-sm tracking-wider font-light uppercase">Yıllık Tecrübe</p>
@@ -177,7 +176,6 @@
             </div>
         </div>
     </section>
-
 
     <!-- Menu Section -->
     <section id="menu" class="py-24 bg-sand">
@@ -455,10 +453,10 @@
             <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12 text-center md:text-left">
                 <!-- Brand -->
                 <div class="flex flex-col items-center md:items-start">
-                    <a href="#" class="mb-4 block">
-                        <img src="20260414_120821.png" alt="Enginar Restaurant Logo" class="h-14 md:h-16 w-auto object-contain rounded">
+                    <a href="#" class="mb-4 block bg-white px-4 py-2 rounded-xl shadow-lg">
+                        <img src="20260414_120821.png" alt="Enginar Restaurant Logo" class="h-14 md:h-16 w-auto object-contain">
                     </a>
-                    <p class="text-gray-400 font-light text-sm max-w-xs">Ege'nin kalbinden masanıza uzanan modern bir lezzet serüveni. Konak, İzmir.</p>
+                    <p class="text-gray-400 font-light text-sm max-w-xs mt-2">Ege'nin kalbinden masanıza uzanan modern bir lezzet serüveni. Konak, İzmir.</p>
                 </div>
                 
                 <!-- Quick Links -->
@@ -521,39 +519,14 @@
 
         // Navbar scroll effect
         const navbar = document.getElementById('navbar');
-        const navLogo = document.getElementById('nav-logo');
-        const navLinks = document.querySelectorAll('.nav-link');
-        const mobileBtnIcon = document.querySelector('#mobile-menu-btn i');
 
         window.addEventListener('scroll', () => {
             if (window.scrollY > 50) {
-                navbar.classList.remove('nav-transparent', 'py-4');
-                navbar.classList.add('glass-nav', 'py-2');
-                navLogo.classList.remove('text-white');
-                navLogo.classList.add('text-gray-900');
-                
-                navLinks.forEach(link => {
-                    link.classList.remove('text-white');
-                    link.classList.add('text-gray-800');
-                });
-                if(mobileBtnIcon) {
-                    mobileBtnIcon.classList.remove('text-white');
-                    mobileBtnIcon.classList.add('text-gray-800');
-                }
+                navbar.classList.remove('py-4');
+                navbar.classList.add('py-2');
             } else {
-                navbar.classList.add('nav-transparent', 'py-4');
-                navbar.classList.remove('glass-nav', 'py-2');
-                navLogo.classList.add('text-white');
-                navLogo.classList.remove('text-gray-900');
-                
-                navLinks.forEach(link => {
-                    link.classList.add('text-white');
-                    link.classList.remove('text-gray-800');
-                });
-                if(mobileBtnIcon) {
-                    mobileBtnIcon.classList.add('text-white');
-                    mobileBtnIcon.classList.remove('text-gray-800');
-                }
+                navbar.classList.add('py-4');
+                navbar.classList.remove('py-2');
             }
         });
 
