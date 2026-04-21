@@ -64,10 +64,8 @@
         .menu-item-hover:hover .menu-dots {
             border-bottom: 2px dotted #66833b;
         }
-        /* Hardware acceleration class for smooth parallax */
-        .hw-accel {
+        .will-change-transform {
             will-change: transform;
-            transform: translateZ(0);
         }
     </style>
 </head>
@@ -119,9 +117,9 @@
     </nav>
 
     <!-- Hero Section -->
-    <section id="home" class="relative h-screen flex items-center justify-center overflow-hidden bg-gray-900">
+    <section id="home" class="relative h-screen flex items-center justify-center overflow-hidden bg-gray-900 parallax-container">
         <!-- Parallax Background -->
-        <div class="absolute -top-[20%] left-0 w-full h-[140%] bg-hero-pattern bg-cover bg-center bg-no-repeat js-parallax hw-accel"></div>
+        <div class="parallax-layer absolute top-0 left-0 w-full h-[130%] bg-hero-pattern bg-cover bg-center bg-no-repeat will-change-transform"></div>
         
         <div class="text-center px-4 max-w-4xl mx-auto z-10 relative">
             <span class="block text-gold-400 tracking-[0.3em] text-sm md:text-base font-semibold mb-4 uppercase">İzmir'in Yeni Lezzet Durağı</span>
@@ -350,32 +348,32 @@
     <section id="gallery" class="w-full bg-gray-900">
         <div class="grid grid-cols-1">
             <!-- Image 1 -->
-            <div class="relative h-64 sm:h-80 md:h-[450px] lg:h-[550px] w-full overflow-hidden">
-                <div class="absolute -top-[20%] left-0 w-full h-[140%] bg-center bg-cover js-parallax hw-accel" 
+            <div class="parallax-container relative w-full h-[50vh] md:h-[65vh] lg:h-[80vh] overflow-hidden">
+                <div class="parallax-layer absolute top-0 left-0 w-full h-[130%] bg-center bg-cover will-change-transform" 
                      style="background-image: url('20260414_114710.jpg');" title="Zeytinyağlı Bezelye">
                 </div>
             </div>
             <!-- Image 2 -->
-            <div class="relative h-64 sm:h-80 md:h-[450px] lg:h-[550px] w-full overflow-hidden">
-                <div class="absolute -top-[20%] left-0 w-full h-[140%] bg-center bg-cover js-parallax hw-accel" 
+            <div class="parallax-container relative w-full h-[50vh] md:h-[65vh] lg:h-[80vh] overflow-hidden">
+                <div class="parallax-layer absolute top-0 left-0 w-full h-[130%] bg-center bg-cover will-change-transform" 
                      style="background-image: url('20260414_114719.jpg');" title="Ege Otları">
                 </div>
             </div>
             <!-- Image 3 -->
-            <div class="relative h-64 sm:h-80 md:h-[450px] lg:h-[550px] w-full overflow-hidden">
-                <div class="absolute -top-[20%] left-0 w-full h-[140%] bg-center bg-cover js-parallax hw-accel" 
+            <div class="parallax-container relative w-full h-[50vh] md:h-[65vh] lg:h-[80vh] overflow-hidden">
+                <div class="parallax-layer absolute top-0 left-0 w-full h-[130%] bg-center bg-cover will-change-transform" 
                      style="background-image: url('20260414_114726.jpg');" title="Sulu Yemekler">
                 </div>
             </div>
             <!-- Image 4 -->
-            <div class="relative h-64 sm:h-80 md:h-[450px] lg:h-[550px] w-full overflow-hidden">
-                <div class="absolute -top-[20%] left-0 w-full h-[140%] bg-center bg-cover js-parallax hw-accel" 
+            <div class="parallax-container relative w-full h-[50vh] md:h-[65vh] lg:h-[80vh] overflow-hidden">
+                <div class="parallax-layer absolute top-0 left-0 w-full h-[130%] bg-center bg-cover will-change-transform" 
                      style="background-image: url('20260414_114647(1).jpg');" title="Nohut ve Sulu Yemekler">
                 </div>
             </div>
             <!-- Image 5 -->
-            <div class="relative h-64 sm:h-80 md:h-[450px] lg:h-[550px] w-full overflow-hidden">
-                <div class="absolute -top-[20%] left-0 w-full h-[140%] bg-center bg-cover js-parallax hw-accel" 
+            <div class="parallax-container relative w-full h-[50vh] md:h-[65vh] lg:h-[80vh] overflow-hidden">
+                <div class="parallax-layer absolute top-0 left-0 w-full h-[130%] bg-center bg-cover will-change-transform" 
                      style="background-image: url('20260414_125459(1).jpg');" title="Mutfak Hazırlık">
                 </div>
             </div>
@@ -489,8 +487,21 @@
                         <button type="submit" class="w-full bg-enginar-600 hover:bg-enginar-700 text-white font-medium py-4 rounded-lg transition-colors shadow-lg">Masa Ayırt</button>
                     </form>
                 </div>
-
             </div>
+            
+            <!-- Google Maps Embed -->
+            <div class="mt-16 w-full h-[400px] rounded-2xl overflow-hidden shadow-md border border-gray-200">
+                <iframe 
+                    width="100%" 
+                    height="100%" 
+                    frameborder="0" 
+                    scrolling="no" 
+                    marginheight="0" 
+                    marginwidth="0" 
+                    src="https://maps.google.com/maps?q=Halkap%C4%B1nar%20Mah.,%201203/2%20Sok.,%2013B%20Konak%20İzmir&t=&z=15&ie=UTF8&iwloc=&output=embed">
+                </iframe>
+            </div>
+            
         </div>
     </section>
 
@@ -578,46 +589,48 @@
             }
         });
 
-        // Advanced JS Parallax Engine (Optimized for Mobile browsers)
-        const parallaxElements = document.querySelectorAll('.js-parallax');
-        let windowHeight = window.innerHeight;
+        // Robust JS Parallax Engine (Works securely on mobile & desktop)
         let ticking = false;
 
-        // Cache window height to prevent layout thrashing on mobile when address bar hides
-        window.addEventListener('resize', () => {
-            windowHeight = window.innerHeight;
-            updateParallax();
-        }, { passive: true });
-
-        function updateParallax() {
-            parallaxElements.forEach(el => {
-                const parent = el.parentElement;
-                const rect = parent.getBoundingClientRect();
-                
-                // Only animate if element is in the viewport
-                if (rect.top <= windowHeight && rect.bottom >= 0) {
-                    // Calculate scroll progress from -0.5 (bottom of screen) to +0.5 (top of screen)
-                    const scrollProgress = (rect.top / windowHeight) - 0.5;
-                    
-                    // Translate safely up to 15% to remain within the safe bounds 
-                    // (element has -20% top and 140% height)
-                    el.style.transform = `translate3d(0, ${scrollProgress * 15}%, 0)`;
-                }
-            });
-        }
-
-        // Throttle scroll events using RequestAnimationFrame
-        window.addEventListener('scroll', () => {
+        function requestTick() {
             if (!ticking) {
-                window.requestAnimationFrame(() => {
-                    updateParallax();
-                    ticking = false;
-                });
+                window.requestAnimationFrame(updateParallax);
                 ticking = true;
             }
-        }, { passive: true });
+        }
+
+        function updateParallax() {
+            const windowHeight = window.innerHeight;
+            
+            document.querySelectorAll('.parallax-container').forEach(container => {
+                const layer = container.querySelector('.parallax-layer');
+                if (!layer) return;
+                
+                const rect = container.getBoundingClientRect();
+                
+                // Only animate if the container is visible within the viewport
+                if (rect.top <= windowHeight && rect.bottom >= 0) {
+                    const totalDistance = windowHeight + rect.height;
+                    const scrolledDistance = windowHeight - rect.top;
+                    
+                    // Calculate progress from 0 (just entered screen) to 1 (just leaving screen)
+                    let progress = scrolledDistance / totalDistance;
+                    progress = Math.max(0, Math.min(1, progress));
+                    
+                    // The layer is 130% height of its container. 
+                    // Translating by -20% of its own height cleanly uses up most of the extra space.
+                    layer.style.transform = `translate3d(0, -${progress * 20}%, 0)`;
+                }
+            });
+            
+            ticking = false;
+        }
+
+        // Attach listeners for scrolling and resizing
+        window.addEventListener('scroll', requestTick, { passive: true });
+        window.addEventListener('resize', requestTick, { passive: true });
         
-        // Initial setup
+        // Initial call
         updateParallax();
 
         // Menu Tab Switcher
