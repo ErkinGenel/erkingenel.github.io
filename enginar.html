@@ -64,11 +64,12 @@
         .menu-item-hover:hover .menu-dots {
             border-bottom: 2px dotted #66833b;
         }
-        .gallery-img {
-            transition: transform 0.5s ease;
-        }
-        .gallery-img:hover {
-            transform: scale(1.05);
+        
+        /* Parallax fix for mobile (iOS sometimes struggles with bg-fixed) */
+        @media (max-width: 768px) {
+            .parallax-bg {
+                background-attachment: scroll !important;
+            }
         }
     </style>
 </head>
@@ -122,7 +123,7 @@
         <div class="text-center px-4 max-w-4xl mx-auto z-10">
             <span class="block text-gold-400 tracking-[0.3em] text-sm md:text-base font-semibold mb-4 uppercase">İzmir'in Yeni Lezzet Durağı</span>
             <h1 class="font-serif text-5xl md:text-7xl lg:text-8xl text-white font-bold mb-6 leading-tight">Enginar <br/>Restaurant</h1>
-            <p class="text-gray-200 text-lg md:text-xl font-light mb-10 max-w-2xl mx-auto">Ege'nin taze rüzgarlarını ve topraklarının bereketini modern bir sunumla masanıza taşıyoruz. Halkapınar'da unutulmaz bir gastronomi deneyimi.</p>
+            <p class="text-gray-200 text-lg md:text-xl font-light mb-10 max-w-2xl mx-auto">Ege'nin taze rüzgarlarını ve topraklarının bereketini lezzetli ev yemekleriyle masanıza taşıyoruz. Halkapınar'da unutulmaz bir gastronomi deneyimi.</p>
             <div class="flex flex-col sm:flex-row justify-center gap-4">
                 <a href="#menu" class="bg-transparent border border-white text-white hover:bg-white hover:text-enginar-900 px-8 py-3.5 rounded-full transition-all duration-300 font-medium tracking-wide">Menüyü İncele</a>
                 <a href="#reservation" class="bg-enginar-600 hover:bg-enginar-700 text-white px-8 py-3.5 rounded-full transition-all duration-300 font-medium tracking-wide shadow-lg">Masa Ayırt</a>
@@ -152,26 +153,39 @@
                         <div class="h-[1px] w-12 bg-gold-400"></div>
                         <span class="text-gold-500 font-medium tracking-[0.2em] uppercase text-sm">Hikayemiz</span>
                     </div>
-                    <h2 class="font-serif text-4xl md:text-5xl text-gray-900 font-bold mb-6 leading-tight">Gelenekten Geleceğe<br>Modern Ege Mutfağı</h2>
-                    <p class="text-gray-600 mb-6 leading-relaxed text-lg font-light">
-                        İzmir Konak, Halkapınar'da yer alan Enginar Restaurant, adını Ege'nin en şifalı ve lezzetli bitkisinden alıyor. Amacımız, yerel üreticilerden aldığımız en taze malzemeleri, modern şef dokunuşlarıyla yeniden yorumlamak.
+                    <h2 class="font-serif text-3xl md:text-4xl text-gray-900 font-bold mb-6 leading-tight">Lezzet ve Samimiyetin Buluştuğu Adres</h2>
+                    <p class="text-gray-600 mb-4 leading-relaxed text-base font-light">
+                        Enginar Restaurant, Konak’ın Halkapınar mahallesinde konukları ağırlamaktadır. Gıda Çarşısı’na yakın konumuyla, Hikmet Özcan (341 m) ve Yenişehir PTT (486 m) gibi önemli yerlere yakınlığıyla ulaşımı son derece kolay ve avantajlı bir adrestir.
                     </p>
-                    <p class="text-gray-600 mb-8 leading-relaxed text-lg font-light">
-                        Mevsiminde toplanan sakız enginarları, denizden tabağınıza en taze haliyle gelen deniz mahsulleri ve özenle seçilmiş et menümüz ile sadece bir yemek değil, bir deneyim sunuyoruz.
+                    <p class="text-gray-600 mb-4 leading-relaxed text-base font-light">
+                        Lezzetli ev yemekleri ve zengin menüsüyle dikkat çeken restoranımız, acılı et yahnisinden Alaşehir kapamaya kadar farklı tatlar sunar. Şehriye çorbası ve tavuk incik gibi önerilen yemekler misafirlerimizin beğenisini toplarken, pilav seçenekleri ve tatlılarla porsiyonlar bol olur. Çocuklar için uygun ortamımızda, helal menü ve zengin çay menüsü deneyiminizi tamamlar.
                     </p>
-                    <div class="grid grid-cols-2 gap-8 mb-10">
+                    <p class="text-gray-600 mb-8 leading-relaxed text-base font-light">
+                        Grup yemekleri, öğle yemeği veya tatlı isteklerinizi karşılamak için ideal olan açık hava bölümümüz ve bahçemiz, yemek sonrası keyifli anlar için sizi bekliyor.
+                    </p>
+                    
+                    <div class="grid grid-cols-2 gap-6 mb-10">
                         <div>
-                            <i data-lucide="leaf" class="w-8 h-8 text-enginar-500 mb-3"></i>
-                            <h4 class="font-serif text-xl font-semibold mb-2">Taze & Yerel</h4>
-                            <p class="text-sm text-gray-500">Malzemelerimiz günlük olarak yerel üreticilerden temin edilir.</p>
+                            <i data-lucide="zap" class="w-7 h-7 text-enginar-500 mb-2"></i>
+                            <h4 class="font-serif text-lg font-semibold mb-1">Hızlı Servis</h4>
+                            <p class="text-xs text-gray-500">Yardımsever garsonlarımızla hızlı ve kesintisiz hizmet.</p>
                         </div>
                         <div>
-                            <i data-lucide="utensils-crossed" class="w-8 h-8 text-enginar-500 mb-3"></i>
-                            <h4 class="font-serif text-xl font-semibold mb-2">Modern Sunum</h4>
-                            <p class="text-sm text-gray-500">Geleneksel lezzetler, modern bir gastronomi anlayışıyla masanızda.</p>
+                            <i data-lucide="sun" class="w-7 h-7 text-enginar-500 mb-2"></i>
+                            <h4 class="font-serif text-lg font-semibold mb-1">Açık Hava & Bahçe</h4>
+                            <p class="text-xs text-gray-500">Yemek sonrası dinlenebileceğiniz ferah dış mekanlar.</p>
+                        </div>
+                        <div>
+                            <i data-lucide="users" class="w-7 h-7 text-enginar-500 mb-2"></i>
+                            <h4 class="font-serif text-lg font-semibold mb-1">Çocuklara Uygun</h4>
+                            <p class="text-xs text-gray-500">Ailecek rahatlıkla ve güvenle vakit geçirebileceğiniz bir ortam.</p>
+                        </div>
+                        <div>
+                            <i data-lucide="accessibility" class="w-7 h-7 text-enginar-500 mb-2"></i>
+                            <h4 class="font-serif text-lg font-semibold mb-1">Erişilebilir & Temassız</h4>
+                            <p class="text-xs text-gray-500">Tekerlekli sandalyeye uygun giriş ve temassız teslimat imkanı.</p>
                         </div>
                     </div>
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/f/f6/Signature_placeholder.svg" alt="Chef Signature" class="h-12 opacity-50 filter grayscale">
                 </div>
             </div>
         </div>
@@ -191,7 +205,7 @@
 
             <!-- Tabs -->
             <div class="flex flex-wrap justify-center gap-4 md:gap-8 mb-16">
-                <button onclick="switchTab('starters')" id="btn-starters" class="tab-btn pb-2 text-lg font-serif font-medium border-b-2 border-enginar-600 text-enginar-600 transition-colors">Başlangıçlar</button>
+                <button onclick="switchTab('starters')" id="btn-starters" class="tab-btn pb-2 text-lg font-serif font-medium border-b-2 border-enginar-600 text-enginar-600 transition-colors">Çorba & Başlangıçlar</button>
                 <button onclick="switchTab('mains')" id="btn-mains" class="tab-btn pb-2 text-lg font-serif font-medium border-b-2 border-transparent text-gray-400 hover:text-enginar-600 transition-colors">Ana Yemekler</button>
                 <button onclick="switchTab('desserts')" id="btn-desserts" class="tab-btn pb-2 text-lg font-serif font-medium border-b-2 border-transparent text-gray-400 hover:text-enginar-600 transition-colors">Tatlılar & İçecekler</button>
             </div>
@@ -205,20 +219,29 @@
                         <!-- Item -->
                         <div class="menu-item-hover group cursor-pointer">
                             <div class="flex justify-between items-baseline mb-2">
-                                <h4 class="font-serif text-xl font-semibold text-gray-900">Zeytinyağlı Sakız Enginar</h4>
+                                <h4 class="font-serif text-xl font-semibold text-gray-900">Şehriye Çorbası</h4>
                                 <div class="menu-dots flex-grow mx-4 border-b-2 border-dotted border-gray-300 transition-colors"></div>
-                                <span class="font-semibold text-enginar-600 text-lg">240₺</span>
+                                <span class="font-semibold text-enginar-600 text-lg">90₺</span>
                             </div>
-                            <p class="text-gray-500 text-sm font-light">Taze iç bakla, dereotu, sızma zeytinyağı ve limon sos ile</p>
+                            <p class="text-gray-500 text-sm font-light">Özel tavuk suyu ve tel şehriye ile hazırlanan, misafirlerimizin favorisi.</p>
                         </div>
                         <!-- Item -->
                         <div class="menu-item-hover group cursor-pointer">
                             <div class="flex justify-between items-baseline mb-2">
-                                <h4 class="font-serif text-xl font-semibold text-gray-900">Enginar Kalbi Salatası</h4>
+                                <h4 class="font-serif text-xl font-semibold text-gray-900">Zeytinyağlı Sakız Enginar</h4>
                                 <div class="menu-dots flex-grow mx-4 border-b-2 border-dotted border-gray-300 transition-colors"></div>
-                                <span class="font-semibold text-enginar-600 text-lg">280₺</span>
+                                <span class="font-semibold text-enginar-600 text-lg">240₺</span>
                             </div>
-                            <p class="text-gray-500 text-sm font-light">Roka, parmesan, çeri domates ve balzamik sirke ile</p>
+                            <p class="text-gray-500 text-sm font-light">Taze iç bakla, dereotu, sızma zeytinyağı ve limon sos ile.</p>
+                        </div>
+                        <!-- Item -->
+                        <div class="menu-item-hover group cursor-pointer">
+                            <div class="flex justify-between items-baseline mb-2">
+                                <h4 class="font-serif text-xl font-semibold text-gray-900">Zeytinyağlı Bezelye</h4>
+                                <div class="menu-dots flex-grow mx-4 border-b-2 border-dotted border-gray-300 transition-colors"></div>
+                                <span class="font-semibold text-enginar-600 text-lg">180₺</span>
+                            </div>
+                            <p class="text-gray-500 text-sm font-light">Taze bezelye, havuç ve patates ile hazırlanan sağlıklı ege lezzeti.</p>
                         </div>
                         <!-- Item -->
                         <div class="menu-item-hover group cursor-pointer">
@@ -227,16 +250,7 @@
                                 <div class="menu-dots flex-grow mx-4 border-b-2 border-dotted border-gray-300 transition-colors"></div>
                                 <span class="font-semibold text-enginar-600 text-lg">190₺</span>
                             </div>
-                            <p class="text-gray-500 text-sm font-light">Deniz börülcesi, radika ve turp otu, sarımsaklı yoğurt ile</p>
-                        </div>
-                        <!-- Item -->
-                        <div class="menu-item-hover group cursor-pointer">
-                            <div class="flex justify-between items-baseline mb-2">
-                                <h4 class="font-serif text-xl font-semibold text-gray-900">Karamelize Soğanlı Fava</h4>
-                                <div class="menu-dots flex-grow mx-4 border-b-2 border-dotted border-gray-300 transition-colors"></div>
-                                <span class="font-semibold text-enginar-600 text-lg">180₺</span>
-                            </div>
-                            <p class="text-gray-500 text-sm font-light">Kuru bakla ezmesi, kırmızı soğan ve dereotu</p>
+                            <p class="text-gray-500 text-sm font-light">Mevsimin en taze radika, deniz börülcesi ve sarımsaklı yoğurt ile.</p>
                         </div>
                     </div>
                 </div>
@@ -247,38 +261,38 @@
                         <!-- Item -->
                         <div class="menu-item-hover group cursor-pointer">
                             <div class="flex justify-between items-baseline mb-2">
-                                <h4 class="font-serif text-xl font-semibold text-gray-900">Enginar Yatağında Bonfile</h4>
+                                <h4 class="font-serif text-xl font-semibold text-gray-900">Acılı Et Yahnisi</h4>
                                 <div class="menu-dots flex-grow mx-4 border-b-2 border-dotted border-gray-300 transition-colors"></div>
-                                <span class="font-semibold text-enginar-600 text-lg">850₺</span>
+                                <span class="font-semibold text-enginar-600 text-lg">350₺</span>
                             </div>
-                            <p class="text-gray-500 text-sm font-light">200g dana bonfile, tereyağlı enginar kalbi, demi-glace sos</p>
+                            <p class="text-gray-500 text-sm font-light">Ağır ateşte pişmiş kuşbaşı et, özel baharatlar ve hafif acılı sos ile.</p>
                         </div>
                         <!-- Item -->
                         <div class="menu-item-hover group cursor-pointer">
                             <div class="flex justify-between items-baseline mb-2">
-                                <h4 class="font-serif text-xl font-semibold text-gray-900">Izgara Levrek</h4>
+                                <h4 class="font-serif text-xl font-semibold text-gray-900">Alaşehir Kapama</h4>
                                 <div class="menu-dots flex-grow mx-4 border-b-2 border-dotted border-gray-300 transition-colors"></div>
-                                <span class="font-semibold text-enginar-600 text-lg">650₺</span>
+                                <span class="font-semibold text-enginar-600 text-lg">380₺</span>
                             </div>
-                            <p class="text-gray-500 text-sm font-light">Közlenmiş sebzeler, roka salatası ve limonlu tereyağı sosu</p>
+                            <p class="text-gray-500 text-sm font-light">Yöresel lezzet; özel yufka üzerinde et suyu ve tereyağı ile lezzetlendirilmiş dana eti.</p>
                         </div>
                         <!-- Item -->
                         <div class="menu-item-hover group cursor-pointer">
                             <div class="flex justify-between items-baseline mb-2">
-                                <h4 class="font-serif text-xl font-semibold text-gray-900">Ağır Ateşte Kuzu İncik</h4>
+                                <h4 class="font-serif text-xl font-semibold text-gray-900">Fırında Tavuk İncik</h4>
                                 <div class="menu-dots flex-grow mx-4 border-b-2 border-dotted border-gray-300 transition-colors"></div>
-                                <span class="font-semibold text-enginar-600 text-lg">720₺</span>
+                                <span class="font-semibold text-enginar-600 text-lg">290₺</span>
                             </div>
-                            <p class="text-gray-500 text-sm font-light">Kök sebzeler ve patates püresi ile fırınlanmış kuzu</p>
+                            <p class="text-gray-500 text-sm font-light">Sebzelerle fırınlanmış yumuşacık tavuk incik, tereyağlı pilav eşliğinde.</p>
                         </div>
                         <!-- Item -->
                         <div class="menu-item-hover group cursor-pointer">
                             <div class="flex justify-between items-baseline mb-2">
-                                <h4 class="font-serif text-xl font-semibold text-gray-900">Deniz Mahsullü Risotto</h4>
+                                <h4 class="font-serif text-xl font-semibold text-gray-900">Nohut ve Sulu Yemek Çeşitleri</h4>
                                 <div class="menu-dots flex-grow mx-4 border-b-2 border-dotted border-gray-300 transition-colors"></div>
-                                <span class="font-semibold text-enginar-600 text-lg">580₺</span>
+                                <span class="font-semibold text-enginar-600 text-lg">220₺</span>
                             </div>
-                            <p class="text-gray-500 text-sm font-light">Karides, kalamar, midye, safran ve parmesan peyniri</p>
+                            <p class="text-gray-500 text-sm font-light">Bol porsiyonlu ev usulü sulu yemeklerimiz, her gün değişen çeşitlerle.</p>
                         </div>
                     </div>
                 </div>
@@ -289,29 +303,29 @@
                         <!-- Item -->
                         <div class="menu-item-hover group cursor-pointer">
                             <div class="flex justify-between items-baseline mb-2">
-                                <h4 class="font-serif text-xl font-semibold text-gray-900">Sakızlı Muhallebi</h4>
+                                <h4 class="font-serif text-xl font-semibold text-gray-900">Bol Porsiyon Tatlı Çeşitleri</h4>
                                 <div class="menu-dots flex-grow mx-4 border-b-2 border-dotted border-gray-300 transition-colors"></div>
-                                <span class="font-semibold text-enginar-600 text-lg">160₺</span>
+                                <span class="font-semibold text-enginar-600 text-lg">150₺</span>
                             </div>
-                            <p class="text-gray-500 text-sm font-light">Damla sakızı, kavrulmuş badem ve tarçın ile</p>
-                        </div>
-                        <!-- Item -->
-                        <div class="menu-item-hover group cursor-pointer">
-                            <div class="flex justify-between items-baseline mb-2">
-                                <h4 class="font-serif text-xl font-semibold text-gray-900">Çikolatalı Sufle</h4>
-                                <div class="menu-dots flex-grow mx-4 border-b-2 border-dotted border-gray-300 transition-colors"></div>
-                                <span class="font-semibold text-enginar-600 text-lg">220₺</span>
-                            </div>
-                            <p class="text-gray-500 text-sm font-light">Akışkan Belçika çikolatası ve vanilyalı dondurma</p>
+                            <p class="text-gray-500 text-sm font-light">Günlük hazırlanan sütlü ve şerbetli tatlılarımızla yemeğinizi taçlandırın.</p>
                         </div>
                         <!-- Item -->
                         <div class="menu-item-hover group cursor-pointer">
                             <div class="flex justify-between items-baseline mb-2">
                                 <h4 class="font-serif text-xl font-semibold text-gray-900">Fırın Sütlaç</h4>
                                 <div class="menu-dots flex-grow mx-4 border-b-2 border-dotted border-gray-300 transition-colors"></div>
-                                <span class="font-semibold text-enginar-600 text-lg">150₺</span>
+                                <span class="font-semibold text-enginar-600 text-lg">120₺</span>
                             </div>
-                            <p class="text-gray-500 text-sm font-light">Kavrulmuş fındık parçacıkları ile klasik lezzet</p>
+                            <p class="text-gray-500 text-sm font-light">Klasik ev usulü, üzeri fındık kırıntılı fırın sütlaç.</p>
+                        </div>
+                        <!-- Item -->
+                        <div class="menu-item-hover group cursor-pointer">
+                            <div class="flex justify-between items-baseline mb-2">
+                                <h4 class="font-serif text-xl font-semibold text-gray-900">Zengin Çay Menüsü</h4>
+                                <div class="menu-dots flex-grow mx-4 border-b-2 border-dotted border-gray-300 transition-colors"></div>
+                                <span class="font-semibold text-enginar-600 text-lg">35₺</span>
+                            </div>
+                            <p class="text-gray-500 text-sm font-light">Yemek sonrası bahçemizde keyifle içebileceğiniz taze demlenmiş çay çeşitleri.</p>
                         </div>
                         <!-- Item -->
                         <div class="menu-item-hover group cursor-pointer">
@@ -320,41 +334,47 @@
                                 <div class="menu-dots flex-grow mx-4 border-b-2 border-dotted border-gray-300 transition-colors"></div>
                                 <span class="font-semibold text-enginar-600 text-lg">80₺</span>
                             </div>
-                            <p class="text-gray-500 text-sm font-light">Lokum ve su eşliğinde (Sade, Orta, Şekerli)</p>
+                            <p class="text-gray-500 text-sm font-light">Lokum ve su eşliğinde (Sade, Orta, Şekerli).</p>
                         </div>
                     </div>
                 </div>
 
             </div>
-            
-            <div class="text-center mt-12">
-                <a href="#" class="inline-flex items-center gap-2 text-enginar-600 font-medium hover:text-gold-500 transition-colors">
-                    Tüm Menüyü İndir (PDF) <i data-lucide="arrow-down-to-line" class="w-4 h-4"></i>
-                </a>
-            </div>
         </div>
     </section>
 
-    <!-- Image Gallery (Grid) -->
-    <section id="gallery" class="py-2">
-        <div class="grid grid-cols-2 md:grid-cols-3 gap-2">
-            <div class="overflow-hidden relative h-64 md:h-80">
-                <img src="20260414_114710.jpg" alt="Zeytinyağlı Bezelye" class="gallery-img w-full h-full object-cover">
+    <!-- Parallax Image Gallery -->
+    <section id="gallery" class="w-full bg-gray-900">
+        <div class="grid grid-cols-1 md:grid-cols-2">
+            <!-- Image 1 -->
+            <div class="h-64 sm:h-80 md:h-96 w-full bg-fixed bg-center bg-cover parallax-bg" 
+                 style="background-image: url('20260414_114710.jpg');" 
+                 title="Zeytinyağlı Bezelye">
             </div>
-            <div class="overflow-hidden relative h-64 md:h-80">
-                <img src="20260414_114719.jpg" alt="Ege Otları" class="gallery-img w-full h-full object-cover">
+            <!-- Image 2 -->
+            <div class="h-64 sm:h-80 md:h-96 w-full bg-fixed bg-center bg-cover parallax-bg" 
+                 style="background-image: url('20260414_114719.jpg');" 
+                 title="Ege Otları">
             </div>
-            <div class="overflow-hidden relative h-64 md:h-80">
-                <img src="20260414_114726.jpg" alt="Sulu Yemekler" class="gallery-img w-full h-full object-cover">
+            <!-- Image 3 -->
+            <div class="h-64 sm:h-80 md:h-96 w-full bg-fixed bg-center bg-cover parallax-bg" 
+                 style="background-image: url('20260414_114726.jpg');" 
+                 title="Sulu Yemekler">
             </div>
-            <div class="overflow-hidden relative h-64 md:h-80">
-                <img src="20260414_114647(1).jpg" alt="Nohut ve Sulu Yemekler" class="gallery-img w-full h-full object-cover">
+            <!-- Image 4 -->
+            <div class="h-64 sm:h-80 md:h-96 w-full bg-fixed bg-center bg-cover parallax-bg" 
+                 style="background-image: url('20260414_114647(1).jpg');" 
+                 title="Nohut ve Sulu Yemekler">
             </div>
-            <div class="overflow-hidden relative h-64 md:h-80">
-                <img src="20260414_125459(1).jpg" alt="Mutfak Hazırlık" class="gallery-img w-full h-full object-cover">
+            <!-- Image 5 -->
+            <div class="h-64 sm:h-80 md:h-96 w-full bg-fixed bg-center bg-cover parallax-bg" 
+                 style="background-image: url('20260414_125459(1).jpg');" 
+                 title="Mutfak Hazırlık">
             </div>
-            <div class="overflow-hidden relative h-64 md:h-80">
-                <img src="20260414_134610(1).jpg" alt="Enginar Restaurant Ekibi" class="gallery-img w-full h-full object-cover">
+            <!-- Image 6 -->
+            <div class="h-64 sm:h-80 md:h-96 w-full bg-fixed bg-center bg-cover parallax-bg" 
+                 style="background-image: url('20260414_134610(1).jpg');" 
+                 title="Enginar Restaurant Ekibi">
             </div>
         </div>
     </section>
@@ -374,12 +394,12 @@
                     
                     <div class="space-y-6">
                         <div class="flex items-start gap-4">
-                            <div class="bg-enginar-100 p-3 rounded-full text-enginar-600">
+                            <div class="bg-enginar-100 p-3 rounded-full text-enginar-600 mt-1">
                                 <i data-lucide="map-pin" class="w-6 h-6"></i>
                             </div>
                             <div>
                                 <h4 class="font-semibold text-gray-900 mb-1">Adres</h4>
-                                <p class="text-gray-600 font-light leading-relaxed">Halkapınar Mah., 1203/2 Sok., 13B<br>Konak, İzmir, Türkiye</p>
+                                <p class="text-gray-600 font-light leading-relaxed">Halkapınar Mah., 1203/2 Sok., 13B<br>Gıda Çarşısı Yakını, Konak, İzmir<br><span class="text-sm text-gray-500">(Hikmet Özcan'a 341m, Yenişehir PTT'ye 486m mesafede)</span></p>
                             </div>
                         </div>
                         
@@ -399,7 +419,7 @@
                             </div>
                             <div>
                                 <h4 class="font-semibold text-gray-900 mb-1">Çalışma Saatleri</h4>
-                                <p class="text-gray-600 font-light">Pazartesi - Pazar: 11:30 - 23:30<br>Mutfak Kapanış: 22:45</p>
+                                <p class="text-gray-600 font-light">Öğle Yemekleri ve Grup Rezervasyonları için Açığız.<br>Pazartesi - Pazar: 11:30 - 23:30</p>
                             </div>
                         </div>
                     </div>
@@ -412,7 +432,7 @@
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
                                 <label for="name" class="block text-sm font-medium text-gray-700 mb-2">Ad Soyad</label>
-                                <input type="text" id="name" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-enginar-500 focus:border-enginar-500 outline-none transition-all" placeholder="John Doe" required>
+                                <input type="text" id="name" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-enginar-500 focus:border-enginar-500 outline-none transition-all" placeholder="Adınız Soyadınız" required>
                             </div>
                             <div>
                                 <label for="phone" class="block text-sm font-medium text-gray-700 mb-2">Telefon</label>
@@ -431,13 +451,13 @@
                                     <option value="2" selected>2 Kişi</option>
                                     <option value="3">3 Kişi</option>
                                     <option value="4">4 Kişi</option>
-                                    <option value="5">5+ Kişi</option>
+                                    <option value="5">Grup (5+ Kişi)</option>
                                 </select>
                             </div>
                         </div>
                         <div>
                             <label for="notes" class="block text-sm font-medium text-gray-700 mb-2">Özel İstekleriniz</label>
-                            <textarea id="notes" rows="3" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-enginar-500 focus:border-enginar-500 outline-none transition-all" placeholder="Alerji, yıldönümü vb."></textarea>
+                            <textarea id="notes" rows="3" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-enginar-500 focus:border-enginar-500 outline-none transition-all" placeholder="Grup yemeği detayı, çocuk koltuğu talebi vb."></textarea>
                         </div>
                         <button type="submit" class="w-full bg-enginar-600 hover:bg-enginar-700 text-white font-medium py-4 rounded-lg transition-colors shadow-lg">Masa Ayırt</button>
                     </form>
@@ -456,7 +476,7 @@
                     <a href="#" class="mb-4 block bg-white px-4 py-2 rounded-xl shadow-lg">
                         <img src="20260414_120821.png" alt="Enginar Restaurant Logo" class="h-14 md:h-16 w-auto object-contain">
                     </a>
-                    <p class="text-gray-400 font-light text-sm max-w-xs mt-2">Ege'nin kalbinden masanıza uzanan modern bir lezzet serüveni. Konak, İzmir.</p>
+                    <p class="text-gray-400 font-light text-sm max-w-xs mt-2">Lezzet ve samimiyetin buluştuğu ev yemekleri adresi. Gıda Çarşısı, Konak.</p>
                 </div>
                 
                 <!-- Quick Links -->
